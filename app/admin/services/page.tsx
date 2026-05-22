@@ -1,11 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Icon } from "@iconify/react"
 import toast, { Toaster } from "react-hot-toast"
-import { SERVICES } from "@/data/portfolio-data"
+import { supabase } from "@/lib/supabase"
+import { PROJECT_CATEGORIES } from "@/data/portfolio-data"
 import type { Service } from "@/types/portfolio"
 import { cn } from "@/lib/utils"
+
+export { PROJECT_CATEGORIES }
 
 const ICON_OPTIONS = [
   "line-md:laptop-twotone",
@@ -22,15 +25,17 @@ const ICON_OPTIONS = [
 
 function ServiceForm({
   service,
+  isNew,
   onSave,
   onCancel,
 }: {
   service: Service | Omit<Service, "id">
+  isNew: boolean
   onSave: (s: Service) => void
   onCancel: () => void
 }) {
   const [form, setForm] = useState<Service>({
-    id: "id" in service ? service.id : String(Date.now()),
+    id: "id" in service ? service.id : "",
     ...service,
   })
   const [saving, setSaving] = useState(false)
@@ -44,9 +49,30 @@ function ServiceForm({
       return
     }
     setSaving(true)
-    await new Promise((r) => setTimeout(r, 500))
+    const payload = {
+      title: form.title,
+      description: form.description,
+      icon: form.icon,
+      order_index: form.order_index,
+      visible: form.visible,
+    }
+    if (isNew) {
+      const { data, error } = await supabase
+        .from("services")
+        .insert(payload)
+        .select()
+        .single()
+      if (error) { toast.error(error.message); setSaving(false); return }
+      onSave(data as Service)
+    } else {
+      const { error } = await supabase
+        .from("services")
+        .update(payload)
+        .eq("id", form.id)
+      if (error) { toast.error(error.message); setSaving(false); return }
+      onSave(form)
+    }
     setSaving(false)
-    onSave(form)
     toast.success("Service sauvegardé !")
   }
 
@@ -57,7 +83,7 @@ function ServiceForm({
     >
       <div className="flex items-center justify-between">
         <h2 className="text-white font-semibold text-base">
-          {"id" in service ? "Modifier le service" : "Nouveau service"}
+          {isNew ? "Nouveau service" : "Modifier le service"}
         </h2>
         <button onClick={onCancel} className="text-white/40 hover:text-white transition-colors">
           <Icon icon="line-md:close" width={18} />
@@ -88,7 +114,6 @@ function ServiceForm({
         />
       </div>
 
-      {/* Icon picker */}
       <div>
         <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-2">Icône</label>
         <div className="flex flex-wrap gap-2">
@@ -98,9 +123,7 @@ function ServiceForm({
               onClick={() => set("icon")(ico)}
               className={cn(
                 "w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200",
-                form.icon === ico
-                  ? "text-white scale-110"
-                  : "text-white/40 hover:text-white/70"
+                form.icon === ico ? "text-white scale-110" : "text-white/40 hover:text-white/70"
               )}
               style={
                 form.icon === ico
@@ -142,9 +165,22 @@ function ServiceForm({
 }
 
 export default function AdminServicesPage() {
-  const [services, setServices] = useState<Service[]>(SERVICES)
+  const [services, setServices] = useState<Service[]>([])
+  const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState<Service | "new" | null>(null)
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
+
+  useEffect(() => {
+    supabase
+      .from("services")
+      .select("*")
+      .order("order_index")
+      .then(({ data, error }) => {
+        if (error) toast.error(error.message)
+        else setServices((data as Service[]) ?? [])
+        setLoading(false)
+      })
+  }, [])
 
   const handleSave = (s: Service) => {
     setServices((prev) =>
@@ -155,28 +191,44 @@ export default function AdminServicesPage() {
     setEditing(null)
   }
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
+    const { error } = await supabase.from("services").delete().eq("id", id)
+    if (error) { toast.error(error.message); return }
     setServices((prev) => prev.filter((s) => s.id !== id))
     setConfirmDelete(null)
     toast.success("Service supprimé")
   }
 
-  const toggleVisible = (id: string) => {
+  const toggleVisible = async (id: string) => {
+    const svc = services.find((s) => s.id === id)
+    if (!svc) return
+    const { error } = await supabase.from("services").update({ visible: !svc.visible }).eq("id", id)
+    if (error) { toast.error(error.message); return }
     setServices((prev) => prev.map((s) => (s.id === id ? { ...s, visible: !s.visible } : s)))
   }
 
-  const moveUp = (index: number) => {
+  const moveUp = async (index: number) => {
     if (index === 0) return
     const next = [...services]
     ;[next[index - 1], next[index]] = [next[index], next[index - 1]]
-    setServices(next.map((s, i) => ({ ...s, order_index: i })))
+    const updated = next.map((s, i) => ({ ...s, order_index: i }))
+    await Promise.all([
+      supabase.from("services").update({ order_index: updated[index - 1].order_index }).eq("id", updated[index - 1].id),
+      supabase.from("services").update({ order_index: updated[index].order_index }).eq("id", updated[index].id),
+    ])
+    setServices(updated)
   }
 
-  const moveDown = (index: number) => {
+  const moveDown = async (index: number) => {
     if (index === services.length - 1) return
     const next = [...services]
     ;[next[index], next[index + 1]] = [next[index + 1], next[index]]
-    setServices(next.map((s, i) => ({ ...s, order_index: i })))
+    const updated = next.map((s, i) => ({ ...s, order_index: i }))
+    await Promise.all([
+      supabase.from("services").update({ order_index: updated[index].order_index }).eq("id", updated[index].id),
+      supabase.from("services").update({ order_index: updated[index + 1].order_index }).eq("id", updated[index + 1].id),
+    ])
+    setServices(updated)
   }
 
   return (
@@ -186,7 +238,7 @@ export default function AdminServicesPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="font-heading font-bold text-2xl text-white mb-1">Services</h1>
-          <p className="text-white/50 text-sm">{services.length} service{services.length > 1 ? "s" : ""} — glissez pour réorganiser</p>
+          <p className="text-white/50 text-sm">{services.length} service{services.length > 1 ? "s" : ""} — utilisez les flèches pour réorganiser</p>
         </div>
         {!editing && (
           <button
@@ -207,6 +259,7 @@ export default function AdminServicesPage() {
               ? { title: "", description: "", icon: "line-md:star-twotone", order_index: services.length, visible: true }
               : editing
           }
+          isNew={editing === "new"}
           onSave={handleSave}
           onCancel={() => setEditing(null)}
         />
@@ -214,7 +267,12 @@ export default function AdminServicesPage() {
 
       {!editing && (
         <div className="space-y-3">
-          {services.map((service, index) => (
+          {loading && (
+            <div className="flex items-center justify-center py-12">
+              <Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" />
+            </div>
+          )}
+          {!loading && services.map((service, index) => (
             <div
               key={service.id}
               className={cn(
@@ -223,7 +281,6 @@ export default function AdminServicesPage() {
               )}
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
             >
-              {/* Reorder arrows */}
               <div className="flex flex-col gap-0.5 shrink-0 pt-1">
                 <button
                   onClick={() => moveUp(index)}
@@ -241,7 +298,6 @@ export default function AdminServicesPage() {
                 </button>
               </div>
 
-              {/* Icon */}
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
                 style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}

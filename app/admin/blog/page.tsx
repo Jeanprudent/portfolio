@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import Image from "@tiptap/extension-image"
 import Link from "@tiptap/extension-link"
 import { Icon } from "@iconify/react"
 import toast, { Toaster } from "react-hot-toast"
-import { BLOG_POSTS } from "@/data/blog-data"
+import { supabase } from "@/lib/supabase"
 import type { BlogPost } from "@/types/portfolio"
 import { formatDate, slugify, cn } from "@/lib/utils"
 
@@ -29,70 +29,37 @@ function Editor({ content, onChange }: { content: string; onChange: (html: strin
 
   return (
     <div className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
-      {/* Toolbar */}
       <div className="flex flex-wrap gap-1 p-2" style={{ background: "rgba(255,255,255,0.04)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
         {TOOLBAR_ACTIONS.map((action) => (
           <button
-            key={action.title}
-            type="button"
-            title={action.title}
-            onClick={() => action.command(editor)}
-            className={cn(
-              "min-w-[32px] h-8 px-2 rounded-lg text-xs font-mono font-bold transition-all duration-150",
-              action.active(editor)
-                ? "text-white"
-                : "text-white/40 hover:text-white/70"
-            )}
+            key={action.title} type="button" title={action.title} onClick={() => action.command(editor)}
+            className={cn("min-w-[32px] h-8 px-2 rounded-lg text-xs font-mono font-bold transition-all duration-150", action.active(editor) ? "text-white" : "text-white/40 hover:text-white/70")}
             style={action.active(editor) ? { background: "rgba(124,58,237,0.3)", border: "1px solid rgba(124,58,237,0.4)" } : { background: "rgba(255,255,255,0.04)" }}
           >
             {action.label}
           </button>
         ))}
         <div className="w-px mx-1" style={{ background: "rgba(255,255,255,0.1)" }} />
-        <button
-          type="button"
-          title="Trait horizontal"
-          onClick={() => editor?.chain().focus().setHorizontalRule().run()}
+        <button type="button" title="Trait horizontal" onClick={() => editor?.chain().focus().setHorizontalRule().run()}
           className="min-w-[32px] h-8 px-2 rounded-lg text-xs text-white/40 hover:text-white/70 transition-colors"
-          style={{ background: "rgba(255,255,255,0.04)" }}
-        >
+          style={{ background: "rgba(255,255,255,0.04)" }}>
           ──
         </button>
       </div>
-
-      {/* Editor area */}
       <div style={{ background: "rgba(255,255,255,0.03)" }}>
-        <EditorContent
-          editor={editor}
-          className="prose-jp min-h-[240px] px-4 py-3 focus-within:outline-none text-white/80"
-        />
+        <EditorContent editor={editor} className="prose-jp min-h-[240px] px-4 py-3 focus-within:outline-none text-white/80" />
       </div>
     </div>
   )
 }
 
 function PostForm({
-  post,
-  onSave,
-  onCancel,
+  post, isNew, onSave, onCancel,
 }: {
-  post?: BlogPost
-  onSave: (p: BlogPost) => void
-  onCancel: () => void
+  post?: BlogPost; isNew: boolean; onSave: (p: BlogPost) => void; onCancel: () => void
 }) {
   const [form, setForm] = useState<BlogPost>(
-    post ?? {
-      id: String(Date.now()),
-      title: "",
-      slug: "",
-      excerpt: "",
-      content: "",
-      cover_url: "",
-      tags: [],
-      published: false,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    }
+    post ?? { id: "", title: "", slug: "", excerpt: "", content: "", cover_url: "", tags: [], published: false, created_at: new Date().toISOString(), updated_at: new Date().toISOString() }
   )
   const [tagInput, setTagInput] = useState("")
   const [saving, setSaving] = useState(false)
@@ -101,31 +68,34 @@ function PostForm({
     setForm((prev) => ({ ...prev, [key]: v }))
 
   const handleTitleChange = (v: string) => {
-    setForm((prev) => ({
-      ...prev,
-      title: v,
-      slug: post ? prev.slug : slugify(v),
-    }))
+    setForm((prev) => ({ ...prev, title: v, slug: isNew ? slugify(v) : prev.slug }))
   }
 
   const addTag = () => {
     const tag = tagInput.trim()
-    if (tag && !form.tags.includes(tag)) {
-      set("tags")([...form.tags, tag])
-      setTagInput("")
-    }
+    if (tag && !form.tags.includes(tag)) { set("tags")([...form.tags, tag]); setTagInput("") }
   }
-
   const removeTag = (tag: string) => set("tags")(form.tags.filter((t) => t !== tag))
 
-  const handleSave = async () => {
+  const save = async (published: boolean) => {
     if (!form.title.trim()) { toast.error("Le titre est requis"); return }
     if (!form.content || form.content === "<p></p>") { toast.error("Le contenu est requis"); return }
     setSaving(true)
-    await new Promise((r) => setTimeout(r, 600))
+    const payload = {
+      title: form.title, slug: form.slug || slugify(form.title), content: form.content,
+      excerpt: form.excerpt, cover_url: form.cover_url || null, tags: form.tags, published,
+    }
+    if (isNew) {
+      const { data, error } = await supabase.from("blog_posts").insert(payload).select().single()
+      if (error) { toast.error(error.message); setSaving(false); return }
+      onSave(data as BlogPost)
+    } else {
+      const { data, error } = await supabase.from("blog_posts").update(payload).eq("id", form.id).select().single()
+      if (error) { toast.error(error.message); setSaving(false); return }
+      onSave(data as BlogPost)
+    }
     setSaving(false)
-    onSave({ ...form, updated_at: new Date().toISOString() })
-    toast.success(form.published ? "Article publié !" : "Brouillon sauvegardé !")
+    toast.success(published ? "Article publié !" : "Brouillon sauvegardé !")
   }
 
   return (
@@ -135,16 +105,11 @@ function PostForm({
           <Icon icon="line-md:arrow-left" width={14} /> Retour à la liste
         </button>
         <div className="flex items-center gap-2">
-          <button
-            onClick={() => { set("published")(false); handleSave() }}
-            className="px-4 py-2 rounded-xl text-sm text-white/60 hover:text-white transition-all duration-200"
-            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
-          >
+          <button onClick={() => save(false)} className="px-4 py-2 rounded-xl text-sm text-white/60 hover:text-white transition-all duration-200" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
             Brouillon
           </button>
           <button
-            onClick={() => { set("published")(true); handleSave() }}
-            disabled={saving}
+            onClick={() => save(true)} disabled={saving}
             className="flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold text-white disabled:opacity-60 transition-all duration-200"
             style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
           >
@@ -154,114 +119,94 @@ function PostForm({
         </div>
       </div>
 
-      {/* Title */}
       <div>
-        <input
-          type="text"
-          value={form.title}
-          onChange={(e) => handleTitleChange(e.target.value)}
-          placeholder="Titre de l'article…"
+        <input type="text" value={form.title} onChange={(e) => handleTitleChange(e.target.value)} placeholder="Titre de l'article…"
           className="w-full px-0 py-2 text-2xl font-heading font-bold text-white placeholder:text-white/20 focus:outline-none bg-transparent border-b transition-colors duration-200"
-          style={{ borderColor: "rgba(255,255,255,0.1)" }}
-        />
-        <input
-          type="text"
-          value={form.slug}
-          onChange={(e) => set("slug")(e.target.value)}
-          placeholder="slug-de-l-article"
-          className="mt-1.5 w-full px-0 py-1 text-xs font-mono text-white/30 placeholder:text-white/15 focus:outline-none bg-transparent"
-        />
+          style={{ borderColor: "rgba(255,255,255,0.1)" }} />
+        <input type="text" value={form.slug} onChange={(e) => set("slug")(e.target.value)} placeholder="slug-de-l-article"
+          className="mt-1.5 w-full px-0 py-1 text-xs font-mono text-white/30 placeholder:text-white/15 focus:outline-none bg-transparent" />
       </div>
 
-      {/* Excerpt */}
       <div>
         <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Résumé</label>
-        <textarea
-          rows={2}
-          value={form.excerpt}
-          onChange={(e) => set("excerpt")(e.target.value)}
-          placeholder="Courte description affichée dans la liste du blog…"
+        <textarea rows={2} value={form.excerpt} onChange={(e) => set("excerpt")(e.target.value)} placeholder="Courte description affichée dans la liste du blog…"
           className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] resize-none transition-all duration-200"
-          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
-        />
+          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }} />
       </div>
 
-      {/* Content editor */}
       <div>
         <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Contenu</label>
         <Editor content={form.content} onChange={set("content")} />
       </div>
 
-      {/* Tags */}
       <div>
         <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Tags</label>
         <div className="flex gap-2 flex-wrap mb-2">
           {form.tags.map((tag) => (
-            <span
-              key={tag}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium"
-              style={{ background: "rgba(124,58,237,0.2)", color: "#A855F7" }}
-            >
+            <span key={tag} className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium" style={{ background: "rgba(124,58,237,0.2)", color: "#A855F7" }}>
               {tag}
-              <button onClick={() => removeTag(tag)} className="hover:text-white transition-colors">
-                <Icon icon="line-md:close" width={10} />
-              </button>
+              <button onClick={() => removeTag(tag)} className="hover:text-white transition-colors"><Icon icon="line-md:close" width={10} /></button>
             </span>
           ))}
         </div>
         <div className="flex gap-2">
-          <input
-            type="text"
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
-            placeholder="Ajouter un tag…"
+          <input type="text" value={tagInput} onChange={(e) => setTagInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())} placeholder="Ajouter un tag…"
             className="flex-1 h-9 px-3 rounded-lg text-sm text-white placeholder:text-white/25 focus:outline-none"
-            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
-          />
+            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }} />
           <button onClick={addTag} className="px-3 h-9 rounded-lg text-sm text-white/60 hover:text-white transition-colors" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
             <Icon icon="line-md:plus" width={14} />
           </button>
         </div>
       </div>
 
-      {/* Cover */}
       <div>
         <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Image de couverture (URL)</label>
-        <input
-          type="text"
-          value={form.cover_url || ""}
-          onChange={(e) => set("cover_url")(e.target.value)}
-          placeholder="https://... ou Cloudinary URL"
+        <input type="text" value={form.cover_url || ""} onChange={(e) => set("cover_url")(e.target.value)} placeholder="https://... ou Cloudinary URL"
           className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] transition-all duration-200"
-          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
-        />
+          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }} />
       </div>
     </div>
   )
 }
 
 export default function AdminBlogPage() {
-  const [posts, setPosts] = useState<BlogPost[]>(BLOG_POSTS)
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState<BlogPost | "new" | null>(null)
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
 
+  useEffect(() => {
+    supabase
+      .from("blog_posts")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (error) toast.error(error.message)
+        else setPosts((data as BlogPost[]) ?? [])
+        setLoading(false)
+      })
+  }, [])
+
   const handleSave = (p: BlogPost) => {
     setPosts((prev) =>
-      prev.find((x) => x.id === p.id)
-        ? prev.map((x) => (x.id === p.id ? p : x))
-        : [p, ...prev]
+      prev.find((x) => x.id === p.id) ? prev.map((x) => (x.id === p.id ? p : x)) : [p, ...prev]
     )
     setEditing(null)
   }
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
+    const { error } = await supabase.from("blog_posts").delete().eq("id", id)
+    if (error) { toast.error(error.message); return }
     setPosts((prev) => prev.filter((p) => p.id !== id))
     setConfirmDelete(null)
     toast.success("Article supprimé")
   }
 
-  const togglePublish = (id: string) => {
+  const togglePublish = async (id: string) => {
+    const post = posts.find((p) => p.id === id)
+    if (!post) return
+    const { error } = await supabase.from("blog_posts").update({ published: !post.published }).eq("id", id)
+    if (error) { toast.error(error.message); return }
     setPosts((prev) => prev.map((p) => (p.id === id ? { ...p, published: !p.published } : p)))
   }
 
@@ -271,6 +216,7 @@ export default function AdminBlogPage() {
         <Toaster position="top-right" />
         <PostForm
           post={editing === "new" ? undefined : editing}
+          isNew={editing === "new"}
           onSave={handleSave}
           onCancel={() => setEditing(null)}
         />
@@ -301,78 +247,54 @@ export default function AdminBlogPage() {
       </div>
 
       <div className="space-y-3">
-        {posts.length === 0 && (
-          <div
-            className="rounded-xl p-12 text-center"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px dashed rgba(255,255,255,0.1)" }}
-          >
+        {loading && (
+          <div className="flex items-center justify-center py-12">
+            <Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" />
+          </div>
+        )}
+        {!loading && posts.length === 0 && (
+          <div className="rounded-xl p-12 text-center" style={{ background: "rgba(255,255,255,0.04)", border: "1px dashed rgba(255,255,255,0.1)" }}>
             <Icon icon="line-md:pencil-alt-twotone" width={40} className="text-white/20 mx-auto mb-3" />
             <p className="text-white/40 text-sm">Aucun article — commencez à écrire !</p>
           </div>
         )}
-        {posts.map((post) => (
-          <div
-            key={post.id}
-            className="flex items-start gap-4 p-4 rounded-xl group"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
-          >
-            <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-              style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}
-            >
+        {!loading && posts.map((post) => (
+          <div key={post.id} className="flex items-start gap-4 p-4 rounded-xl group" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}>
               <Icon icon="line-md:pencil-alt-twotone" width={20} className="text-[#7C3AED]" />
             </div>
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-0.5">
                 <p className="text-white font-semibold text-sm truncate">{post.title}</p>
-                <span
-                  className="px-1.5 py-0.5 rounded text-xs font-medium shrink-0"
-                  style={post.published
-                    ? { background: "rgba(34,197,94,0.15)", color: "#4ADE80" }
-                    : { background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.4)" }
-                  }
-                >
+                <span className="px-1.5 py-0.5 rounded text-xs font-medium shrink-0"
+                  style={post.published ? { background: "rgba(34,197,94,0.15)", color: "#4ADE80" } : { background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.4)" }}>
                   {post.published ? "Publié" : "Brouillon"}
                 </span>
               </div>
               <p className="text-white/40 text-xs mb-1.5 line-clamp-1">{post.excerpt}</p>
               <div className="flex items-center gap-3 text-xs text-white/30">
                 <time>{formatDate(post.created_at)}</time>
-                {post.tags.length > 0 && (
-                  <span>{post.tags.slice(0, 2).join(", ")}</span>
-                )}
+                {post.tags.length > 0 && <span>{post.tags.slice(0, 2).join(", ")}</span>}
               </div>
             </div>
 
             <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <button
-                onClick={() => togglePublish(post.id)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-white/5"
-                title={post.published ? "Dépublier" : "Publier"}
-              >
+              <button onClick={() => togglePublish(post.id)} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-white/5" title={post.published ? "Dépublier" : "Publier"}>
                 <Icon icon={post.published ? "line-md:eye-off-twotone" : "line-md:eye-twotone"} width={16} className={post.published ? "text-green-400" : "text-white/30"} />
               </button>
-              <button
-                onClick={() => setEditing(post)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors duration-200"
-              >
+              <button onClick={() => setEditing(post)} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors duration-200">
                 <Icon icon="line-md:pencil-twotone" width={16} />
               </button>
               {confirmDelete === post.id ? (
                 <>
-                  <button onClick={() => handleDelete(post.id)} className="px-2 h-8 rounded-lg text-xs font-medium text-red-400 hover:bg-red-500/10 transition-colors">
-                    Supprimer
-                  </button>
+                  <button onClick={() => handleDelete(post.id)} className="px-2 h-8 rounded-lg text-xs font-medium text-red-400 hover:bg-red-500/10 transition-colors">Supprimer</button>
                   <button onClick={() => setConfirmDelete(null)} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/40 hover:bg-white/5 transition-colors">
                     <Icon icon="line-md:close" width={14} />
                   </button>
                 </>
               ) : (
-                <button
-                  onClick={() => setConfirmDelete(post.id)}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center text-white/30 hover:text-red-400 hover:bg-red-500/10 transition-colors duration-200"
-                >
+                <button onClick={() => setConfirmDelete(post.id)} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/30 hover:text-red-400 hover:bg-red-500/10 transition-colors duration-200">
                   <Icon icon="line-md:close-circle-twotone" width={16} />
                 </button>
               )}

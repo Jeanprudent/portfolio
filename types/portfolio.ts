@@ -15,6 +15,8 @@ export interface PortfolioConfig {
   facebook_url?: string
   seo_title?: string
   seo_description?: string
+  google_analytics_id?: string
+  disponible?: boolean
 }
 
 export interface Service {
