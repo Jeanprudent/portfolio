@@ -23,17 +23,33 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [checking, setChecking] = useState(true)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session && pathname !== "/admin/login") {
         router.push("/admin/login")
+      } else {
+        setUserEmail(session?.user?.email ?? null)
+        setChecking(false)
       }
-      setUserEmail(session?.user?.email ?? null)
     })
   }, [pathname, router])
 
   if (pathname === "/admin/login") return <>{children}</>
+
+  if (checking) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#05050F" }}>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,58,237,0.2)" }}>
+            <Icon icon="line-md:loading-loop" width={24} className="text-[#A855F7]" />
+          </div>
+          <p className="text-white/40 text-sm">Vérification...</p>
+        </div>
+      </div>
+    )
+  }
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()

@@ -1,21 +1,9 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
-
-  if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
-    const token =
-      request.cookies.get("sb-access-token")?.value ||
-      request.cookies.get("supabase-auth-token")?.value
-
-    if (!token) {
-      const loginUrl = new URL("/admin/login", request.url)
-      loginUrl.searchParams.set("redirect", pathname)
-      return NextResponse.redirect(loginUrl)
-    }
-  }
-
+// Supabase v2 stores sessions in localStorage, not cookies.
+// Auth protection is handled client-side in app/admin/layout.tsx.
+export function middleware(_request: NextRequest) {
   return NextResponse.next()
 }
 
