@@ -16,7 +16,7 @@ const CATEGORIES = [
 
 const CATEGORY_COLORS: Record<string, string> = {
   frontend: "#7C3AED",
-  cms: "#06B6D4",
+  cms: "#8B5CF6",
   seo: "#10B981",
   design: "#F59E0B",
   tools: "#A855F7",

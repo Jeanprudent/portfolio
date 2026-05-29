@@ -3,15 +3,16 @@
 import { motion } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { SERVICES } from "@/data/portfolio-data"
+import type { Service } from "@/types/portfolio"
 
 const SERVICE_COLORS = [
   { from: "#7C3AED", to: "#A855F7", glow: "rgba(124,58,237,0.3)" },
-  { from: "#06B6D4", to: "#0891B2", glow: "rgba(6,182,212,0.3)" },
-  { from: "#A855F7", to: "#EC4899", glow: "rgba(168,85,247,0.3)" },
-  { from: "#7C3AED", to: "#06B6D4", glow: "rgba(124,58,237,0.25)" },
+  { from: "#8B5CF6", to: "#6D28D9", glow: "rgba(139,92,246,0.3)" },
+  { from: "#A855F7", to: "#7C3AED", glow: "rgba(168,85,247,0.3)" },
+  { from: "#6D28D9", to: "#9F67F5", glow: "rgba(109,40,217,0.25)" },
 ]
 
-export function ServicesSection() {
+export function ServicesSection({ services = SERVICES.filter((s) => s.visible) }: { services?: Service[] }) {
   return (
     <section id="services" className="section-spacing">
       <div className="container-max">
@@ -38,7 +39,7 @@ export function ServicesSection() {
 
         {/* Service Cards */}
         <div className="grid md:grid-cols-2 gap-5">
-          {SERVICES.filter((s) => s.visible).map((service, i) => {
+          {services.map((service, i) => {
             const colors = SERVICE_COLORS[i % SERVICE_COLORS.length]
             return (
               <motion.div

@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { ParticlesCanvas } from "./ParticlesCanvas"
+import { useTranslation } from "react-i18next"
+import type { PortfolioConfig } from "@/lib/supabase-data"
 
 const TYPEWRITER_WORDS = [
   "Développeur Frontend",
@@ -45,8 +47,12 @@ function useTypewriter(words: string[], speed = 90, deleteSpeed = 45, pause = 22
   return text
 }
 
-export function HeroSection() {
+export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
+  const { t } = useTranslation()
   const typedText = useTypewriter(TYPEWRITER_WORDS)
+  const location = config?.location || "Cotonou, Bénin"
+  const disponible = config?.disponible !== false
+  const tagline = config?.tagline || "Je crée des sites web qui transforment votre présence en ligne en moteur de croissance."
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -84,7 +90,7 @@ export function HeroSection() {
       <div
         className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(6,182,212,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(168,85,247,0.12) 0%, transparent 70%)",
           filter: "blur(60px)",
           animation: "float 10s ease-in-out infinite 2s",
         }}
@@ -101,7 +107,7 @@ export function HeroSection() {
         <motion.div variants={itemVariants} className="flex justify-center mb-6">
           <span className="section-label">
             <Icon icon="line-md:map-marker-twotone" width={14} />
-            Cotonou, Bénin · Disponible pour des projets
+            {location}{disponible ? ` · ${t("hero.badge_disponible")}` : ""}
           </span>
         </motion.div>
 
@@ -110,7 +116,7 @@ export function HeroSection() {
           variants={itemVariants}
           className="text-base md:text-lg font-medium text-(--text-secondary) mb-3 font-sans"
         >
-          Bonjour, je suis
+          {t("hero.greeting")}
         </motion.p>
 
         {/* Name */}
@@ -141,11 +147,7 @@ export function HeroSection() {
           variants={itemVariants}
           className="text-(--text-secondary) text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-10"
         >
-          Je crée des sites web qui{" "}
-          <strong className="text-(--text-primary) font-semibold">
-            transforment votre présence en ligne
-          </strong>{" "}
-          en moteur de croissance.
+          {tagline}
         </motion.p>
 
         {/* CTAs */}
@@ -155,12 +157,12 @@ export function HeroSection() {
         >
           <a href="#projets" className="btn-primary">
             <Icon icon="line-md:briefcase-twotone" width={18} />
-            Voir mes projets
+            {t("hero.cta_primary")}
             <Icon icon="line-md:arrow-right" width={16} />
           </a>
           <a href="#contact" className="btn-ghost">
             <Icon icon="line-md:telegram" width={18} />
-            Discutons de votre projet
+            {t("hero.cta_secondary")}
           </a>
         </motion.div>
 

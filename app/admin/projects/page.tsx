@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase"
 import { PROJECT_CATEGORIES } from "@/data/portfolio-data"
 import type { Project } from "@/types/portfolio"
 import { cn } from "@/lib/utils"
+import { ImageUpload } from "@/components/admin/ImageUpload"
 
 const EMPTY_PROJECT: Omit<Project, "id"> = {
   title: "",
@@ -116,7 +117,13 @@ function ProjectForm({
         <Field label="GitHub" id="p_github" value={form.github_url || ""} onChange={set("github_url") as (v: string) => void} placeholder="https://github.com/..." />
       </div>
 
-      <Field label="Image (URL)" id="p_img" value={form.image_url || ""} onChange={set("image_url") as (v: string) => void} placeholder="https://... ou Cloudinary URL" />
+      <ImageUpload
+        label="Image du projet"
+        currentUrl={form.image_url || null}
+        folder="projects"
+        onUpload={(url) => set("image_url")(url)}
+        hint="Glissez une image ou cliquez · JPG, PNG, WebP · 5 Mo max"
+      />
 
       <div>
         <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Tags</label>

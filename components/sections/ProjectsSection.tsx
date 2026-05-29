@@ -4,14 +4,15 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { PROJECTS, PROJECT_CATEGORIES } from "@/data/portfolio-data"
+import type { Project } from "@/types/portfolio"
 
-export function ProjectsSection() {
+export function ProjectsSection({ projects = PROJECTS }: { projects?: Project[] }) {
   const [activeCategory, setActiveCategory] = useState("all")
 
   const filtered =
     activeCategory === "all"
-      ? PROJECTS
-      : PROJECTS.filter((p) => p.category === activeCategory)
+      ? projects
+      : projects.filter((p) => p.category === activeCategory)
 
   return (
     <section id="projets" className="section-spacing">
@@ -67,15 +68,22 @@ export function ProjectsSection() {
                 className="glass-card overflow-hidden group"
               >
                 {/* Image placeholder */}
-                <div
-                  className="relative h-48 overflow-hidden"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(6,182,212,0.15))",
-                  }}
-                >
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Icon icon="line-md:image-twotone" width={48} className="text-(--text-muted)" />
-                  </div>
+                <div className="relative h-48 overflow-hidden">
+                  {project.image_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={project.image_url}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div
+                      className="w-full h-full flex items-center justify-center"
+                      style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(168,85,247,0.15))" }}
+                    >
+                      <Icon icon="line-md:image-twotone" width={48} className="text-(--text-muted)" />
+                    </div>
+                  )}
                   {project.featured && (
                     <div className="absolute top-3 left-3">
                       <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-primary text-white">

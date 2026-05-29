@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion"
 import { Icon } from "@iconify/react"
+import { useTranslation } from "react-i18next"
+import type { PortfolioConfig } from "@/lib/supabase-data"
 
 const HIGHLIGHTS = [
   {
@@ -21,76 +23,94 @@ const HIGHLIGHTS = [
   },
 ]
 
-export function AboutSection() {
+export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
+  const { t } = useTranslation()
+  const bio = config?.bio || null
+  const location = config?.location || "Cotonou, Bénin"
+
   return (
     <section id="a-propos" className="section-spacing">
       <div className="container-max">
-        <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
-          {/* Visual side */}
+        <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-stretch">
+          {/* Photo side — full-cover */}
           <motion.div
-            className="relative flex justify-center"
+            className="relative"
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
           >
-            {/* Avatar card */}
-            <div className="relative">
-              <div className="animated-border">
-                <div
-                  className="w-64 h-64 md:w-80 md:h-80 rounded-[calc(1rem-1px)] flex flex-col items-center justify-center gap-4"
-                  style={{ background: "var(--bg)" }}
-                >
-                  {/* Avatar placeholder */}
+            <div className="animated-border h-full min-h-[360px]">
+              <div
+                className="relative w-full h-full aspect-square lg:aspect-[3/4] rounded-[calc(1rem-1px)] overflow-hidden"
+                style={{ background: "var(--bg)" }}
+              >
+                {config?.avatar_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={config.avatar_url}
+                    alt={config.site_name || "Jean Prudent"}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                ) : (
                   <div
-                    className="w-32 h-32 rounded-full flex items-center justify-center"
+                    className="absolute inset-0 flex flex-col items-center justify-center gap-4"
                     style={{
-                      background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(6,182,212,0.2))",
-                      border: "2px solid rgba(124,58,237,0.3)",
+                      background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(168,85,247,0.15))",
                     }}
                   >
-                    <Icon icon="line-md:person-twotone" width={60} className="text-primary" />
+                    <Icon icon="line-md:person-twotone" width={80} className="text-primary opacity-60" />
+                    <div className="text-center">
+                      <p className="font-heading font-bold text-lg text-(--text-primary)">
+                        {config?.site_name || "Jean Prudent"}
+                      </p>
+                      <p className="text-secondary text-sm font-medium">Dev & Designer</p>
+                    </div>
                   </div>
-                  <div className="text-center">
-                    <p className="font-heading font-bold text-lg text-(--text-primary)">Jean Prudent</p>
-                    <p className="text-secondary text-sm font-medium">Dev & Designer</p>
-                  </div>
-                </div>
+                )}
+
+                {/* Gradient overlay at bottom */}
+                <div
+                  className="absolute bottom-0 left-0 right-0 h-1/3"
+                  style={{
+                    background: "linear-gradient(to top, rgba(0,0,0,0.5), transparent)",
+                  }}
+                />
+
+                {/* Floating badges over image */}
+                <motion.div
+                  className="absolute top-4 right-4 glass rounded-xl border border-(--glass-border) px-3 py-2 flex items-center gap-2"
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <Icon icon="line-md:star-twotone" width={16} className="text-yellow-400" />
+                  <span className="text-xs font-semibold text-white">96% {t("about.badge_satisfaction")}</span>
+                </motion.div>
+
+                <motion.div
+                  className="absolute bottom-4 left-4 glass rounded-xl border border-(--glass-border) px-3 py-2 flex items-center gap-2"
+                  animate={{ y: [0, 6, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                >
+                  <Icon icon="line-md:confirm-circle-twotone" width={16} className="text-green-400" />
+                  <span className="text-xs font-semibold text-white">+15 {t("about.badge_projects")}</span>
+                </motion.div>
+
+                <motion.div
+                  className="absolute bottom-4 right-4 glass rounded-xl border border-(--glass-border) px-3 py-2 flex items-center gap-2"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                >
+                  <Icon icon="line-md:map-marker-twotone" width={16} className="text-primary" />
+                  <span className="text-xs font-semibold text-white">{location}</span>
+                </motion.div>
               </div>
-
-              {/* Floating badges */}
-              <motion.div
-                className="absolute -right-4 -top-4 glass rounded-xl border border-(--glass-border) px-3 py-2 flex items-center gap-2"
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <Icon icon="line-md:star-twotone" width={16} className="text-yellow-400" />
-                <span className="text-xs font-semibold text-(--text-primary)">96% satisfaction</span>
-              </motion.div>
-
-              <motion.div
-                className="absolute -left-4 -bottom-4 glass rounded-xl border border-(--glass-border) px-3 py-2 flex items-center gap-2"
-                animate={{ y: [0, 6, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              >
-                <Icon icon="line-md:confirm-circle-twotone" width={16} className="text-green-400" />
-                <span className="text-xs font-semibold text-(--text-primary)">+15 projets livrés</span>
-              </motion.div>
-
-              <motion.div
-                className="absolute -left-8 top-1/3 glass rounded-xl border border-(--glass-border) px-3 py-2 flex items-center gap-2"
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-              >
-                <Icon icon="line-md:map-marker-twotone" width={16} className="text-primary" />
-                <span className="text-xs font-semibold text-(--text-primary)">Cotonou, Bénin</span>
-              </motion.div>
             </div>
           </motion.div>
 
           {/* Text side */}
           <motion.div
-            className="space-y-7"
+            className="space-y-7 flex flex-col justify-center"
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
@@ -99,22 +119,28 @@ export function AboutSection() {
             <div>
               <span className="section-label mb-4 inline-flex">
                 <Icon icon="line-md:person-twotone" width={14} />
-                À propos de moi
+                {t("about.label")}
               </span>
               <h2 className="font-heading font-bold text-3xl md:text-4xl text-(--text-primary) leading-tight mt-4 mb-5">
-                Votre partenaire digital <span className="gradient-text">de confiance</span>
+                {t("about.title")} <span className="gradient-text">{t("about.title_highlight")}</span>
               </h2>
               <div className="space-y-4 text-(--text-secondary) leading-relaxed">
-                <p>
-                  Je suis <strong className="text-(--text-primary) font-semibold">Jean Prudent IDOHOU</strong>,
-                  développeur frontend & web designer spécialisé dans la création de solutions digitales
-                  stratégiques pour les <strong className="text-(--text-primary)">PME, TPE et entrepreneurs</strong>.
-                </p>
-                <p>
-                  Ma mission : concevoir des sites web <strong className="text-(--text-primary)">performants,
-                  élégants et optimisés pour le SEO</strong> afin d&apos;accroître votre visibilité, convertir
-                  plus de prospects en clients et transformer votre présence en ligne en véritable levier de croissance.
-                </p>
+                {bio ? (
+                  <p>{bio}</p>
+                ) : (
+                  <>
+                    <p>
+                      Je suis <strong className="text-(--text-primary) font-semibold">Jean Prudent IDOHOU</strong>,
+                      développeur frontend & web designer spécialisé dans la création de solutions digitales
+                      stratégiques pour les <strong className="text-(--text-primary)">PME, TPE et entrepreneurs</strong>.
+                    </p>
+                    <p>
+                      Ma mission : concevoir des sites web <strong className="text-(--text-primary)">performants,
+                      élégants et optimisés pour le SEO</strong> afin d&apos;accroître votre visibilité, convertir
+                      plus de prospects en clients et transformer votre présence en ligne en véritable levier de croissance.
+                    </p>
+                  </>
+                )}
               </div>
             </div>
 
@@ -147,16 +173,24 @@ export function AboutSection() {
             <div className="flex flex-wrap gap-3 pt-2">
               <a href="#contact" className="btn-primary">
                 <Icon icon="line-md:telegram" width={18} />
-                Me contacter
+                {t("about.cta_contact")}
               </a>
               <a
-                href="https://github.com/Jeanprudent"
+                href={config?.github_url || "https://github.com/Jeanprudent"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-ghost"
               >
                 <Icon icon="line-md:github-loop" width={18} />
-                Mon GitHub
+                {t("about.cta_github")}
+              </a>
+              <a
+                href="/cv.pdf"
+                download="CV-Jean-Prudent-IDOHOU.pdf"
+                className="btn-ghost"
+              >
+                <Icon icon="line-md:download-loop" width={18} />
+                {t("about.cta_cv")}
               </a>
             </div>
           </motion.div>

@@ -1,0 +1,276 @@
+import i18n from "i18next"
+import { initReactI18next } from "react-i18next"
+
+const resources = {
+  fr: {
+    translation: {
+      nav: {
+        accueil: "Accueil",
+        services: "Services",
+        projets: "Projets",
+        apropos: "À propos",
+        faq: "FAQ",
+        blog: "Blog",
+        contact: "Contact",
+        cta: "Me contacter",
+      },
+      hero: {
+        badge_disponible: "Disponible pour des projets",
+        greeting: "Bonjour, je suis",
+        cta_primary: "Voir mes projets",
+        cta_secondary: "Discutons de votre projet",
+      },
+      stats: {
+        label_experience: "Ans d'expérience",
+        label_projects: "Projets livrés",
+        label_clients: "Clients satisfaits",
+        label_availability: "Disponibilité",
+      },
+      services: {
+        label: "Mes services",
+        title: "Ce que je peux faire",
+        title_highlight: "pour vous",
+        subtitle: "Des solutions digitales sur mesure pour développer votre activité et maximiser votre présence en ligne.",
+        cta: "Discutons de votre projet",
+        learn_more: "En savoir plus",
+      },
+      projects: {
+        label: "Portfolio",
+        title: "Mes",
+        title_highlight: "réalisations",
+        subtitle: "Des projets concrets qui ont transformé la présence digitale de mes clients.",
+        filter_all: "Tous",
+        cta_question: "Vous avez un projet en tête ?",
+        cta: "Démarrons votre projet",
+      },
+      about: {
+        label: "À propos de moi",
+        title: "Votre partenaire digital",
+        title_highlight: "de confiance",
+        cta_contact: "Me contacter",
+        cta_github: "Mon GitHub",
+        cta_cv: "Mon CV",
+        badge_satisfaction: "satisfaction",
+        badge_projects: "projets livrés",
+      },
+      skills: {
+        label: "Compétences",
+        title: "Mon",
+        title_highlight: "expertise",
+        subtitle: "Des compétences techniques éprouvées pour livrer des projets de qualité.",
+        filter_all: "Toutes",
+      },
+      testimonials: {
+        label: "Témoignages",
+        title: "Ce que disent",
+        title_highlight: "mes clients",
+        subtitle: "La satisfaction de mes clients est ma plus grande récompense.",
+      },
+      faq: {
+        label: "Questions fréquentes",
+        title: "Vous avez des",
+        title_highlight: "questions ?",
+        subtitle: "Tout ce que vous devez savoir avant de démarrer un projet ensemble.",
+        subtitle_link: "Contactez-moi directement.",
+        cta: "Discutons de votre projet",
+        questions: [
+          {
+            q: "Êtes-vous disponible pour des projets freelance ?",
+            a: "Oui, je suis disponible pour des projets freelance, des collaborations et des missions ponctuelles. N'hésitez pas à me contacter via le formulaire ou WhatsApp pour discuter de votre projet — je réponds généralement sous 24h.",
+          },
+          {
+            q: "Combien de temps faut-il pour créer un site web ?",
+            a: "Le délai dépend de la complexité du projet. Un site vitrine soigné prend généralement 1 à 2 semaines. Une application web complète ou un site e-commerce peut nécessiter 4 à 8 semaines. Je fournis toujours un planning détaillé avant de démarrer.",
+          },
+          {
+            q: "Quels types de sites web créez-vous ?",
+            a: "Je crée des sites vitrines, des portfolios, des landing pages, des sites e-commerce et des applications web sur mesure. Je travaille avec Next.js, React et WordPress selon vos besoins et votre budget.",
+          },
+          {
+            q: "Travaillez-vous avec des clients hors du Bénin ?",
+            a: "Absolument. Je travaille à distance avec des clients à travers toute l'Afrique et à l'international. Les échanges se font par email, WhatsApp ou visioconférence selon votre préférence.",
+          },
+          {
+            q: "Livrez-vous le code source des projets ?",
+            a: "Oui, chaque projet est livré avec son code source complet hébergé sur GitHub, ainsi qu'une documentation claire pour faciliter la prise en main. Vous êtes propriétaire à 100% de votre projet.",
+          },
+          {
+            q: "Proposez-vous de la maintenance après livraison ?",
+            a: "Oui. Je propose des forfaits de maintenance mensuelle incluant les mises à jour de sécurité, corrections de bugs, mises à jour de contenu et évolutions du projet. Nous en discutons ensemble selon vos besoins.",
+          },
+          {
+            q: "Quels sont vos tarifs ?",
+            a: "Les tarifs varient selon la complexité et la durée du projet. Je propose des devis personnalisés et gratuits adaptés à votre budget. Contactez-moi avec les détails de votre projet et je vous reviens rapidement avec une estimation précise.",
+          },
+        ],
+      },
+      contact: {
+        label: "Contact",
+        title: "Travaillons",
+        title_highlight: "ensemble",
+        subtitle: "Un projet en tête ? Discutons-en. Je vous réponds sous 24h.",
+        label_location: "Localisation",
+        form_name: "Nom complet",
+        form_email: "Email",
+        form_subject: "Sujet",
+        form_message: "Message",
+        form_placeholder_name: "Jean Dupont",
+        form_placeholder_email: "jean@exemple.com",
+        form_placeholder_subject: "Création de site web",
+        form_placeholder_message: "Décrivez votre projet…",
+        form_submit: "Envoyer le message",
+        form_submitting: "Envoi en cours…",
+        form_success: "Message envoyé ! Je vous réponds sous 24h.",
+        form_error: "Erreur lors de l'envoi. Réessayez.",
+      },
+      footer: {
+        tagline: "Je crée des sites web qui transforment votre présence en ligne en moteur de croissance.",
+        nav_title: "Navigation",
+        contact_title: "Contact",
+        rights: "Tous droits réservés.",
+        built: "Conçu & développé avec",
+      },
+    },
+  },
+  en: {
+    translation: {
+      nav: {
+        accueil: "Home",
+        services: "Services",
+        projets: "Projects",
+        apropos: "About",
+        faq: "FAQ",
+        blog: "Blog",
+        contact: "Contact",
+        cta: "Contact me",
+      },
+      hero: {
+        badge_disponible: "Available for projects",
+        greeting: "Hello, I am",
+        cta_primary: "See my projects",
+        cta_secondary: "Let's discuss your project",
+      },
+      stats: {
+        label_experience: "Years of experience",
+        label_projects: "Projects delivered",
+        label_clients: "Satisfied clients",
+        label_availability: "Availability",
+      },
+      services: {
+        label: "My services",
+        title: "What I can do",
+        title_highlight: "for you",
+        subtitle: "Custom digital solutions to grow your business and maximize your online presence.",
+        cta: "Let's discuss your project",
+        learn_more: "Learn more",
+      },
+      projects: {
+        label: "Portfolio",
+        title: "My",
+        title_highlight: "work",
+        subtitle: "Real projects that have transformed my clients' digital presence.",
+        filter_all: "All",
+        cta_question: "Have a project in mind?",
+        cta: "Start your project",
+      },
+      about: {
+        label: "About me",
+        title: "Your trusted",
+        title_highlight: "digital partner",
+        cta_contact: "Contact me",
+        cta_github: "My GitHub",
+        cta_cv: "My CV",
+        badge_satisfaction: "satisfaction",
+        badge_projects: "projects delivered",
+      },
+      skills: {
+        label: "Skills",
+        title: "My",
+        title_highlight: "expertise",
+        subtitle: "Proven technical skills to deliver quality projects.",
+        filter_all: "All",
+      },
+      testimonials: {
+        label: "Testimonials",
+        title: "What my",
+        title_highlight: "clients say",
+        subtitle: "My clients' satisfaction is my greatest reward.",
+      },
+      faq: {
+        label: "FAQ",
+        title: "Do you have",
+        title_highlight: "questions?",
+        subtitle: "Everything you need to know before starting a project together.",
+        subtitle_link: "Contact me directly.",
+        cta: "Let's discuss your project",
+        questions: [
+          {
+            q: "Are you available for freelance projects?",
+            a: "Yes, I am available for freelance projects, collaborations and one-off missions. Feel free to contact me via the form or WhatsApp to discuss your project — I usually respond within 24 hours.",
+          },
+          {
+            q: "How long does it take to build a website?",
+            a: "The timeline depends on the project's complexity. A well-crafted showcase site usually takes 1 to 2 weeks. A full web application or e-commerce site may take 4 to 8 weeks. I always provide a detailed schedule before starting.",
+          },
+          {
+            q: "What types of websites do you build?",
+            a: "I build showcase sites, portfolios, landing pages, e-commerce sites and custom web applications. I work with Next.js, React and WordPress depending on your needs and budget.",
+          },
+          {
+            q: "Do you work with clients outside Benin?",
+            a: "Absolutely. I work remotely with clients across Africa and internationally. Exchanges are done via email, WhatsApp or video call depending on your preference.",
+          },
+          {
+            q: "Do you deliver the source code?",
+            a: "Yes, every project is delivered with its complete source code hosted on GitHub, along with clear documentation to make onboarding easy. You own 100% of your project.",
+          },
+          {
+            q: "Do you offer maintenance after delivery?",
+            a: "Yes. I offer monthly maintenance packages including security updates, bug fixes, content updates and project evolutions. We discuss this together according to your needs.",
+          },
+          {
+            q: "What are your rates?",
+            a: "Rates vary according to the complexity and duration of the project. I offer personalized, free quotes tailored to your budget. Contact me with your project details and I will get back to you with a precise estimate.",
+          },
+        ],
+      },
+      contact: {
+        label: "Contact",
+        title: "Let's work",
+        title_highlight: "together",
+        subtitle: "Have a project in mind? Let's talk about it. I reply within 24 hours.",
+        label_location: "Location",
+        form_name: "Full name",
+        form_email: "Email",
+        form_subject: "Subject",
+        form_message: "Message",
+        form_placeholder_name: "John Doe",
+        form_placeholder_email: "john@example.com",
+        form_placeholder_subject: "Website creation",
+        form_placeholder_message: "Describe your project…",
+        form_submit: "Send message",
+        form_submitting: "Sending…",
+        form_success: "Message sent! I will reply within 24 hours.",
+        form_error: "Error sending. Please try again.",
+      },
+      footer: {
+        tagline: "I build websites that transform your online presence into a growth engine.",
+        nav_title: "Navigation",
+        contact_title: "Contact",
+        rights: "All rights reserved.",
+        built: "Designed & built with",
+      },
+    },
+  },
+}
+
+if (!i18n.isInitialized) {
+  i18n.use(initReactI18next).init({
+    resources,
+    lng: "fr",
+    fallbackLng: "fr",
+    interpolation: { escapeValue: false },
+  })
+}
+
+export default i18n

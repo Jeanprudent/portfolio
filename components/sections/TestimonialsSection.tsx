@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { TESTIMONIALS } from "@/data/portfolio-data"
+import type { Testimonial } from "@/types/portfolio"
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -20,9 +21,9 @@ function StarRating({ rating }: { rating: number }) {
   )
 }
 
-export function TestimonialsSection() {
+export function TestimonialsSection({ testimonials = TESTIMONIALS.filter((t) => t.visible) }: { testimonials?: Testimonial[] }) {
   const [activeIndex, setActiveIndex] = useState(0)
-  const visible = TESTIMONIALS.filter((t) => t.visible)
+  const visible = testimonials
 
   const prev = () => setActiveIndex((i) => (i - 1 + visible.length) % visible.length)
   const next = () => setActiveIndex((i) => (i + 1) % visible.length)
@@ -85,7 +86,7 @@ export function TestimonialsSection() {
                   <div
                     className="w-11 h-11 rounded-full flex items-center justify-center"
                     style={{
-                      background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(6,182,212,0.2))",
+                      background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(168,85,247,0.2))",
                       border: "1px solid rgba(124,58,237,0.3)",
                     }}
                   >

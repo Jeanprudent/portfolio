@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { STATS } from "@/data/portfolio-data"
+import type { Stat } from "@/types/portfolio"
 
 function AnimatedCounter({ target, suffix }: { target: number; suffix: string }) {
   const [count, setCount] = useState(0)
@@ -33,7 +34,7 @@ function AnimatedCounter({ target, suffix }: { target: number; suffix: string })
   )
 }
 
-export function StatsSection() {
+export function StatsSection({ stats = STATS }: { stats?: Stat[] }) {
   return (
     <section className="py-12 relative overflow-hidden">
       {/* Glowing separator line */}
@@ -42,7 +43,7 @@ export function StatsSection() {
       <div className="container-max">
         <div className="glass rounded-2xl border border-(--glass-border) px-6 py-8 md:px-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {STATS.map((stat, i) => (
+            {stats.map((stat, i) => (
               <motion.div
                 key={stat.id}
                 initial={{ opacity: 0, y: 20 }}

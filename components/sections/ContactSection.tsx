@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Icon } from "@iconify/react"
 import toast, { Toaster } from "react-hot-toast"
+import { useTranslation } from "react-i18next"
+import type { PortfolioConfig } from "@/lib/supabase-data"
 
 const schema = z.object({
   name: z.string().min(2, "Nom trop court"),
@@ -17,28 +19,32 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-const CONTACT_INFO = [
-  {
-    icon: "line-md:email-twotone",
-    label: "Email",
-    value: "jeanprudent03@gmail.com",
-    href: "mailto:jeanprudent03@gmail.com",
-  },
-  {
-    icon: "line-md:phone-call-loop",
-    label: "WhatsApp",
-    value: "+229 01 92 17 50 02",
-    href: "https://wa.me/2290192175002",
-  },
-  {
-    icon: "line-md:map-marker-twotone",
-    label: "Localisation",
-    value: "Cotonou, Bénin",
-    href: null,
-  },
-]
+export function ContactSection({ config }: { config?: PortfolioConfig | null }) {
+  const { t } = useTranslation()
+  const email = config?.email || "jeanprudent03@gmail.com"
+  const whatsapp = config?.whatsapp || "2290192175002"
+  const location = config?.location || "Cotonou, Bénin"
 
-export function ContactSection() {
+  const CONTACT_INFO = [
+    {
+      icon: "line-md:email-twotone",
+      label: "Email",
+      value: email,
+      href: `mailto:${email}`,
+    },
+    {
+      icon: "line-md:phone-call-loop",
+      label: "WhatsApp",
+      value: `+${whatsapp}`,
+      href: `https://wa.me/${whatsapp}`,
+    },
+    {
+      icon: "line-md:map-marker-twotone",
+      label: t("contact.label_location"),
+      value: location,
+      href: null,
+    },
+  ]
   const [submitting, setSubmitting] = useState(false)
 
   const {
@@ -52,7 +58,7 @@ export function ContactSection() {
     setSubmitting(true)
     try {
       await new Promise((r) => setTimeout(r, 1200))
-      toast.success("Message envoyé ! Je vous réponds sous 24h.", {
+      toast.success(t("contact.form_success"), {
         style: {
           background: "rgba(5,5,16,0.95)",
           color: "#fff",
@@ -63,7 +69,7 @@ export function ContactSection() {
       })
       reset()
     } catch {
-      toast.error("Erreur d'envoi. Veuillez réessayer.", {
+      toast.error(t("contact.form_error"), {
         style: {
           background: "rgba(5,5,16,0.95)",
           color: "#fff",
@@ -90,14 +96,14 @@ export function ContactSection() {
         >
           <span className="section-label mb-4 inline-flex">
             <Icon icon="line-md:telegram" width={14} />
-            Contact
+            {t("contact.label")}
           </span>
           <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
-            Démarrons votre{" "}
-            <span className="gradient-text">projet ensemble</span>
+            {t("contact.title")}{" "}
+            <span className="gradient-text">{t("contact.title_highlight")}</span>
           </h2>
           <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
-            Vous avez un projet ? Une question ? Je suis disponible et vous réponds sous 24h.
+            {t("contact.subtitle")}
           </p>
         </motion.div>
 
@@ -165,13 +171,13 @@ export function ContactSection() {
                   htmlFor="name"
                   className="block text-xs font-medium text-(--text-secondary) mb-1.5 uppercase tracking-wide"
                 >
-                  Nom complet *
+                  {t("contact.form_name")} *
                 </label>
                 <input
                   id="name"
                   type="text"
                   autoComplete="name"
-                  placeholder="Jean Dupont"
+                  placeholder={t("contact.form_placeholder_name")}
                   {...register("name")}
                   className="w-full h-11 px-4 rounded-xl glass border border-(--glass-border) bg-transparent text-(--text-primary) placeholder:text-(--text-muted) text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200"
                 />
@@ -186,13 +192,13 @@ export function ContactSection() {
                   htmlFor="email"
                   className="block text-xs font-medium text-(--text-secondary) mb-1.5 uppercase tracking-wide"
                 >
-                  Email *
+                  {t("contact.form_email")} *
                 </label>
                 <input
                   id="email"
                   type="email"
                   autoComplete="email"
-                  placeholder="jean@exemple.com"
+                  placeholder={t("contact.form_placeholder_email")}
                   {...register("email")}
                   className="w-full h-11 px-4 rounded-xl glass border border-(--glass-border) bg-transparent text-(--text-primary) placeholder:text-(--text-muted) text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200"
                 />
@@ -208,12 +214,12 @@ export function ContactSection() {
                 htmlFor="subject"
                 className="block text-xs font-medium text-(--text-secondary) mb-1.5 uppercase tracking-wide"
               >
-                Sujet *
+                {t("contact.form_subject")} *
               </label>
               <input
                 id="subject"
                 type="text"
-                placeholder="Création d'un site web..."
+                placeholder={t("contact.form_placeholder_subject")}
                 {...register("subject")}
                 className="w-full h-11 px-4 rounded-xl glass border border-(--glass-border) bg-transparent text-(--text-primary) placeholder:text-(--text-muted) text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200"
               />
@@ -228,12 +234,12 @@ export function ContactSection() {
                 htmlFor="message"
                 className="block text-xs font-medium text-(--text-secondary) mb-1.5 uppercase tracking-wide"
               >
-                Message *
+                {t("contact.form_message")} *
               </label>
               <textarea
                 id="message"
                 rows={5}
-                placeholder="Décrivez votre projet, vos besoins et vos objectifs..."
+                placeholder={t("contact.form_placeholder_message")}
                 {...register("message")}
                 className="w-full px-4 py-3 rounded-xl glass border border-(--glass-border) bg-transparent text-(--text-primary) placeholder:text-(--text-muted) text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200 resize-none"
               />
@@ -251,12 +257,12 @@ export function ContactSection() {
               {submitting ? (
                 <>
                   <Icon icon="line-md:loading-loop" width={18} />
-                  Envoi en cours…
+                  {t("contact.form_submitting")}
                 </>
               ) : (
                 <>
                   <Icon icon="line-md:confirm-circle-twotone" width={18} />
-                  Envoyer le message
+                  {t("contact.form_submit")}
                 </>
               )}
             </button>

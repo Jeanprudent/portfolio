@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Icon } from "@iconify/react"
 import toast, { Toaster } from "react-hot-toast"
 import { supabase } from "@/lib/supabase"
+import { ImageUpload } from "@/components/admin/ImageUpload"
 
 type Profile = {
   id: string
@@ -152,19 +153,16 @@ export default function AdminSettingsPage() {
       ) : (
         <>
           <Section title="Profil" icon="line-md:person-twotone">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0" style={{ background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.3)" }}>
-                {profile.avatar_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={profile.avatar_url} alt="Avatar" className="w-full h-full rounded-2xl object-cover" />
-                ) : (
-                  <Icon icon="line-md:person-twotone" width={28} className="text-[#A855F7]" />
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <Field label="URL Avatar / Photo" id="avatar_url" value={profile.avatar_url} onChange={set("avatar_url")} placeholder="https://... ou chemin Cloudinary" hint="Uploadez via Cloudinary et collez l'URL ici" />
-              </div>
-            </div>
+            <ImageUpload
+              label="Photo de profil"
+              currentUrl={profile.avatar_url || null}
+              folder="avatars"
+              aspectRatio="square"
+              onUpload={(url) => {
+                set("avatar_url")(url)
+              }}
+              hint="Taille recommandée : 400×400 px"
+            />
             <Field label="Nom complet" id="site_name" value={profile.site_name} onChange={set("site_name")} placeholder="Jean Prudent IDOHOU" />
             <Field label="Bio" id="bio" value={profile.bio} onChange={set("bio")} placeholder="Votre présentation courte…" textarea />
           </Section>

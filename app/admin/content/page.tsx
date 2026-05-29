@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast"
 import { supabase } from "@/lib/supabase"
 import type { Stat, Testimonial } from "@/types/portfolio"
 import { cn } from "@/lib/utils"
+import { ImageUpload } from "@/components/admin/ImageUpload"
 
 const TABS = ["Hero & Bio", "Stats", "Témoignages"] as const
 type Tab = (typeof TABS)[number]
@@ -278,6 +279,13 @@ function TestimonialsTab() {
                 <Field label="Entreprise" id="t_company" value={editingItem.company} onChange={(v) => setEditing(editing === "new" ? { ...editingItem!, company: v } : { ...(editing as Testimonial), company: v })} />
               </div>
               <Field label="Témoignage" id="t_text" value={editingItem.text} onChange={(v) => setEditing(editing === "new" ? { ...editingItem!, text: v } : { ...(editing as Testimonial), text: v })} textarea />
+              <ImageUpload
+                label="Photo du client (optionnel)"
+                currentUrl={(editingItem as Testimonial & { avatar_url?: string }).avatar_url || null}
+                folder="testimonials"
+                onUpload={(url) => setEditing(editing === "new" ? { ...editingItem!, avatar_url: url } as Testimonial : { ...(editing as Testimonial), avatar_url: url })}
+                hint="Photo de profil du client"
+              />
               <div>
                 <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Note</label>
                 <div className="flex gap-1">

@@ -53,7 +53,7 @@ export default async function BlogPostPage({
       <div
         className="w-full h-56 md:h-72 rounded-2xl flex items-center justify-center mb-8"
         style={{
-          background: "linear-gradient(135deg, rgba(124,58,237,0.12), rgba(6,182,212,0.08))",
+          background: "linear-gradient(135deg, rgba(124,58,237,0.12), rgba(168,85,247,0.08))",
           border: "1px solid rgba(255,255,255,0.06)",
         }}
       >

@@ -129,7 +129,7 @@ export default function BlogPage() {
                     className="h-44 flex items-center justify-center shrink-0"
                     style={{
                       background:
-                        "linear-gradient(135deg, rgba(124,58,237,0.1), rgba(6,182,212,0.07))",
+                        "linear-gradient(135deg, rgba(124,58,237,0.1), rgba(168,85,247,0.07))",
                     }}
                   >
                     <Icon

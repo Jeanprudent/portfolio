@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Syne, DM_Sans } from "next/font/google"
 import { ThemeProvider } from "@/components/layout/ThemeProvider"
+import { I18nProvider } from "@/components/providers/I18nProvider"
 import "./globals.css"
 
 const syne = Syne({
@@ -67,7 +68,9 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning className={`${syne.variable} ${dmSans.variable}`}>
       <body className="antialiased">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          {children}
+          <I18nProvider>
+            {children}
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>

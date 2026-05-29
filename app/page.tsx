@@ -7,23 +7,40 @@ import { ProjectsSection } from "@/components/sections/ProjectsSection"
 import { AboutSection } from "@/components/sections/AboutSection"
 import { SkillsSection } from "@/components/sections/SkillsSection"
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection"
+import { FaqSection } from "@/components/sections/FaqSection"
 import { ContactSection } from "@/components/sections/ContactSection"
+import {
+  getStats,
+  getServices,
+  getProjects,
+  getTestimonials,
+  getPortfolioConfig,
+} from "@/lib/supabase-data"
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [stats, services, projects, testimonials, config] = await Promise.all([
+    getStats(),
+    getServices(),
+    getProjects(),
+    getTestimonials(),
+    getPortfolioConfig(),
+  ])
+
   return (
     <>
       <Navbar />
       <main>
-        <HeroSection />
-        <StatsSection />
-        <ServicesSection />
-        <ProjectsSection />
-        <AboutSection />
+        <HeroSection config={config} />
+        <StatsSection stats={stats} />
+        <ServicesSection services={services} />
+        <ProjectsSection projects={projects} />
+        <AboutSection config={config} />
         <SkillsSection />
-        <TestimonialsSection />
-        <ContactSection />
+        <TestimonialsSection testimonials={testimonials} />
+        <FaqSection />
+        <ContactSection config={config} />
       </main>
-      <Footer />
+      <Footer config={config} />
     </>
   )
 }
