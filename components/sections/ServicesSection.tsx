@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { SERVICES } from "@/data/portfolio-data"
 import type { Service } from "@/types/portfolio"
+import { T } from "@/components/ui/T"
 
 const SERVICE_COLORS = [
   { from: "#7C3AED", to: "#A855F7", glow: "rgba(124,58,237,0.3)" },
@@ -67,10 +68,10 @@ export function ServicesSection({ services = SERVICES.filter((s) => s.visible) }
 
                 {/* Content */}
                 <h3 className="font-heading font-semibold text-lg md:text-xl text-(--text-primary) mb-3 leading-snug">
-                  {service.title}
+                  <T>{service.title}</T>
                 </h3>
                 <p className="text-(--text-secondary) text-sm leading-relaxed">
-                  {service.description}
+                  <T>{service.description}</T>
                 </p>
 
                 {/* Arrow link */}

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { TESTIMONIALS } from "@/data/portfolio-data"
 import type { Testimonial } from "@/types/portfolio"
+import { T } from "@/components/ui/T"
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -78,7 +79,7 @@ export function TestimonialsSection({ testimonials = TESTIMONIALS.filter((t) => 
 
                 {/* Text */}
                 <blockquote className="text-(--text-secondary) text-base md:text-lg leading-relaxed mb-8 italic">
-                  &ldquo;{visible[activeIndex].text}&rdquo;
+                  &ldquo;<T>{visible[activeIndex].text}</T>&rdquo;
                 </blockquote>
 
                 {/* Author */}
@@ -97,7 +98,7 @@ export function TestimonialsSection({ testimonials = TESTIMONIALS.filter((t) => 
                       {visible[activeIndex].name}
                     </p>
                     <p className="text-(--text-muted) text-xs">
-                      {visible[activeIndex].role} — {visible[activeIndex].company}
+                      <T>{visible[activeIndex].role}</T> — {visible[activeIndex].company}
                     </p>
                   </div>
                 </div>

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { PROJECTS, PROJECT_CATEGORIES } from "@/data/portfolio-data"
 import type { Project } from "@/types/portfolio"
+import { T } from "@/components/ui/T"
 
 export function ProjectsSection({ projects = PROJECTS }: { projects?: Project[] }) {
   const [activeCategory, setActiveCategory] = useState("all")
@@ -114,10 +115,10 @@ export function ProjectsSection({ projects = PROJECTS }: { projects?: Project[] 
                   </div>
 
                   <h3 className="font-heading font-semibold text-xl text-(--text-primary) mb-2 group-hover:gradient-text transition-all duration-300">
-                    {project.title}
+                    <T>{project.title}</T>
                   </h3>
                   <p className="text-(--text-secondary) text-sm leading-relaxed mb-5">
-                    {project.description}
+                    <T>{project.description}</T>
                   </p>
 
                   {/* Actions */}

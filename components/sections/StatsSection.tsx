@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { STATS } from "@/data/portfolio-data"
 import type { Stat } from "@/types/portfolio"
+import { T } from "@/components/ui/T"
 
 function AnimatedCounter({ target, suffix }: { target: number; suffix: string }) {
   const [count, setCount] = useState(0)
@@ -64,7 +65,7 @@ export function StatsSection({ stats = STATS }: { stats?: Stat[] }) {
                     <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                   </p>
                   <p className="text-(--text-secondary) text-xs md:text-sm font-medium leading-tight">
-                    {stat.label}
+                    <T>{stat.label}</T>
                   </p>
                 </div>
               </motion.div>

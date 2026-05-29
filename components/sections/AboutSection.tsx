@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { useTranslation } from "react-i18next"
+import { useAutoTranslate } from "@/hooks/useAutoTranslate"
 import type { PortfolioConfig } from "@/lib/supabase-data"
 
 const HIGHLIGHTS = [
@@ -25,7 +26,7 @@ const HIGHLIGHTS = [
 
 export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
   const { t } = useTranslation()
-  const bio = config?.bio || null
+  const bio = useAutoTranslate(config?.bio || "")
   const location = config?.location || "Cotonou, Bénin"
 
   return (
@@ -125,7 +126,7 @@ export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
                 {t("about.title")} <span className="gradient-text">{t("about.title_highlight")}</span>
               </h2>
               <div className="space-y-4 text-(--text-secondary) leading-relaxed">
-                {bio ? (
+                {config?.bio ? (
                   <p>{bio}</p>
                 ) : (
                   <>
