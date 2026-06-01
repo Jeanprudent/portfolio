@@ -141,7 +141,7 @@ export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
             </div>
 
             {/* Highlights */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {HIGHLIGHTS.map((h, i) => (
                 <motion.div
                   key={h.label}

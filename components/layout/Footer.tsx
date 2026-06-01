@@ -41,7 +41,7 @@ export function Footer({ config }: { config?: PortfolioConfig | null }) {
           {/* Brand */}
           <div className="space-y-4">
             <Link href="/" className="inline-block font-heading font-bold text-2xl">
-              <span className="gradient-text">Jean</span>
+              <span className="gradient-text">Jean </span>
               <span className="text-(--text-primary)">Prudent</span>
             </Link>
             <p className="text-(--text-secondary) text-sm leading-relaxed max-w-xs">

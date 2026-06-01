@@ -57,7 +57,12 @@ export function ContactSection({ config }: { config?: PortfolioConfig | null }) 
   const onSubmit = async (data: FormData) => {
     setSubmitting(true)
     try {
-      await new Promise((r) => setTimeout(r, 1200))
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+      if (!res.ok) throw new Error("send failed")
       toast.success(t("contact.form_success"), {
         style: {
           background: "rgba(5,5,16,0.95)",
