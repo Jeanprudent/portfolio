@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js"
 import { STATS, SERVICES, PROJECTS, TESTIMONIALS } from "@/data/portfolio-data"
-import type { Stat, Service, Project, Testimonial } from "@/types/portfolio"
+import { BLOG_POSTS } from "@/data/blog-data"
+import type { Stat, Service, Project, Testimonial, BlogPost } from "@/types/portfolio"
 
 export type PortfolioConfig = {
   id: string
@@ -67,5 +68,33 @@ export async function getTestimonials(): Promise<Testimonial[]> {
     return TESTIMONIALS.filter((t) => t.visible)
   } catch {
     return TESTIMONIALS.filter((t) => t.visible)
+  }
+}
+
+export async function getBlogPosts(): Promise<BlogPost[]> {
+  try {
+    const { data } = await client()
+      .from("blog_posts")
+      .select("*")
+      .order("created_at", { ascending: false })
+    if (data) return (data as BlogPost[]).filter((p) => p.published)
+    return BLOG_POSTS.filter((p) => p.published)
+  } catch {
+    return BLOG_POSTS.filter((p) => p.published)
+  }
+}
+
+export async function getBlogPost(slug: string): Promise<BlogPost | null> {
+  try {
+    const { data } = await client()
+      .from("blog_posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .maybeSingle()
+    if (data) return data as BlogPost
+    return BLOG_POSTS.find((p) => p.slug === slug && p.published) ?? null
+  } catch {
+    return BLOG_POSTS.find((p) => p.slug === slug && p.published) ?? null
   }
 }

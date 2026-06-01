@@ -17,6 +17,11 @@ import {
   getPortfolioConfig,
 } from "@/lib/supabase-data"
 
+// Toujours relire les données fraîches depuis Supabase (sinon Next.js
+// prérend la page en statique au build et les modifs du backoffice
+// ne sont jamais reflétées).
+export const dynamic = "force-dynamic"
+
 export default async function HomePage() {
   const [stats, services, projects, testimonials, config] = await Promise.all([
     getStats(),

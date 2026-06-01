@@ -1,13 +1,12 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Icon } from "@iconify/react"
-import { BLOG_POSTS } from "@/data/blog-data"
+import { getBlogPost, getBlogPosts } from "@/lib/supabase-data"
 import { formatDate } from "@/lib/utils"
 import type { Metadata } from "next"
 
-export async function generateStaticParams() {
-  return BLOG_POSTS.filter((p) => p.published).map((p) => ({ slug: p.slug }))
-}
+// Relire l'article depuis Supabase à chaque requête (backoffice).
+export const dynamic = "force-dynamic"
 
 export async function generateMetadata({
   params,
@@ -15,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const post = BLOG_POSTS.find((p) => p.slug === slug)
+  const post = await getBlogPost(slug)
   if (!post) return {}
   return {
     title: `${post.title} — Jean Prudent IDOHOU`,
@@ -29,10 +28,10 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const post = BLOG_POSTS.find((p) => p.slug === slug && p.published)
+  const post = await getBlogPost(slug)
   if (!post) notFound()
 
-  const related = BLOG_POSTS.filter((p) => p.id !== post.id && p.published).slice(0, 2)
+  const related = (await getBlogPosts()).filter((p) => p.id !== post.id).slice(0, 2)
 
   return (
     <article className="section-spacing container-max max-w-3xl">
@@ -51,13 +50,18 @@ export default async function BlogPostPage({
 
       {/* Cover */}
       <div
-        className="w-full h-56 md:h-72 rounded-2xl flex items-center justify-center mb-8"
+        className="w-full h-56 md:h-72 rounded-2xl flex items-center justify-center mb-8 overflow-hidden"
         style={{
           background: "linear-gradient(135deg, rgba(124,58,237,0.12), rgba(168,85,247,0.08))",
           border: "1px solid rgba(255,255,255,0.06)",
         }}
       >
-        <Icon icon="line-md:pencil-alt-twotone" width={60} className="text-primary/25" />
+        {post.cover_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={post.cover_url} alt={post.title} className="w-full h-full object-cover" />
+        ) : (
+          <Icon icon="line-md:pencil-alt-twotone" width={60} className="text-primary/25" />
+        )}
       </div>
 
       {/* Tags */}

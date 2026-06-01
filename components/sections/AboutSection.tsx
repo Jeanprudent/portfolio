@@ -17,11 +17,6 @@ const HIGHLIGHTS = [
     label: "Expert SEO",
     description: "Référencement naturel et visibilité Google",
   },
-  {
-    icon: "line-md:lightning-twotone-loop",
-    label: "Automatisation",
-    description: "Workflows n8n pour optimiser vos processus",
-  },
 ]
 
 export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
@@ -35,15 +30,15 @@ export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-stretch">
           {/* Photo side — full-cover */}
           <motion.div
-            className="relative"
+            className="relative w-full max-w-xs mx-auto lg:max-w-none lg:mx-0"
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
           >
-            <div className="animated-border h-full min-h-[360px]">
+            <div className="animated-border h-full lg:min-h-[360px]">
               <div
-                className="relative w-full h-full aspect-square lg:aspect-[3/4] rounded-[calc(1rem-1px)] overflow-hidden"
+                className="relative w-full aspect-square lg:h-full lg:aspect-[3/4] rounded-[calc(1rem-1px)] overflow-hidden"
                 style={{ background: "var(--bg)" }}
               >
                 {config?.avatar_url ? (
@@ -146,7 +141,7 @@ export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
             </div>
 
             {/* Highlights */}
-            <div className="grid gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {HIGHLIGHTS.map((h, i) => (
                 <motion.div
                   key={h.label}

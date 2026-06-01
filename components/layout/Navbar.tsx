@@ -183,7 +183,7 @@ export function Navbar() {
                       href={link.href}
                       onClick={() => setMenuOpen(false)}
                       className={cn(
-                        "flex items-center gap-3 py-4 border-b border-(--glass-border) text-2xl font-heading font-bold transition-colors duration-200",
+                        "flex items-center gap-3 py-3.5 border-b border-(--glass-border) text-lg font-heading font-bold transition-colors duration-200",
                         isActive ? "text-primary" : "text-(--text-primary) hover:text-primary"
                       )}
                     >
