@@ -70,7 +70,7 @@ export async function POST(request: Request) {
         from,
         to: [to],
         reply_to: email,
-        subject: `[Portfolio] ${subject}`,
+        subject:  `${name} : ${subject}`,
         html,
       }),
     })
