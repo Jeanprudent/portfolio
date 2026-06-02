@@ -58,6 +58,7 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
+      paddingTop: 60,
       transition: { staggerChildren: 0.15, delayChildren: 0.3 },
     },
   }
@@ -122,7 +123,7 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
         {/* Name */}
         <motion.h1
           variants={itemVariants}
-          className="font-heading font-bold text-5xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight mb-4"
+          className="font-heading font-bold text-3xl md:text-5xl lg:text-7xl leading-[1.05] tracking-tight mb-4"
         >
           <span className="gradient-text">Jean</span>{" "}
           <span className="text-(--text-primary)">Prudent</span>
