@@ -38,7 +38,7 @@ export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
           >
             <div className="animated-border h-full lg:min-h-[360px]">
               <div
-                className="relative w-full aspect-square lg:h-full lg:aspect-[3/4] rounded-[calc(1rem-1px)] overflow-hidden"
+                className="relative w-full aspect-square lg:h-full lg:aspect-[1] rounded-[calc(1rem-1px)] overflow-hidden"
                 style={{ background: "var(--bg)" }}
               >
                 {config?.avatar_url ? (
@@ -79,8 +79,8 @@ export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <Icon icon="line-md:star-twotone" width={16} className="text-yellow-400" />
-                  <span className="text-xs font-semibold text-white">96% {t("about.badge_satisfaction")}</span>
+                  <Icon icon="line-md:star-twotone" width={16} className="text-primary" />
+                  <span className="text-xs font-semibold text-black">96% {t("about.badge_satisfaction")}</span>
                 </motion.div>
 
                 <motion.div

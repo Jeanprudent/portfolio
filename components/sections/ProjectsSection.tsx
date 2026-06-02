@@ -88,7 +88,7 @@ export function ProjectsSection({ projects = PROJECTS }: { projects?: Project[] 
                   {project.featured && (
                     <div className="absolute top-3 left-3">
                       <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-primary text-white">
-                        Featured
+                        Mise en avant
                       </span>
                     </div>
                   )}

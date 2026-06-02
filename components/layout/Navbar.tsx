@@ -125,7 +125,7 @@ export function Navbar() {
               )}
 
               <a
-                href="#contact"
+                href="/#contact"
                 className="hidden md:inline-flex btn-primary text-sm py-2 px-4"
               >
                 <Icon icon="line-md:telegram" width={16} />

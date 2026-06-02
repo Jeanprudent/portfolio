@@ -103,13 +103,13 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
         initial="hidden"
         animate="show"
       >
-        {/* Badge */}
+        {/* Badge
         <motion.div variants={itemVariants} className="flex justify-center mb-6">
           <span className="section-label">
             <Icon icon="line-md:map-marker-twotone" width={14} />
             {location}{disponible ? ` · ${t("hero.badge_disponible")}` : ""}
           </span>
-        </motion.div>
+        </motion.div> */}
 
         {/* Greeting */}
         <motion.p
@@ -194,7 +194,7 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator 
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         initial={{ opacity: 0 }}
@@ -213,7 +213,7 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           />
         </motion.div>
-      </motion.div>
+      </motion.div> */}
 
       <style jsx>{`
         @keyframes pulse {
