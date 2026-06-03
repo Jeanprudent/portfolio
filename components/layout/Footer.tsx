@@ -120,8 +120,8 @@ export function Footer({ config }: { config?: PortfolioConfig | null }) {
             © {year} Jean Prudent IDOHOU. {t("footer.rights")}
           </p>
           <p className="text-(--text-muted) text-xs">
-            {t("footer.built")}{" "}
-            <span className="text-primary">♥</span> à Cotonou
+            {"Conçu et déveoppé par "}
+            <span className="text-primary">Jean Prudent</span> à Cotonou
           </p>
         </div>
       </div>

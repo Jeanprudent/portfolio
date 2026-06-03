@@ -12,13 +12,13 @@ import "@/lib/i18n"
 const SECTION_IDS = ["accueil", "services", "projets", "a-propos", "faq", "contact"]
 
 const NAV_KEYS = [
-  { key: "nav.accueil", href: "#accueil", id: "accueil" },
-  { key: "nav.services", href: "#services", id: "services" },
-  { key: "nav.projets", href: "#projets", id: "projets" },
-  { key: "nav.apropos", href: "#a-propos", id: "a-propos" },
-  { key: "nav.faq", href: "#faq", id: "faq" },
+  { key: "nav.accueil", href: "/#accueil", id: "accueil" },
+  { key: "nav.apropos", href: "/#a-propos", id: "a-propos" },
+  { key: "nav.services", href: "/#services", id: "services" },
+  { key: "nav.projets", href: "/#projets", id: "projets" },
+  { key: "nav.faq", href: "/#faq", id: "faq" },
   { key: "nav.blog", href: "/blog", id: "" },
-  { key: "nav.contact", href: "#contact", id: "contact" },
+  { key: "nav.contact", href: "/#contact", id: "contact" },
 ]
 
 export function Navbar() {

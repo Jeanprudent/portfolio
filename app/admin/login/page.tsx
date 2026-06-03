@@ -81,7 +81,7 @@ export default function AdminLoginPage() {
                 border: "1px solid rgba(124,58,237,0.3)",
               }}
             >
-              <Icon icon="line-md:lock-twotone" width={32} className="text-[#7C3AED]" />
+              <Icon icon="ant-design:lock-twotone" width={32} className="text-[#7C3AED]" />
             </div>
             <h1 className="font-heading font-bold text-2xl text-white mb-1">
               Administration
@@ -115,8 +115,7 @@ export default function AdminLoginPage() {
               </label>
               <input
                 type="email"
-                autoComplete="email"
-                placeholder="admin@exemple.com"
+                placeholder="login@exemple.com"
                 {...register("email")}
                 className="w-full h-11 px-4 rounded-xl text-white placeholder:text-white/25 text-sm focus:outline-none focus:ring-1 transition-all duration-200"
                 style={{
@@ -137,7 +136,6 @@ export default function AdminLoginPage() {
               <div className="relative">
                 <input
                   type={showPwd ? "text" : "password"}
-                  autoComplete="current-password"
                   placeholder="••••••••"
                   {...register("password")}
                   className="w-full h-11 px-4 pr-11 rounded-xl text-white placeholder:text-white/25 text-sm focus:outline-none transition-all duration-200"

@@ -37,9 +37,9 @@ export default async function HomePage() {
       <main>
         <HeroSection config={config} />
         <StatsSection stats={stats} />
+        <AboutSection config={config} />
         <ServicesSection services={services} />
         <ProjectsSection projects={projects} />
-        <AboutSection config={config} />
         <SkillsSection />
         <TestimonialsSection testimonials={testimonials} />
         <FaqSection />
