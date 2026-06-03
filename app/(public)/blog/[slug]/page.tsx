@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Icon } from "@iconify/react"
 import { getBlogPost, getBlogPosts } from "@/lib/supabase-data"
 import { formatDate } from "@/lib/utils"
+import { sanitizeHtml } from "@/lib/sanitize"
 import type { Metadata } from "next"
 
 // Relire l'article depuis Supabase à chaque requête (backoffice).
@@ -97,7 +98,7 @@ export default async function BlogPostPage({
       {/* Content */}
       <div
         className="prose-jp"
-        dangerouslySetInnerHTML={{ __html: post.content }}
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
       />
 
       {/* Author CTA */}

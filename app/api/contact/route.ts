@@ -5,11 +5,33 @@ import { z } from "zod"
 export const dynamic = "force-dynamic"
 
 const schema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  subject: z.string().min(3),
-  message: z.string().min(20),
+  name: z.string().min(2).max(100),
+  email: z.string().email().max(150),
+  subject: z.string().min(3).max(150),
+  message: z.string().min(20).max(5000),
+  // Honeypot : champ caché qui doit rester vide. Rempli = bot.
+  website: z.string().optional(),
 })
+
+// Rate-limiting en mémoire (par IP). Suffisant pour une instance unique ;
+// pour un déploiement multi-instances, brancher un store partagé (Redis/Upstash).
+const RATE_LIMIT = 5 // requêtes max
+const RATE_WINDOW_MS = 10 * 60 * 1000 // par tranche de 10 minutes
+const hits = new Map<string, number[]>()
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS)
+  recent.push(now)
+  hits.set(ip, recent)
+  // Purge occasionnelle pour éviter une croissance mémoire illimitée.
+  if (hits.size > 5000) {
+    for (const [key, times] of hits) {
+      if (times.every((t) => now - t >= RATE_WINDOW_MS)) hits.delete(key)
+    }
+  }
+  return recent.length > RATE_LIMIT
+}
 
 function escapeHtml(s: string) {
   return s
@@ -20,6 +42,19 @@ function escapeHtml(s: string) {
 }
 
 export async function POST(request: Request) {
+  // IP cliente derrière proxy (Vercel/Cloudflare renseignent x-forwarded-for).
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown"
+
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: "Trop de messages. Réessayez dans quelques minutes." },
+      { status: 429 }
+    )
+  }
+
   let body: unknown
   try {
     body = await request.json()
@@ -31,7 +66,13 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Champs invalides" }, { status: 422 })
   }
-  const { name, email, subject, message } = parsed.data
+  const { name, email, subject, message, website } = parsed.data
+
+  // Honeypot rempli : on renvoie un succès factice sans rien envoyer
+  // (ne pas signaler au bot que sa soumission a été rejetée).
+  if (website && website.trim() !== "") {
+    return NextResponse.json({ ok: true })
+  }
 
   const apiKey = (process.env.RESEND_API_KEY || "").trim()
   if (!apiKey) {
