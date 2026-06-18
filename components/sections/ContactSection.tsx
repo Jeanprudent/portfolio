@@ -36,8 +36,14 @@ export function ContactSection({ config }: { config?: PortfolioConfig | null }) 
     },
     {
       icon: "line-md:phone-call-loop",
+      label: "Télephone",
+      value: `${whatsapp}`,
+      href: `tel:${whatsapp}`,
+    },
+    {
+      icon: "prime:whatsapp",
       label: "WhatsApp",
-      value: `+${whatsapp}`,
+      value: `${whatsapp}`,
       href: `https://wa.me/${whatsapp}`,
     },
     {

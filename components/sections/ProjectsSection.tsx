@@ -31,7 +31,7 @@ export function ProjectsSection({ projects = PROJECTS }: { projects?: Project[] 
             Portfolio
           </span>
           <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
-            Mes <span className="gradient-text">réalisations</span>
+            <span className="gradient-text">Mes réalisations</span>
           </h2>
           <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
             Des projets concrets qui ont transformé la présence digitale de mes clients.
@@ -88,7 +88,7 @@ export function ProjectsSection({ projects = PROJECTS }: { projects?: Project[] 
                   {project.featured && (
                     <div className="absolute top-3 left-3">
                       <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-primary text-white">
-                        Mise en avant
+                        En vedette
                       </span>
                     </div>
                   )}
@@ -165,7 +165,7 @@ export function ProjectsSection({ projects = PROJECTS }: { projects?: Project[] 
           </p>
           <a href="#contact" className="btn-primary inline-flex">
             <Icon icon="line-md:chat-arrow-up-twotone" width={18} />
-            Démarrons votre projet
+            Discutons de votre projet
           </a>
         </motion.div>
       </div>

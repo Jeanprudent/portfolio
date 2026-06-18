@@ -30,8 +30,8 @@ export function ServicesSection({ services = SERVICES.filter((s) => s.visible) }
             Mes services
           </span>
           <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
-            Ce que je peux faire{" "}
-            <span className="gradient-text">pour vous</span>
+            Ce que je peux faire pour vous{" "}
+            <span className="gradient-text"></span>
           </h2>
           <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
             Des solutions digitales sur mesure pour développer votre activité et maximiser votre présence en ligne.
@@ -53,7 +53,7 @@ export function ServicesSection({ services = SERVICES.filter((s) => s.visible) }
               >
                 {/* Icon */}
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110"
+                  className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110"
                   style={{
                     background: `linear-gradient(135deg, ${colors.from}22, ${colors.to}22)`,
                     border: `1px solid ${colors.from}33`,
@@ -61,7 +61,7 @@ export function ServicesSection({ services = SERVICES.filter((s) => s.visible) }
                 >
                   <Icon
                     icon={service.icon}
-                    width={28}
+                    width={22}
                     style={{ color: colors.from }}
                   />
                 </div>
@@ -74,12 +74,12 @@ export function ServicesSection({ services = SERVICES.filter((s) => s.visible) }
                   <T>{service.description}</T>
                 </p>
 
-                {/* Arrow link */}
+                {/* Arrow link 
                 <div className="flex items-center gap-1.5 mt-5 text-xs font-semibold transition-all duration-200 group-hover:gap-3"
                   style={{ color: colors.from }}>
                   En savoir plus
                   <Icon icon="line-md:arrow-right" width={14} />
-                </div>
+                </div> */}
               </motion.div>
             )
           })}

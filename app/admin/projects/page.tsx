@@ -258,7 +258,7 @@ export default function AdminProjectsPage() {
           {!loading && projects.length === 0 && (
             <div className="rounded-xl p-12 text-center" style={{ background: "rgba(255,255,255,0.04)", border: "1px dashed rgba(255,255,255,0.1)" }}>
               <Icon icon="line-md:briefcase-twotone" width={40} className="text-white/20 mx-auto mb-3" />
-              <p className="text-white/40 text-sm">Aucun projet — ajoutez votre premier projet !</p>
+              <p className="text-white/40 text-sm">Aucun projet, ajoutez votre premier projet !</p>
             </div>
           )}
           {!loading && projects.map((project) => (

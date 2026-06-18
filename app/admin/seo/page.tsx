@@ -15,7 +15,7 @@ type SeoForm = {
 const DEFAULT: SeoForm = {
   seo_title: "Jean Prudent IDOHOU — Développeur Web & Designer | Cotonou, Bénin",
   seo_description: "Je crée des sites web qui transforment votre présence en ligne en moteur de croissance. Développeur Next.js, expert SEO et intégrateur WordPress basé à Cotonou.",
-  google_analytics_id: "",
+  google_analytics_id: "G-4SGNEXG03G",
   robots: "index, follow",
 }
 
