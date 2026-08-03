@@ -37,7 +37,7 @@ function AnimatedCounter({ target, suffix }: { target: number; suffix: string })
 
 export function StatsSection({ stats = STATS }: { stats?: Stat[] }) {
   return (
-    <section className="py-12 relative overflow-hidden">
+    <section className="relative overflow-hidden">
       {/* Glowing separator line */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
