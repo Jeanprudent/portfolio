@@ -170,7 +170,7 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
         {/* Social Links */}
         <motion.div
           variants={itemVariants}
-          className="flex items-center justify-center gap-4 mt-10"
+          className="flex items-center justify-center gap-4 mt-5 mb-5"
         >
           {[
             { icon: "line-md:github-loop", href: "https://github.com/Jeanprudent", label: "GitHub" },
