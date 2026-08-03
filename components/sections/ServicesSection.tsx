@@ -13,6 +13,13 @@ const SERVICE_COLORS = [
   { from: "#6D28D9", to: "#9F67F5", glow: "rgba(109,40,217,0.25)" },
 ]
 
+const slugify = (str: string) =>
+  str
+    .toLowerCase()
+    .replace(/&/g, "et")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
+
 export function ServicesSection({ services = SERVICES.filter((s) => s.visible) }: { services?: Service[] }) {
   return (
     <section id="services" className="section-spacing">
@@ -76,7 +83,7 @@ export function ServicesSection({ services = SERVICES.filter((s) => s.visible) }
 
                 {/* En savoir plus link */}
                 <a
-                  href={`/services/${service.id}`}
+                  href={`/services/${service.slug ?? slugify(service.title)}`}
                   className="flex items-center gap-1.5 mt-5 text-xs font-semibold transition-all duration-200 group-hover:gap-3"
                   style={{ color: colors.from }}
                 >
