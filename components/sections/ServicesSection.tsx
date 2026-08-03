@@ -74,12 +74,15 @@ export function ServicesSection({ services = SERVICES.filter((s) => s.visible) }
                   <T>{service.description}</T>
                 </p>
 
-                {/* Arrow link 
-                <div className="flex items-center gap-1.5 mt-5 text-xs font-semibold transition-all duration-200 group-hover:gap-3"
-                  style={{ color: colors.from }}>
+                {/* En savoir plus link */}
+                <a
+                  href={`/services/${service.id}`}
+                  className="flex items-center gap-1.5 mt-5 text-xs font-semibold transition-all duration-200 group-hover:gap-3"
+                  style={{ color: colors.from }}
+                >
                   En savoir plus
                   <Icon icon="line-md:arrow-right" width={14} />
-                </div> */}
+                </a>
               </motion.div>
             )
           })}
