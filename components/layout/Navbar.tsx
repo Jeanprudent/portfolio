@@ -34,22 +34,36 @@ export function Navbar() {
 
     const onScroll = () => {
       setScrolled(window.scrollY > 60)
+
+      // Choose the section whose top is closest to the header offset (80px)
       let current = "accueil"
+      let minDistance = Infinity
       for (const id of SECTION_IDS) {
         const el = document.getElementById(id)
-        if (el && el.getBoundingClientRect().top <= 80) current = id
+        if (el) {
+          const rectTop = el.getBoundingClientRect().top
+          const distance = Math.abs(rectTop - 80)
+          if (distance < minDistance) {
+            minDistance = distance
+            current = id
+          }
+        }
       }
       setActiveSection(current)
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
+    // Run once to set the correct active section on mount
+    onScroll()
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   // Bloquer le scroll quand le menu est ouvert
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : ""
-    return () => { document.body.style.overflow = "" }
+    return () => {
+      document.body.style.overflow = ""
+    }
   }, [menuOpen])
 
   return (
@@ -74,8 +88,8 @@ export function Navbar() {
               <span className="text-(--text-primary)">Prudent</span>
             </Link>
 
-            {/* Desktop Nav */}
-            <ul className="hidden md:flex items-center gap-1">
+            {/* Desktop Nav - show only on large screens */}
+            <ul className="hidden lg:flex items-center gap-1">
               {NAV_KEYS.map((link) => {
                 const isActive = link.id && activeSection === link.id
                 return (
@@ -124,18 +138,15 @@ export function Navbar() {
                 </button>
               )}
 
-              <a
-                href="/#contact"
-                className="hidden md:inline-flex btn-primary text-sm py-2 px-4"
-              >
+              <a href="/#contact" className="hidden lg:inline-flex btn-primary text-sm py-2 px-4">
                 <Icon icon="line-md:telegram" width={16} />
                 {t("nav.cta")}
               </a>
 
-              {/* Hamburger — mobile & tablet uniquement */}
+              {/* Hamburger — mobile & tablet (hidden on large) */}
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="md:hidden w-9 h-9 rounded-lg flex items-center justify-center glass border border-(--glass-border) text-(--text-primary) z-10 relative"
+                className="lg:hidden w-9 h-9 rounded-lg flex items-center justify-center glass border border-(--glass-border) text-(--text-primary) z-10 relative"
                 aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               >
                 <AnimatePresence mode="wait" initial={false}>
@@ -155,7 +166,7 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu — plein écran, fond opaque + blur */}
+      {/* Mobile / Tablet Menu — plein écran, fond opaque + blur (hidden on large) */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -163,7 +174,7 @@ export function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="md:hidden fixed inset-0 z-40 flex flex-col backdrop-blur-2xl dark:bg-[#050510]/97 bg-[#F8F7FF]/97"
+            className="lg:hidden fixed inset-0 z-40 flex flex-col backdrop-blur-2xl dark:bg-[#050510]/97 bg-[#F8F7FF]/97"
           >
             {/* Espace réservé pour la navbar */}
             <div className="h-16 shrink-0" />
@@ -187,9 +198,7 @@ export function Navbar() {
                         isActive ? "text-primary" : "text-(--text-primary) hover:text-primary"
                       )}
                     >
-                      {isActive && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                      )}
+                      {isActive && <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />}
                       {t(link.key)}
                     </Link>
                   </motion.div>
