@@ -15,6 +15,9 @@ export function ProjectsSection({ projects = PROJECTS }: { projects?: Project[] 
       ? projects
       : projects.filter((p) => p.category === activeCategory)
 
+  // Ensure featured projects are always shown first
+  const sorted = filtered.slice().sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
+
   return (
     <section id="projets" className="section-spacing">
       <div className="container-max">
@@ -56,9 +59,9 @@ export function ProjectsSection({ projects = PROJECTS }: { projects?: Project[] 
         </div>
 
         {/* Projects Grid */}
-        <motion.div layout className="grid md:grid-cols-2 gap-5">
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           <AnimatePresence mode="popLayout">
-            {filtered.map((project) => (
+            {sorted.map((project) => (
               <motion.div
                 key={project.id}
                 layout
