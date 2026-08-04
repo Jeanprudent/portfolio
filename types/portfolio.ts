@@ -8,8 +8,8 @@ export interface PortfolioConfig {
   location: string
   avatar_url?: string
   primary_color: string
-  secondary_color: string
-  accent_color: string
+  secondary_color?: string
+  accent_color?: string
   github_url?: string
   linkedin_url?: string
   facebook_url?: string
@@ -19,10 +19,25 @@ export interface PortfolioConfig {
   disponible?: boolean
 }
 
+export interface Offer {
+  id: string
+  name: string
+  price?: string
+  price_min?: number
+  price_max?: number
+  currency?: string
+  duration_days: number
+  description: string
+}
+
 export interface Service {
   id: string
   title: string
+  slug?: string
   description: string
+  long_description?: string
+  banner?: string
+  offers?: Offer[]
   icon: string
   order_index: number
   visible: boolean
