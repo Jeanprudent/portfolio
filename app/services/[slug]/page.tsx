@@ -3,8 +3,6 @@ import ServiceOffers from "@/components/services/ServiceOffers"
 import ContactModal from "@/components/services/ContactModal"
 import { SERVICES } from "@/data/portfolio-data"
 
-export const dynamic = "force-dynamic"
-
 export async function generateStaticParams() {
   return SERVICES.filter((s) => typeof s.slug === "string" && s.slug.length > 0).map((s) => ({ slug: s.slug as string }))
 }
