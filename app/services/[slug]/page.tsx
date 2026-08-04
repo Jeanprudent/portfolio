@@ -3,6 +3,8 @@ import ServiceOffers from "@/components/services/ServiceOffers"
 import ContactModal from "@/components/services/ContactModal"
 import { SERVICES } from "@/data/portfolio-data"
 
+export const dynamic = "force-dynamic"
+
 export async function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }))
 }
