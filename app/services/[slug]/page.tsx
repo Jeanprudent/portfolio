@@ -6,7 +6,7 @@ import { SERVICES } from "@/data/portfolio-data"
 export const dynamic = "force-dynamic"
 
 export async function generateStaticParams() {
-  return SERVICES.map((s) => ({ slug: s.slug }))
+  return SERVICES.filter((s) => typeof s.slug === "string" && s.slug.length > 0).map((s) => ({ slug: s.slug as string }))
 }
 
 export default function Page({ params }: { params: { slug: string } }) {
@@ -22,6 +22,13 @@ export default function Page({ params }: { params: { slug: string } }) {
     )
   }
 
+  // Safe handling of optional long_description
+  const longDesc = service.long_description ?? service.description ?? ""
+  const paragraphs = longDesc
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+
   return (
     <div className="container-max section-spacing">
       <ServiceBanner service={service} />
@@ -30,9 +37,11 @@ export default function Page({ params }: { params: { slug: string } }) {
         <div className="md:col-span-2">
           <h2 className="font-heading font-bold text-2xl mb-4">Pourquoi ce service est important à Cotonou & au Bénin</h2>
           <div className="prose max-w-none">
-            {service.long_description.split('\n\n').map((p: string, i: number) => (
-              <p key={i}>{p}</p>
-            ))}
+            {paragraphs.length ? (
+              paragraphs.map((p: string, i: number) => <p key={i}>{p}</p>)
+            ) : (
+              <p>{service.description}</p>
+            )}
           </div>
 
           <div className="mt-8">
