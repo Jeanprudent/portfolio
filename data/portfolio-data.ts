@@ -49,8 +49,9 @@ Aggravation : Sans un site performant, ces entreprises manquent d'opportunités,
 
 Solution : Je conçois des sites sur-mesure, mobile-first, rapides et optimisés pour le référencement local. Chaque projet inclut une stratégie de conversion pour transformer les visiteurs en clients, une formation pour gérer le site et des options de maintenance.
 
-Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des expériences web qui racontent votre histoire et génèrent des résultats mesurables.`,
-    banner: "/services/creation-de-sites-web.svg",
+Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des expériences web qui racontent votre histoire et génèrent des résultats mesurables. Mon approche est pragmatique : design centré utilisateur, performances optimisées, et attention particulière au SEO local pour que vos clients vous trouvent facilement.
+`,
+    banner: "/services/creation-de-sites-web-sur-mesure.svg",
     icon: "line-md:laptop-twotone",
     offers: [
       {
@@ -96,11 +97,12 @@ Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des 
     long_description:
       `Problème : De nombreuses entreprises locales à Cotonou peinent à être trouvées en ligne, même lorsque leurs services sont demandés.
 
-Aggravation : Sans visibilité, le flux de clients se réduit, la croissance stagne et les concurrents captent les recherches importantes.
+Aggravation : Sans visibilité, le flux de clients se réduit, la croissance stagne et les concurrents captent les recherches importantes. Cela se traduit par moins de contacts entrants et un coût d'acquisition client plus élevé.
 
-Solution : J'effectue un audit SEO technique et sémantique, j'optimise le site pour le local (Google My Business, balises, contenus) et je mets en place un suivi pour mesurer les progrès et ajuster la stratégie.
+Solution : J'effectue un audit SEO technique et sémantique, j'optimise le site pour le local (Google My Business, balises, contenus) et je mets en place un suivi pour mesurer les progrès et ajuster la stratégie. Je privilégie des actions à fort impact : optimisation technique, contenus ciblés et suivi des performances.
 
-Mon approche est pragmatique : priorités claires, actions mesurables et suivi régulier pour améliorer votre positionnement localement.`,
+Mon approche est pragmatique : priorités claires, actions mesurables et suivi régulier pour améliorer votre positionnement localement et attirer des visiteurs qui convertissent.
+`,
     banner: "/services/optimisation-seo-visibilite-google.svg",
     icon: "line-md:search-twotone",
     offers: [
@@ -147,11 +149,12 @@ Mon approche est pragmatique : priorités claires, actions mesurables et suivi r
     long_description:
       `Problème : Les sites WordPress non maintenus deviennent lents, vulnérables et peuvent tomber en panne.
 
-Aggravation : Une panne ou une faille entraîne perte de revenus, mauvaise expérience utilisateur et risque pour la réputation de l'entreprise.
+Aggravation : Une panne ou une faille entraîne perte de revenus, mauvaise expérience utilisateur et risque pour la réputation de l'entreprise. De plus, la dette technique s'accumule et les coûts de réparation augmentent.
 
-Solution : J'assure les mises à jour, sauvegardes régulières, optimisations de performance et interventions rapides pour limiter les risques et garantir la continuité du service.
+Solution : J'assure les mises à jour, sauvegardes régulières, optimisations de performance et interventions rapides pour limiter les risques et garantir la continuité du service. Je propose aussi des backups et un plan de reprise en cas d'incident.
 
-Je propose des plans adaptés aux besoins des petites entreprises et des interventions ponctuelles pour résoudre rapidement les incidents.`,
+Mes plans sont pensés pour les petites entreprises : interventions rapides, monitoring et rapports réguliers pour vous rassurer sur la santé de votre site.
+`,
     banner: "/services/maintenance-support-wordpress.svg",
     icon: "line-md:cog-loop",
     offers: [
@@ -202,7 +205,8 @@ Aggravation : Les erreurs manuelles, les délais de traitement et le manque de s
 
 Solution : Je conçois des automatisations fiables (n8n, intégrations API) qui synchronisent vos outils, réduisent les tâches manuelles et libèrent du temps pour le cœur de votre activité.
 
-Résultat : gains de productivité mesurables, meilleure réactivité commerciale et processus documentés pour une adoption rapide par vos équipes.`,
+Résultat : gains de productivité mesurables, meilleure réactivité commerciale et processus documentés pour une adoption rapide par vos équipes. J'accompagne aussi la formation pour garantir l'adoption par vos collaborateurs.
+`,
     banner: "/services/automatisation-optimisation-digitale.svg",
     icon: "line-md:lightning-twotone-loop",
     offers: [
@@ -315,7 +319,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Marie Dupont",
     role: "Gérante",
     company: "Boutique Chic",
-    text: "Jean Prudent a transformé notre présence en ligne en quelques semaines. Notre site attire maintenant 3× plus de clients et nos ventes ont augmenté de 40%. Un travail exceptionnel e[...]",
+    text: "Jean Prudent a transformé notre présence en ligne en quelques semaines. Notre site attire maintenant 3× plus de clients et nos ventes ont augmenté de 40%. Un travail exceptionnel et très professionnel, avec un suivi clair et des résultats mesurables.",
     rating: 5,
     visible: true,
   },
@@ -324,7 +328,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Kofi Mensah",
     role: "Directeur Commercial",
     company: "TechAfrique",
-    text: "Un travail remarquable ! Le site est non seulement magnifique mais aussi parfaitement optimisé pour Google. On est en première page sur nos mots-clés principaux. Je recommande vivem[...]",
+    text: "Un travail remarquable ! Le site est non seulement magnifique mais aussi parfaitement optimisé pour Google. Nous sommes désormais en première page sur nos mots-clés principaux, et le trafic organique a fortement augmenté.",
     rating: 5,
     visible: true,
   },
@@ -333,7 +337,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Aminata Traoré",
     role: "Entrepreneur",
     company: "Saveurs d'Afrique",
-    text: "L'automatisation mise en place par Jean nous a fait gagner 10h par semaine. Les formulaires, emails et CRM se synchronisent parfaitement. Un investissement qui s'est remboursé en moin[...]",
+    text: "L'automatisation mise en place par Jean nous a fait gagner 10h par semaine. Les formulaires, emails et CRM se synchronisent parfaitement. Un investissement qui s'est rapidement rentabilisé.",
     rating: 5,
     visible: true,
   },
