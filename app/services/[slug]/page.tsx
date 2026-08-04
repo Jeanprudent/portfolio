@@ -5,16 +5,20 @@ import { SERVICES } from "@/data/portfolio-data"
 
 export async function generateStaticParams() {
   // Log slugs at build time for debugging
-  // (appears in Vercel build logs)
   // eslint-disable-next-line no-console
   console.log("generateStaticParams slugs:", SERVICES.map((s) => s.slug))
 
-  return SERVICES.filter((s) => typeof s.slug === "string" && s.slug.length > 0).map((s) => ({ slug: s.slug as string }))
+  return SERVICES
+    .filter((s) => typeof s.slug === "string" && s.slug.length > 0)
+    .map((s) => ({ slug: s.slug as string }))
 }
 
 export default function Page({ params }: { params: { slug: string } }) {
-  const slug = params.slug
-  const service = SERVICES.find((s) => s.slug === slug)
+  // Normalize the incoming slug (handle URL encoding and casing)
+  const rawSlug = params.slug ?? ""
+  const slug = decodeURIComponent(String(rawSlug)).trim().toLowerCase()
+
+  const service = SERVICES.find((s) => ((s.slug ?? "").toLowerCase() === slug))
 
   if (!service) {
     return (
