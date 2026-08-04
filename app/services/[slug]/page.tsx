@@ -4,6 +4,11 @@ import ContactModal from "@/components/services/ContactModal"
 import { SERVICES } from "@/data/portfolio-data"
 
 export async function generateStaticParams() {
+  // Log slugs at build time for debugging
+  // (appears in Vercel build logs)
+  // eslint-disable-next-line no-console
+  console.log("generateStaticParams slugs:", SERVICES.map((s) => s.slug))
+
   return SERVICES.filter((s) => typeof s.slug === "string" && s.slug.length > 0).map((s) => ({ slug: s.slug as string }))
 }
 
