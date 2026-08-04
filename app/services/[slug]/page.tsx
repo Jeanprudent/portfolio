@@ -3,6 +3,10 @@ import ServiceOffers from "@/components/services/ServiceOffers"
 import ContactModal from "@/components/services/ContactModal"
 import { SERVICES } from "@/data/portfolio-data"
 
+export async function generateStaticParams() {
+  return SERVICES.map((s) => ({ slug: s.slug }))
+}
+
 export default function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug
   const service = SERVICES.find((s) => s.slug === slug)
