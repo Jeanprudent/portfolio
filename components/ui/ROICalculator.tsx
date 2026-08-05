@@ -25,7 +25,7 @@ export default function ROICalculator({ initialHours = 5, initialRate = 10000 }:
   return (
     <section aria-labelledby="roi-title" className="p-4 bg-gradient-to-r from-white/3 to-white/5 rounded-lg border border-(--glass-border)">
       <h3 id="roi-title" className="font-semibold text-lg mb-2">Combien ça vous coûte aujourd'hui ?</h3>
-      <p className="text-(--text-secondary) text-sm mb-4">Estimez rapidement les heures perdues à gérer des tâches manuelles (emails, relances, saisie) — l'automatisation peut récupérer ce temps.</p>
+      <p className="text-(--text-secondary) text-sm mb-4">Estimez rapidement les heures perdues à gérer des tâches manuelles (emails, relances, saisie), l'automatisation peut récupérer ce temps.</p>
 
       <div className="grid grid-cols-2 gap-3 items-end">
         <label htmlFor="roi-hours" className="flex flex-col">
@@ -48,7 +48,7 @@ export default function ROICalculator({ initialHours = 5, initialRate = 10000 }:
 
         <div className="text-right">
           <button type="button" className="btn-outline mr-2" onClick={handleExample}>Exemple : 2h / semaine</button>
-          <a href="#contact" className="btn-primary" aria-label="Réserver audit SEO gratuit 15 minutes">Réserver mon audit SEO gratuit (15 min)</a>
+          <a href="/#contact" className="btn-primary" aria-label="Réserver audit gratuit">Réserver un audit gratuit</a>
         </div>
       </div>
 
