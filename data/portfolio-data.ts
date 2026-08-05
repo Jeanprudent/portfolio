@@ -43,13 +43,13 @@ export const SERVICES: Service[] = [
     description:
       "Je conçois des sites web professionnels sur mesure, pensés pour valoriser votre image, offrir une expérience utilisateur fluide et transformer vos visiteurs en clients.",
     long_description:
-      `Problème : De nombreuses entreprises à Cotonou et au Bénin n'ont pas encore de présence en ligne adaptée aux besoins modernes : sites non responsives, navigation lente ou absence de co[...]
+      `Problème : De nombreuses entreprises à Cotonou et au Bénin n'ont pas encore de présence en ligne adaptée aux besoins modernes : sites non responsives, navigation lente ou absence de conten[...]
 
-Aggravation : Sans un site performant, ces entreprises manquent d'opportunités, perdent des clients face à la concurrence et peinent à être trouvées via les recherches locales sur Google. Cel[...]
+Aggravation : Sans un site performant, ces entreprises manquent d'opportunités, perdent des clients face à la concurrence et peinent à être trouvées via les recherches locales sur Google. Cela en[...]
 
-Solution : Je conçois des sites sur-mesure, mobile-first, rapides et optimisés pour le référencement local. Chaque projet inclut une stratégie de conversion pour transformer les visiteurs en [...]
+Solution : Je conçois des sites sur-mesure, mobile-first, rapides et optimisés pour le référencement local. Chaque projet inclut une stratégie de conversion pour transformer les visiteurs en clie[...]
 
-Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des expériences web qui racontent votre histoire et génèrent des résultats mesurables. Mon approche est pragmatique [...]
+Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des expériences web qui racontent votre histoire et génèrent des résultats mesurables. Mon approche est pragmatique : de[...]
 `,
     banner: "/services/creation-de-sites-web-sur-mesure.svg",
     icon: "line-md:laptop-twotone",
@@ -57,7 +57,7 @@ Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des 
       {
         id: "s1-o1",
         name: "Pack Starter",
-        price: "150 000 300 000 XOF",
+        price: "150 000 à 300 000 XOF",
         price_min: 150000,
         price_max: 300000,
         currency: "XOF",
@@ -67,7 +67,7 @@ Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des 
       {
         id: "s1-o2",
         name: "Pack Business",
-        price: "400 000 800 000 XOF",
+        price: "400 000 à 800 000 XOF",
         price_min: 400000,
         price_max: 800000,
         currency: "XOF",
@@ -77,7 +77,7 @@ Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des 
       {
         id: "s1-o3",
         name: "Pack Premium",
-        price: "1 200 000 3 000 000 XOF",
+        price: "1 200 000 à 3 000 000 XOF",
         price_min: 1200000,
         price_max: 3000000,
         currency: "XOF",
@@ -97,9 +97,9 @@ Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des 
     long_description:
       `Problème : De nombreuses entreprises locales à Cotonou peinent à être trouvées en ligne, même lorsque leurs services sont demandés.
 
-Aggravation : Sans visibilité, le flux de clients se réduit, la croissance stagne et les concurrents captent les recherches importantes. Cela se traduit par moins de contacts entrants et un co�[...]
+Aggravation : Sans visibilité, le flux de clients se réduit, la croissance stagne et les concurrents captent les recherches importantes. Cela se traduit par moins de contacts entrants et un coût d'[...]
 
-Solution : J'effectue un audit SEO technique et sémantique, j'optimise le site pour le local (Google My Business, balises, contenus) et je mets en place un suivi pour mesurer les progrès et aju[...]
+Solution : J'effectue un audit SEO technique et sémantique, j'optimise le site pour le local (Google My Business, balises, contenus) et je mets en place un suivi pour mesurer les progrès et ajuster [...]
 
 Mon approche est pragmatique : priorités claires, actions mesurables et suivi régulier pour améliorer votre positionnement localement et attirer des visiteurs qui convertissent.
 `,
@@ -109,7 +109,7 @@ Mon approche est pragmatique : priorités claires, actions mesurables et suivi r
       {
         id: "s2-o1",
         name: "Audit SEO",
-        price: "75 000 150 000 XOF",
+        price: "75 000 à 150 000 XOF",
         price_min: 75000,
         price_max: 150000,
         currency: "XOF",
@@ -119,7 +119,7 @@ Mon approche est pragmatique : priorités claires, actions mesurables et suivi r
       {
         id: "s2-o2",
         name: "Référencement Local",
-        price: "150 000 350 000 XOF",
+        price: "150 000 à 350 000 XOF",
         price_min: 150000,
         price_max: 350000,
         currency: "XOF",
@@ -129,7 +129,7 @@ Mon approche est pragmatique : priorités claires, actions mesurables et suivi r
       {
         id: "s2-o3",
         name: "SEO Continu",
-        price: "300 000 800 000 XOF / mois",
+        price: "300 000 à 800 000 XOF / mois",
         price_min: 300000,
         price_max: 800000,
         currency: "XOF",
@@ -149,9 +149,9 @@ Mon approche est pragmatique : priorités claires, actions mesurables et suivi r
     long_description:
       `Problème : Les sites WordPress non maintenus deviennent lents, vulnérables et peuvent tomber en panne.
 
-Aggravation : Une panne ou une faille entraîne perte de revenus, mauvaise expérience utilisateur et risque pour la réputation de l'entreprise. De plus, la dette technique s'accumule et les co�[...]
+Aggravation : Une panne ou une faille entraîne perte de revenus, mauvaise expérience utilisateur et risque pour la réputation de l'entreprise. De plus, la dette technique s'accumule et les coûts d[...]
 
-Solution : J'assure les mises à jour, sauvegardes régulières, optimisations de performance et interventions rapides pour limiter les risques et garantir la continuité du service. Je propose a[...]
+Solution : J'assure les mises à jour, sauvegardes régulières, optimisations de performance et interventions rapides pour limiter les risques et garantir la continuité du service. Je propose aussi [...]
 
 Mes plans sont pensés pour les petites entreprises : interventions rapides, monitoring et rapports réguliers pour vous rassurer sur la santé de votre site.
 `,
@@ -161,7 +161,7 @@ Mes plans sont pensés pour les petites entreprises : interventions rapides, mon
       {
         id: "s3-o1",
         name: "Maintenance Basique",
-        price: "40 000 80 000 XOF / mois",
+        price: "40 000 à 80 000 XOF / mois",
         price_min: 40000,
         price_max: 80000,
         currency: "XOF",
@@ -171,7 +171,7 @@ Mes plans sont pensés pour les petites entreprises : interventions rapides, mon
       {
         id: "s3-o2",
         name: "Maintenance Pro",
-        price: "120 000 250 000 XOF / mois",
+        price: "120 000 à 250 000 XOF / mois",
         price_min: 120000,
         price_max: 250000,
         currency: "XOF",
@@ -181,7 +181,7 @@ Mes plans sont pensés pour les petites entreprises : interventions rapides, mon
       {
         id: "s3-o3",
         name: "Intervention à la carte",
-        price: "25 000 80 000 XOF",
+        price: "25 000 à 80 000 XOF",
         price_min: 25000,
         price_max: 80000,
         currency: "XOF",
@@ -205,7 +205,7 @@ Aggravation : Les erreurs manuelles, les délais de traitement et le manque de s
 
 Solution : Je conçois des automatisations fiables (n8n, intégrations API) qui synchronisent vos outils, réduisent les tâches manuelles et libèrent du temps pour le cœur de votre activité.
 
-Résultat : gains de productivité mesurables, meilleure réactivité commerciale et processus documentés pour une adoption rapide par vos équipes. J'accompagne aussi la formation pour garantir[...]
+Résultat : gains de productivité mesurables, meilleure réactivité commerciale et processus documentés pour une adoption rapide par vos équipes. J'accompagne aussi la formation pour garantir l'ad[...]
 `,
     banner: "/services/automatisation-optimisation-digitale.svg",
     icon: "line-md:lightning-twotone-loop",
@@ -213,7 +213,7 @@ Résultat : gains de productivité mesurables, meilleure réactivité commercial
       {
         id: "s4-o1",
         name: "Automatisation Starter",
-        price: "120 000 300 000 XOF",
+        price: "120 000 à 300 000 XOF",
         price_min: 120000,
         price_max: 300000,
         currency: "XOF",
@@ -223,7 +223,7 @@ Résultat : gains de productivité mesurables, meilleure réactivité commercial
       {
         id: "s4-o2",
         name: "Workflow Business",
-        price: "350 000 900 000 XOF",
+        price: "350 000 à 900 000 XOF",
         price_min: 350000,
         price_max: 900000,
         currency: "XOF",
@@ -319,7 +319,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Marie Dupont",
     role: "Gérante",
     company: "Boutique Chic",
-    text: "Jean Prudent a transformé notre présence en ligne en quelques semaines. Notre site attire maintenant 3× plus de clients et nos ventes ont augmenté de 40%. Un travail exceptionnel e[...]
+    text: "Jean Prudent a transformé notre présence en ligne en quelques semaines. Notre site attire maintenant 3× plus de clients et nos ventes ont augmenté de 40%. Un travail exceptionnel et tr�[...]
     rating: 5,
     visible: true,
   },
