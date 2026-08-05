@@ -71,7 +71,7 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
             </h1>
 
             <p className="text-(--text-secondary) text-base md:text-lg leading-relaxed max-w-xl">
-              J'aide les PME et entrepreneurs à gagner en visibilité, automatiser leurs processus de travail et accélérer leur croissance grâce à des sites web performants, au SEO et à des automatisations intelligentes.
+              Vous êtes une PME/TPE ou Entrepreneur, je vous aide à gagner en visibilité, automatiser votre processus de travail et accélérer votre croissance grâce à un site web performant optimisé pour le SEO et à des automatisations intelligentes.
             </p>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -87,6 +87,7 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
               </a>
             </div>
 
+            {/* Social media links
             <div className="flex items-center gap-4 mt-4">
               {[
                 { icon: "line-md:github-loop", href: "https://github.com/Jeanprudent", label: "GitHub" },
@@ -98,6 +99,8 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
                 </a>
               ))}
             </div>
+            */}
+            
           </motion.div>
 
           {/* Right: ROI calculator */}
