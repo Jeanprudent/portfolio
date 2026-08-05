@@ -71,13 +71,13 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
             </h1>
 
             <p className="text-(--text-secondary) text-base md:text-lg leading-relaxed max-w-xl">
-              J’aide les PME et entrepreneurs à Cotonou et à l'international à dominer Google et à automatiser leur acquisition grâce à des architectures Next.js et des agents IA sur-mesure.
+              J'aide les PME et entrepreneurs à gagner en visibilité, automatiser leurs processus de travail et accélérer leur croissance grâce à des sites web performants, au SEO et à des automatisations intelligentes.
             </p>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <a href="#contact" className="btn-primary" aria-label="Réserver audit SEO gratuit 15 minutes">
+              <a href="/#contact" className="btn-primary" aria-label="Réserver audit SEO gratuit 15 minutes">
                 <Icon icon="line-md:briefcase-twotone" width={18} />
-                Réserver mon audit SEO gratuit (15 min)
+                Réserver un audit gratuit
                 <Icon icon="line-md:arrow-right" width={16} />
               </a>
 
