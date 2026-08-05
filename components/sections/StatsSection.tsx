@@ -1,18 +1,18 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { STATS } from "@/data/portfolio-data"
 import type { Stat } from "@/types/portfolio"
 import { T } from "@/components/ui/T"
-import ROICalculator from "@/components/ui/ROICalculator"
 
 function AnimatedCounter({ target, suffix }: { target: number; suffix: string }) {
-  const ref = React.useRef<HTMLSpanElement>(null)
+  const [count, setCount] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true, margin: "-80px" })
-  const [count, setCount] = React.useState(0)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!inView) return
     const duration = 1800
     const start = performance.now()
