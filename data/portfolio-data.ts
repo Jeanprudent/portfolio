@@ -43,13 +43,13 @@ export const SERVICES: Service[] = [
     description:
       "Je conçois des sites web professionnels sur mesure, pensés pour valoriser votre image, offrir une expérience utilisateur fluide et transformer vos visiteurs en clients.",
     long_description:
-      `Problème : De nombreuses entreprises à Cotonou et au Bénin n'ont pas encore de présence en ligne adaptée aux besoins modernes : sites non responsives, navigation lente ou absence de conten[...]
+      `Problème : De nombreuses entreprises à Cotonou et au Bénin n'ont pas encore de présence en ligne adaptée aux besoins modernes : sites non responsives, navigation lente ou absence de co[...]
 
-Aggravation : Sans un site performant, ces entreprises manquent d'opportunités, perdent des clients face à la concurrence et peinent à être trouvées via les recherches locales sur Google. Cela en[...]
+Aggravation : Sans un site performant, ces entreprises manquent d'opportunités, perdent des clients face à la concurrence et peinent à être trouvées via les recherches locales sur Google. Cel[...]
 
-Solution : Je conçois des sites sur-mesure, mobile-first, rapides et optimisés pour le référencement local. Chaque projet inclut une stratégie de conversion pour transformer les visiteurs en clie[...]
+Solution : Je conçois des sites sur-mesure, mobile-first, rapides et optimisés pour le référencement local. Chaque projet inclut une stratégie de conversion pour transformer les visiteurs en [...]
 
-Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des expériences web qui racontent votre histoire et génèrent des résultats mesurables. Mon approche est pragmatique : de[...]
+Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des expériences web qui racontent votre histoire et génèrent des résultats mesurables. Mon approche est pragmatique [...]
 `,
     banner: "/services/creation-de-sites-web-sur-mesure.svg",
     icon: "line-md:laptop-twotone",
@@ -99,7 +99,7 @@ Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des 
 
 Aggravation : Sans visibilité, le flux de clients se réduit, la croissance stagne et les concurrents captent les recherches importantes. Cela se traduit par moins de contacts entrants et un coût d'[...]
 
-Solution : J'effectue un audit SEO technique et sémantique, j'optimise le site pour le local (Google My Business, balises, contenus) et je mets en place un suivi pour mesurer les progrès et ajuster [...]
+Solution : J'effectue un audit SEO technique et sémantique, j'optimise le site pour le local (Google My Business, balises, contenus) et je mets en place un suivi pour mesurer les progrès et aju[...]
 
 Mon approche est pragmatique : priorités claires, actions mesurables et suivi régulier pour améliorer votre positionnement localement et attirer des visiteurs qui convertissent.
 `,
@@ -151,7 +151,7 @@ Mon approche est pragmatique : priorités claires, actions mesurables et suivi r
 
 Aggravation : Une panne ou une faille entraîne perte de revenus, mauvaise expérience utilisateur et risque pour la réputation de l'entreprise. De plus, la dette technique s'accumule et les coûts d[...]
 
-Solution : J'assure les mises à jour, sauvegardes régulières, optimisations de performance et interventions rapides pour limiter les risques et garantir la continuité du service. Je propose aussi [...]
+Solution : J'assure les mises à jour, sauvegardes régulières, optimisations de performance et interventions rapides pour limiter les risques et garantir la continuité du service. Je propose a[...]
 
 Mes plans sont pensés pour les petites entreprises : interventions rapides, monitoring et rapports réguliers pour vous rassurer sur la santé de votre site.
 `,
@@ -319,7 +319,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Marie Dupont",
     role: "Gérante",
     company: "Boutique Chic",
-    text: "Jean Prudent a transformé notre présence en ligne en quelques semaines. Notre site attire maintenant 3× plus de clients et nos ventes ont augmenté de 40%. Un travail exceptionnel et tr�[...]
+    text: "Jean Prudent a transformé notre présence en ligne en quelques semaines. Notre site attire maintenant 3× plus de clients et nos ventes ont augmenté de 40%. Un travail exceptionnel.",
     rating: 5,
     visible: true,
   },
@@ -328,7 +328,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Kofi Mensah",
     role: "Directeur Commercial",
     company: "TechAfrique",
-    text: "Un travail remarquable ! Le site est non seulement magnifique mais aussi parfaitement optimisé pour Google. Nous sommes désormais en première page sur nos mots-clés principaux, et [...]
+    text: "Un travail remarquable ! Le site est non seulement magnifique mais aussi parfaitement optimisé pour Google. Nous sommes désormais en première page sur nos mots-clés principaux.",
     rating: 5,
     visible: true,
   },
@@ -337,7 +337,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: "Aminata Traoré",
     role: "Entrepreneur",
     company: "Saveurs d'Afrique",
-    text: "L'automatisation mise en place par Jean nous a fait gagner 10h par semaine. Les formulaires, emails et CRM se synchronisent parfaitement. Un investissement qui s'est rapidement rentabi[...]
+    text: "L'automatisation mise en place par Jean nous a fait gagner 10h par semaine. Les formulaires, emails et CRM se synchronisent parfaitement.",
     rating: 5,
     visible: true,
   },
