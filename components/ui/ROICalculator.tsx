@@ -48,7 +48,7 @@ export default function ROICalculator({ initialHours = 5, initialRate = 10000 }:
 
         <div className="text-right">
           <button type="button" className="btn-outline mr-2" onClick={handleExample}>Exemple : 2h / semaine</button>
-          {/*a href="/#contact" className="btn-primary" aria-label="Réserver audit gratuit">Réserver un audit gratuit</a>*/}<
+          {/*<a href="/#contact" className="btn-primary" aria-label="Réserver audit gratuit">Réserver un audit gratuit</a>*/}
         </div>
       </div>
 
