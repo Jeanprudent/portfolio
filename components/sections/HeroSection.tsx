@@ -1,51 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { ParticlesCanvas } from "./ParticlesCanvas"
 import { useTranslation } from "react-i18next"
 import type { PortfolioConfig } from "@/lib/supabase-data"
-
-const TYPEWRITER_WORDS = [
-  "Développeur Frontend",
-  "Web Designer",
-  "Expert SEO",
-  "Intégrateur WordPress",
-  "Consultant Digital",
-]
-
-function useTypewriter(words: string[], speed = 90, deleteSpeed = 45, pause = 2200) {
-  const [wordIndex, setWordIndex] = useState(0)
-  const [text, setText] = useState("")
-  const [deleting, setDeleting] = useState(false)
-
-  useEffect(() => {
-    const word = words[wordIndex]
-    const timeout = setTimeout(
-      () => {
-        if (!deleting) {
-          if (text.length < word.length) {
-            setText(word.slice(0, text.length + 1))
-          } else {
-            setTimeout(() => setDeleting(true), pause)
-          }
-        } else {
-          if (text.length > 0) {
-            setText(text.slice(0, -1))
-          } else {
-            setDeleting(false)
-            setWordIndex((i) => (i + 1) % words.length)
-          }
-        }
-      },
-      deleting ? deleteSpeed : speed
-    )
-    return () => clearTimeout(timeout)
-  }, [text, deleting, wordIndex, words, speed, deleteSpeed, pause])
-
-  return text
-}
 
 function ROICalculator() {
   const [hoursPerWeek, setHoursPerWeek] = useState<number>(5)
@@ -125,7 +85,6 @@ function ROICalculator() {
 
 export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
   const { t } = useTranslation()
-  const typedText = useTypewriter(TYPEWRITER_WORDS)
   const location = config?.location || "Cotonou, Bénin"
   const disponible = config?.disponible !== false
   // keep tagline variable for fallback
@@ -181,18 +140,10 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
         initial="hidden"
         animate="show"
       >
-        {/* Greeting */}
-        <motion.p
-          variants={itemVariants}
-          className="text-base md:text-lg font-medium text-(--text-secondary) mb-3 font-sans"
-        >
-          {t("hero.greeting")}
-        </motion.p>
-
         {/* ROI-focused H1 */}
         <motion.h1
           variants={itemVariants}
-          className="font-heading font-bold text-3xl md:text-5xl lg:text-7xl leading-[1.05] tracking-tight mb-4"
+          className="font-heading font-bold text-2xl md:text-4xl lg:text-5xl leading-[1.05] tracking-tight mb-4"
         >
           Transformez votre <span className="gradient-text">site web</span> en machine à clients automatique
         </motion.h1>
@@ -207,20 +158,6 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
         {/* ROI calculator (mini) */}
         <motion.div variants={itemVariants} className="mb-6">
           <ROICalculator />
-        </motion.div>
-
-        {/* Typewriter */}
-        <motion.div
-          variants={itemVariants}
-          className="h-9 md:h-11 flex items-center justify-center mb-6"
-        >
-          <p className="font-heading text-xl md:text-2xl font-semibold text-secondary">
-            {typedText}
-            <span
-              className="inline-block w-0.5 h-6 bg-secondary ml-1 align-middle"
-              style={{ animation: "pulse 1s step-end infinite" }}
-            />
-          </p>
         </motion.div>
 
         {/* CTAs */}
