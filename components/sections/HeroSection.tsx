@@ -47,11 +47,88 @@ function useTypewriter(words: string[], speed = 90, deleteSpeed = 45, pause = 22
   return text
 }
 
+function ROICalculator() {
+  const [hoursPerWeek, setHoursPerWeek] = useState<number>(5)
+  const [hourlyRate, setHourlyRate] = useState<number>(10000) // FCFA
+
+  const annualCost = Math.max(0, hoursPerWeek) * Math.max(0, hourlyRate) * 52
+
+  const formatted = (value: number) => {
+    try {
+      return new Intl.NumberFormat('fr-FR').format(value)
+    } catch {
+      return String(value)
+    }
+  }
+
+  return (
+    <div className="mt-6 p-4 bg-gradient-to-r from-white/3 to-white/5 rounded-lg border border-(--glass-border) max-w-xl mx-auto">
+      <h4 className="font-semibold text-sm mb-2">Combien d'heures perdez-vous chaque semaine ?</h4>
+      <p className="text-(--text-secondary) text-xs mb-3">À 10 000 FCFA / 15€ l'heure, combien perdez-vous par an à cause des tâches manuelles (emails, relances, saisie) ?</p>
+
+      <div className="grid grid-cols-2 gap-3 items-end">
+        <label htmlFor="hours" className="flex flex-col">
+          <span className="text-xs text-(--text-secondary) mb-1">Heures / semaine</span>
+          <input
+            id="hours"
+            type="number"
+            min={0}
+            value={hoursPerWeek}
+            onChange={(e) => setHoursPerWeek(Number(e.target.value))}
+            className="input"
+            aria-label="Heures par semaine"
+          />
+        </label>
+
+        <label htmlFor="rate" className="flex flex-col">
+          <span className="text-xs text-(--text-secondary) mb-1">Tarif horaire (FCFA)</span>
+          <input
+            id="rate"
+            type="number"
+            min={0}
+            value={hourlyRate}
+            onChange={(e) => setHourlyRate(Number(e.target.value))}
+            className="input"
+            aria-label="Tarif horaire en FCFA"
+          />
+        </label>
+      </div>
+
+      <div className="mt-3 flex items-center justify-between">
+        <div>
+          <div className="text-xs text-(--text-secondary)">Coût annuel estimé</div>
+          <div className="font-heading font-bold text-lg">{formatted(annualCost)} FCFA</div>
+        </div>
+
+        <div className="text-right">
+          <button
+            type="button"
+            className="btn-outline mr-2"
+            onClick={() => {
+              setHoursPerWeek(2)
+              setHourlyRate(10000)
+            }}
+          >
+            Exemple : 2h / semaine
+          </button>
+
+          <a href="#contact" className="btn-primary" aria-label="Réserver audit SEO gratuit 15 minutes">
+            Réserver mon audit SEO gratuit (15 min)
+          </a>
+        </div>
+      </div>
+
+      <p className="mt-3 text-xs text-(--text-secondary)">À {formatted(hourlyRate)} FCFA / ~15€ l'heure, vous perdez ~{formatted(annualCost)} FCFA par an (est.)</p>
+    </div>
+  )
+}
+
 export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
   const { t } = useTranslation()
   const typedText = useTypewriter(TYPEWRITER_WORDS)
   const location = config?.location || "Cotonou, Bénin"
   const disponible = config?.disponible !== false
+  // keep tagline variable for fallback
   const tagline = config?.tagline || "Je crée des sites web qui transforment votre présence en ligne en moteur de croissance."
 
   const containerVariants = {
@@ -104,14 +181,6 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
         initial="hidden"
         animate="show"
       >
-        {/* Badge
-        <motion.div variants={itemVariants} className="flex justify-center mb-6">
-          <span className="section-label">
-            <Icon icon="line-md:map-marker-twotone" width={14} />
-            {location}{disponible ? ` · ${t("hero.badge_disponible")}` : ""}
-          </span>
-        </motion.div> */}
-
         {/* Greeting */}
         <motion.p
           variants={itemVariants}
@@ -120,19 +189,30 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
           {t("hero.greeting")}
         </motion.p>
 
-        {/* Name */}
+        {/* ROI-focused H1 */}
         <motion.h1
           variants={itemVariants}
           className="font-heading font-bold text-3xl md:text-5xl lg:text-7xl leading-[1.05] tracking-tight mb-4"
         >
-          <span className="gradient-text">Jean</span>{" "}
-          <span className="text-(--text-primary)">Prudent</span>
+          Transformez votre <span className="gradient-text">site web</span> en machine à clients automatique
         </motion.h1>
+
+        <motion.p
+          variants={itemVariants}
+          className="text-(--text-secondary) text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-6"
+        >
+          J’aide les PME et entrepreneurs à Cotonou et à l'international à dominer Google et à automatiser leur acquisition grâce à des architectures Next.js et des agents IA sur-mesure.
+        </motion.p>
+
+        {/* ROI calculator (mini) */}
+        <motion.div variants={itemVariants} className="mb-6">
+          <ROICalculator />
+        </motion.div>
 
         {/* Typewriter */}
         <motion.div
           variants={itemVariants}
-          className="h-9 md:h-11 flex items-center justify-center mb-8"
+          className="h-9 md:h-11 flex items-center justify-center mb-6"
         >
           <p className="font-heading text-xl md:text-2xl font-semibold text-secondary">
             {typedText}
@@ -143,22 +223,14 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
           </p>
         </motion.div>
 
-        {/* Tagline */}
-        <motion.p
-          variants={itemVariants}
-          className="text-(--text-secondary) text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-10"
-        >
-          {tagline}
-        </motion.p>
-
         {/* CTAs */}
         <motion.div
           variants={itemVariants}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <a href="#projets" className="btn-primary">
+          <a href="#contact" className="btn-primary" aria-label="Réserver audit SEO gratuit 15 minutes">
             <Icon icon="line-md:briefcase-twotone" width={18} />
-            {t("hero.cta_primary")}
+            Réserver mon audit SEO gratuit (15 min)
             <Icon icon="line-md:arrow-right" width={16} />
           </a>
           <a href="#contact" className="btn-ghost">
@@ -187,34 +259,13 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
-              className="w-10 h-10 rounded-xl glass border border-(--glass-border) flex items-center justify-center text-(--text-secondary) hover:text-primary hover:border-primary/40 transition-all duration-200 hover:-translate-y-0.5"
+              className="w-10 h-10 rounded-xl glass border border-(--glass-border) flex items-center justify-center text-(--text-secondary) hover:text-primary hover:border-primary/40 transition-all"
             >
               <Icon icon={s.icon} width={19} />
             </a>
           ))}
         </motion.div>
       </motion.div>
-
-      {/* Scroll indicator 
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.6 }}
-      >
-        <p className="text-(--text-muted) text-xs tracking-widest uppercase">Scroll</p>
-        <motion.div
-          className="w-5 h-8 rounded-full border border-(--glass-border) flex justify-center pt-1.5"
-          animate={{ borderColor: ["rgba(124,58,237,0.2)", "rgba(124,58,237,0.6)", "rgba(124,58,237,0.2)"] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <motion.div
-            className="w-1 h-2 rounded-full bg-primary"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </motion.div>
-      </motion.div> */}
 
       <style jsx>{`
         @keyframes pulse {
