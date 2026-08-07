@@ -41,28 +41,29 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
 
     const el = cardRef.current
     if (!el) return
+    const node = el as HTMLDivElement
 
     // prepare 3D-friendly styles
-    el.style.transformStyle = "preserve-3d"
-    ;(el.style as any).webkitTransformStyle = "preserve-3d"
-    el.style.perspective = "1000px"
+    node.style.transformStyle = "preserve-3d"
+    ;(node.style as any).webkitTransformStyle = "preserve-3d"
+    node.style.perspective = "1000px"
 
     let rafId: number | null = null
 
     function applyFallbackTransform(rotateX: number, rotateY: number, scale = 1.02) {
       // apply transform/boxShadow directly when anime isn't available
-      el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`
-      el.style.boxShadow = `0 18px 40px ${colors.glow}`
+      node.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`
+      node.style.boxShadow = `0 18px 40px ${colors.glow}`
     }
 
     function resetFallback() {
-      el.style.transform = ""
-      el.style.boxShadow = "0 6px 18px rgba(0,0,0,0.06)"
+      node.style.transform = ""
+      node.style.boxShadow = "0 6px 18px rgba(0,0,0,0.06)"
     }
 
     function handleMouseMove(e: MouseEvent) {
       const anime = animeRef.current
-      const rect = el.getBoundingClientRect()
+      const rect = node.getBoundingClientRect()
       const px = (e.clientX - rect.left) / rect.width
       const py = (e.clientY - rect.top) / rect.height
 
@@ -71,7 +72,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
 
       if (anime) {
         anime({
-          targets: el,
+          targets: node,
           rotateX,
           rotateY,
           scale: 1.02,
@@ -80,7 +81,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
         })
 
         anime({
-          targets: el,
+          targets: node,
           boxShadow: [`0 6px 18px rgba(0,0,0,0.06)`, `0 18px 40px ${colors.glow}`],
           duration: 350,
           easing: "easeOutQuad",
@@ -96,7 +97,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
       const anime = animeRef.current
       if (anime) {
         anime({
-          targets: el,
+          targets: node,
           rotateX: 0,
           rotateY: 0,
           scale: 1,
@@ -113,16 +114,16 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
     // Attach handlers only for non-touch devices
     const isTouch = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0)
     if (!isTouch) {
-      el.addEventListener("mousemove", handleMouseMove)
-      el.addEventListener("mouseleave", handleMouseLeave)
+      node.addEventListener("mousemove", handleMouseMove)
+      node.addEventListener("mouseleave", handleMouseLeave)
     }
 
     return () => {
       mounted = false
       if (rafId) cancelAnimationFrame(rafId)
       if (!isTouch) {
-        el.removeEventListener("mousemove", handleMouseMove)
-        el.removeEventListener("mouseleave", handleMouseLeave)
+        node.removeEventListener("mousemove", handleMouseMove)
+        node.removeEventListener("mouseleave", handleMouseLeave)
       }
     }
   }, [index])
