@@ -78,22 +78,22 @@ function ROICalculator() {
         </label>
       </div>
 
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="text-xs text-(--text-secondary)">Coût annuel estimé</div>
           <div className="font-heading font-bold text-2xl">{formatted(annualCost)} FCFA</div>
         </div>
 
-        <div className="text-right">
+        <div className="flex flex-wrap items-center gap-2 sm:justify-end">
           <button
             type="button"
-            className="btn-outline mr-2"
+            className="btn-outline"
             onClick={() => {
               setHoursPerWeek(2)
               setHourlyRate(10000)
             }}
           >
-            Exemple: 2h / semaine
+            Exemple : 2h / semaine
           </button>
 
           <a href="#contact" className="btn-primary">

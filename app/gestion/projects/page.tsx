@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase"
 import { PROJECT_CATEGORIES } from "@/data/portfolio-data"
 import type { Project } from "@/types/portfolio"
 import { cn } from "@/lib/utils"
-import { ImageUpload } from "@/components/admin/ImageUpload"
+import { ImageUpload } from "@/components/gestion/ImageUpload"
 
 const EMPTY_PROJECT: Omit<Project, "id"> = {
   title: "",

@@ -196,6 +196,64 @@ body {
   }
 }
 
+@utility btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 0.625rem;
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(124, 58, 237, 0.08);
+    border-color: rgba(124, 58, 237, 0.45);
+    color: var(--text-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--gradient-from);
+    outline-offset: 2px;
+  }
+}
+
+/* Champ de formulaire réutilisable — aligné sur les champs de ContactSection.
+   Pas de `height` fixe : un `h-24` de Tailwind sur un <textarea> doit pouvoir
+   l'emporter. */
+@utility input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  resize: vertical; /* sans effet sur <input>, utile sur <textarea> */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: rgba(124, 58, 237, 0.6);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
+  }
+}
+
 @utility section-label {
   display: inline-flex;
   align-items: center;

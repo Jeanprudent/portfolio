@@ -6,39 +6,39 @@ const OVERVIEW_CARDS = [
     label: "Services actifs",
     value: "4",
     icon: "line-md:star-twotone",
-    href: "/admin/services",
+    href: "/gestion/services",
     color: "#7C3AED",
   },
   {
     label: "Projets publiés",
     value: "4",
     icon: "line-md:briefcase-twotone",
-    href: "/admin/projects",
+    href: "/gestion/projects",
     color: "#06B6D4",
   },
   {
     label: "Articles de blog",
     value: "0",
     icon: "line-md:pencil-alt-twotone",
-    href: "/admin/blog",
+    href: "/gestion/blog",
     color: "#A855F7",
   },
   {
     label: "Témoignages",
     value: "3",
     icon: "line-md:chat-twotone",
-    href: "/admin/content",
+    href: "/gestion/content",
     color: "#F59E0B",
   },
 ]
 
 const QUICK_ACTIONS = [
-  { label: "Modifier le contenu", href: "/admin/content", icon: "line-md:document-list-twotone" },
-  { label: "Ajouter un projet", href: "/admin/projects", icon: "line-md:plus-circle-twotone" },
-  { label: "Écrire un article", href: "/admin/blog", icon: "line-md:pencil-alt-twotone" },
-  { label: "Réglages SEO", href: "/admin/seo", icon: "line-md:search-twotone" },
-  { label: "Personnaliser le design", href: "/admin/design", icon: "line-md:paint-drop-twotone" },
-  { label: "Paramètres généraux", href: "/admin/settings", icon: "line-md:cog-loop" },
+  { label: "Modifier le contenu", href: "/gestion/content", icon: "line-md:document-list-twotone" },
+  { label: "Ajouter un projet", href: "/gestion/projects", icon: "line-md:plus-circle-twotone" },
+  { label: "Écrire un article", href: "/gestion/blog", icon: "line-md:pencil-alt-twotone" },
+  { label: "Réglages SEO", href: "/gestion/seo", icon: "line-md:search-twotone" },
+  { label: "Personnaliser le design", href: "/gestion/design", icon: "line-md:paint-drop-twotone" },
+  { label: "Paramètres généraux", href: "/gestion/settings", icon: "line-md:cog-loop" },
 ]
 
 export default function AdminDashboardPage() {

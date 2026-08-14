@@ -8,14 +8,14 @@ import { supabase } from "@/lib/supabase"
 import { cn } from "@/lib/utils"
 
 const NAV_ITEMS = [
-  { label: "Vue d'ensemble", href: "/admin", icon: "line-md:grid-3-twotone" },
-  { label: "Contenu", href: "/admin/content", icon: "line-md:document-list-twotone" },
-  { label: "Projets", href: "/admin/projects", icon: "line-md:briefcase-twotone" },
-  { label: "Services", href: "/admin/services", icon: "line-md:star-twotone" },
-  { label: "Blog", href: "/admin/blog", icon: "line-md:pencil-alt-twotone" },
-  { label: "Design", href: "/admin/design", icon: "line-md:paint-drop-twotone" },
-  { label: "SEO", href: "/admin/seo", icon: "line-md:search-twotone" },
-  { label: "Paramètres", href: "/admin/settings", icon: "line-md:cog-loop" },
+  { label: "Vue d'ensemble", href: "/gestion", icon: "line-md:grid-3-twotone" },
+  { label: "Contenu", href: "/gestion/content", icon: "line-md:document-list-twotone" },
+  { label: "Projets", href: "/gestion/projects", icon: "line-md:briefcase-twotone" },
+  { label: "Services", href: "/gestion/services", icon: "line-md:star-twotone" },
+  { label: "Blog", href: "/gestion/blog", icon: "line-md:pencil-alt-twotone" },
+  { label: "Design", href: "/gestion/design", icon: "line-md:paint-drop-twotone" },
+  { label: "SEO", href: "/gestion/seo", icon: "line-md:search-twotone" },
+  { label: "Paramètres", href: "/gestion/settings", icon: "line-md:cog-loop" },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -27,8 +27,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session && pathname !== "/admin/login") {
-        router.push("/admin/login")
+      if (!session && pathname !== "/gestion/login") {
+        router.push("/gestion/login")
       } else {
         setUserEmail(session?.user?.email ?? null)
         setChecking(false)
@@ -36,7 +36,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     })
   }, [pathname, router])
 
-  if (pathname === "/admin/login") return <>{children}</>
+  if (pathname === "/gestion/login") return <>{children}</>
 
   if (checking) {
     return (
@@ -53,7 +53,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
-    router.push("/admin/login")
+    router.push("/gestion/login")
   }
 
   return (

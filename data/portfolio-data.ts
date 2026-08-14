@@ -43,15 +43,15 @@ export const SERVICES: Service[] = [
     description:
       "Je conçois des sites web professionnels sur mesure, pensés pour valoriser votre image, offrir une expérience utilisateur fluide et transformer vos visiteurs en clients.",
     long_description:
-      `Problème : De nombreuses entreprises à Cotonou et au Bénin n'ont pas encore de présence en ligne adaptée aux besoins modernes : sites non responsives, navigation lente ou absence de co[...]
+      `Problème : De nombreuses entreprises à Cotonou et au Bénin n'ont pas encore de présence en ligne adaptée aux besoins modernes : sites non responsives, navigation lente ou absence complète de contenu à jour. Résultat : le prospect qui cherche votre nom depuis son téléphone tombe sur une page illisible — ou sur rien du tout.
 
-Aggravation : Sans un site performant, ces entreprises manquent d'opportunités, perdent des clients face à la concurrence et peinent à être trouvées via les recherches locales sur Google. Cel[...]
+Aggravation : Sans un site performant, ces entreprises manquent d'opportunités, perdent des clients face à la concurrence et peinent à être trouvées via les recherches locales sur Google. Concrètement : un téléphone qui sonne moins, des devis qui partent chez le concurrent mieux référencé, et une activité qui repose entièrement sur le bouche-à-oreille.
 
-Solution : Je conçois des sites sur-mesure, mobile-first, rapides et optimisés pour le référencement local. Chaque projet inclut une stratégie de conversion pour transformer les visiteurs en [...]
+Solution : Je conçois des sites sur-mesure, mobile-first, rapides et optimisés pour le référencement local. Chaque projet inclut une stratégie de conversion pour transformer les visiteurs en demandes de devis : parcours clair, arguments hiérarchisés, formulaires courts et bouton d'appel toujours visible sur mobile.
 
-Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des expériences web qui racontent votre histoire et génèrent des résultats mesurables. Mon approche est pragmatique [...]
+Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des expériences web qui racontent votre histoire et génèrent des résultats mesurables. Mon approche est pragmatique : un cadrage court pour fixer les priorités, une maquette validée avant la première ligne de code, puis une mise en ligne accompagnée et un transfert de compétences pour que vous restiez autonome au quotidien.
 `,
-    banner: "/services/creation-de-sites-web-sur-mesure.svg",
+    banner: "/services/creation-de-sites-web-sur-mesure.webp",
     icon: "line-md:laptop-twotone",
     offers: [
       {
@@ -97,13 +97,13 @@ Je travaille avec des PME, artisans et entrepreneurs à Cotonou pour créer des 
     long_description:
       `Problème : De nombreuses entreprises locales à Cotonou peinent à être trouvées en ligne, même lorsque leurs services sont demandés.
 
-Aggravation : Sans visibilité, le flux de clients se réduit, la croissance stagne et les concurrents captent les recherches importantes. Cela se traduit par moins de contacts entrants et un coût d'[...]
+Aggravation : Sans visibilité, le flux de clients se réduit, la croissance stagne et les concurrents captent les recherches importantes. Cela se traduit par moins de contacts entrants et un coût d'acquisition qui grimpe : il faut alors payer de la publicité pour obtenir ce que le référencement naturel apporterait chaque mois, sans budget média.
 
-Solution : J'effectue un audit SEO technique et sémantique, j'optimise le site pour le local (Google My Business, balises, contenus) et je mets en place un suivi pour mesurer les progrès et aju[...]
+Solution : J'effectue un audit SEO technique et sémantique, j'optimise le site pour le local (Google My Business, balises, contenus) et je mets en place un suivi pour mesurer les progrès et ajuster le tir mois après mois : positions suivies, pages qui ramènent du trafic, requêtes à travailler en priorité.
 
 Mon approche est pragmatique : priorités claires, actions mesurables et suivi régulier pour améliorer votre positionnement localement et attirer des visiteurs qui convertissent.
 `,
-    banner: "/services/optimisation-seo-visibilite-google.svg",
+    banner: "/services/optimisation-seo-visibilite-google.webp",
     icon: "line-md:search-twotone",
     offers: [
       {
@@ -149,13 +149,13 @@ Mon approche est pragmatique : priorités claires, actions mesurables et suivi r
     long_description:
       `Problème : Les sites WordPress non maintenus deviennent lents, vulnérables et peuvent tomber en panne.
 
-Aggravation : Une panne ou une faille entraîne perte de revenus, mauvaise expérience utilisateur et risque pour la réputation de l'entreprise. De plus, la dette technique s'accumule et les coûts d[...]
+Aggravation : Une panne ou une faille entraîne perte de revenus, mauvaise expérience utilisateur et risque pour la réputation de l'entreprise. De plus, la dette technique s'accumule et les coûts de remise en état finissent par dépasser largement ceux d'une maintenance régulière.
 
-Solution : J'assure les mises à jour, sauvegardes régulières, optimisations de performance et interventions rapides pour limiter les risques et garantir la continuité du service. Je propose a[...]
+Solution : J'assure les mises à jour, sauvegardes régulières, optimisations de performance et interventions rapides pour limiter les risques et garantir la continuité du service. Je propose aussi un audit de sécurité initial, qui repère les extensions obsolètes et les points d'entrée à fermer avant qu'ils ne soient exploités.
 
 Mes plans sont pensés pour les petites entreprises : interventions rapides, monitoring et rapports réguliers pour vous rassurer sur la santé de votre site.
 `,
-    banner: "/services/maintenance-support-wordpress.svg",
+    banner: "/services/maintenance-support-wordpress.webp",
     icon: "line-md:cog-loop",
     offers: [
       {
@@ -205,10 +205,10 @@ Aggravation : Les erreurs manuelles, les délais de traitement et le manque de s
 
 Solution : Je conçois des automatisations fiables (n8n, intégrations API) qui synchronisent vos outils, réduisent les tâches manuelles et libèrent du temps pour le cœur de votre activité.
 
-Résultat : gains de productivité mesurables, meilleure réactivité commerciale et processus documentés pour une adoption rapide par vos équipes. J'accompagne aussi la formation pour garantir l'ad[...]
+Résultat : gains de productivité mesurables, meilleure réactivité commerciale et processus documentés pour une adoption rapide par vos équipes. J'accompagne aussi la formation pour garantir l'adoption des nouveaux outils par vos équipes, sans quoi la meilleure automatisation finit par être contournée.
 `,
-    banner: "/services/automatisation-optimisation-digitale.svg",
-    icon: "line-md:lightning-twotone-loop",
+    banner: "/services/automatisation-optimisation-digitale.webp",
+    icon: "line-md:speed-twotone",
     offers: [
       {
         id: "s4-o1",
@@ -249,7 +249,7 @@ export const PROJECTS: Project[] = [
     title: "E-commerce Premium",
     description:
       "Boutique en ligne pour une PME locale avec paiement intégré, gestion des stocks et tableau de bord admin. Performance Lighthouse 98/100.",
-    image_url: "/projects/project-1.jpg",
+    image_url: "/projects/e-commerce-premium.webp",
     project_url: "#",
     tags: ["Next.js", "Stripe", "Supabase"],
     category: "web",
@@ -261,7 +261,7 @@ export const PROJECTS: Project[] = [
     title: "Site Corporate SEO",
     description:
       "Site vitrine professionnel pour un cabinet de conseil avec SEO technique optimisé. Passage de la page 8 à la page 1 de Google en 3 mois.",
-    image_url: "/projects/project-2.jpg",
+    image_url: "/projects/site-corporate-seo.webp",
     project_url: "#",
     tags: ["WordPress", "Elementor", "SEO"],
     category: "seo",
@@ -273,7 +273,7 @@ export const PROJECTS: Project[] = [
     title: "Portfolio Artiste",
     description:
       "Portfolio interactif avec galerie animée, espace client et système de commande en ligne. Design glassmorphisme avec Framer Motion.",
-    image_url: "/projects/project-3.jpg",
+    image_url: "/projects/portfolio-artiste.webp",
     project_url: "#",
     tags: ["React", "Framer Motion", "Cloudinary"],
     category: "web",
@@ -285,7 +285,7 @@ export const PROJECTS: Project[] = [
     title: "Automatisation CRM n8n",
     description:
       "Workflow automatisé reliant formulaires, emails et CRM via n8n pour une startup. Économie de 10h/semaine dès la première semaine.",
-    image_url: "/projects/project-4.jpg",
+    image_url: "/projects/automatisation-crm-n8n.webp",
     project_url: "#",
     tags: ["n8n", "Make", "API REST"],
     category: "automatisation",

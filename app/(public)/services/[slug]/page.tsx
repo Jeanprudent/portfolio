@@ -4,19 +4,18 @@ import ContactModal from "@/components/services/ContactModal"
 import { SERVICES } from "@/data/portfolio-data"
 
 export async function generateStaticParams() {
-  // Log slugs at build time for debugging
-  // eslint-disable-next-line no-console
-  console.log("generateStaticParams slugs:", SERVICES.map((s) => s.slug))
-
   return SERVICES
     .filter((s) => typeof s.slug === "string" && s.slug.length > 0)
     .map((s) => ({ slug: s.slug as string }))
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
+// Next 16 : `params` est une Promise, il faut l'attendre. La lire de façon
+// synchrone renvoyait `undefined` → toutes les fiches affichaient
+// « Service introuvable ».
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   // Normalize the incoming slug (handle URL encoding and casing)
-  const rawSlug = params.slug ?? ""
-  const slug = decodeURIComponent(String(rawSlug)).trim().toLowerCase()
+  const { slug: rawSlug } = await params
+  const slug = decodeURIComponent(String(rawSlug ?? "")).trim().toLowerCase()
 
   const service = SERVICES.find((s) => ((s.slug ?? "").toLowerCase() === slug))
 
@@ -43,7 +42,9 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div className="grid md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
           <h2 className="font-heading font-bold text-2xl mb-4">Pourquoi ce service est important à Cotonou & au Bénin</h2>
-          <div className="prose max-w-none">
+          {/* prose-jp (et non `prose`, qui n'existe pas ici) : sans lui les
+              paragraphes se collent les uns aux autres. */}
+          <div className="prose-jp max-w-none">
             {paragraphs.length ? (
               paragraphs.map((p: string, i: number) => <p key={i}>{p}</p>)
             ) : (

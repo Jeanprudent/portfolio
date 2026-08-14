@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
     try {
       const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
       if (authError) throw authError
-      router.push("/admin")
+      router.push("/gestion")
       router.refresh()
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Identifiants incorrects")

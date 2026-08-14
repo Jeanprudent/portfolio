@@ -6,7 +6,7 @@ import toast, { Toaster } from "react-hot-toast"
 import { supabase } from "@/lib/supabase"
 import type { Stat, Testimonial } from "@/types/portfolio"
 import { cn } from "@/lib/utils"
-import { ImageUpload } from "@/components/admin/ImageUpload"
+import { ImageUpload } from "@/components/gestion/ImageUpload"
 
 const TABS = ["Hero & Bio", "Stats", "Témoignages"] as const
 type Tab = (typeof TABS)[number]

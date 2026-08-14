@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Icon } from "@iconify/react"
 import toast, { Toaster } from "react-hot-toast"
 import { supabase } from "@/lib/supabase"
-import { ImageUpload } from "@/components/admin/ImageUpload"
+import { ImageUpload } from "@/components/gestion/ImageUpload"
 
 type Profile = {
   id: string
