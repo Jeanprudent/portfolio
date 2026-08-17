@@ -1,13 +1,20 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
+import { BESOIN_VALUES, besoinLabel } from "@/lib/contact-options"
 
 // Route dynamique : jamais mise en cache (envoi d'email à chaque requête).
 export const dynamic = "force-dynamic"
 
+// Ni le nom ni le budget ne doivent contenir de saut de ligne : ils partent
+// dans l'objet de l'email, où un \r\n ouvrirait la porte à une injection d'en-tête.
+const singleLine = /^[^\r\n]+$/
+
 const schema = z.object({
-  name: z.string().min(2).max(100),
+  name: z.string().min(2).max(100).regex(singleLine),
   email: z.string().email().max(150),
-  subject: z.string().min(3).max(150),
+  // Liste fermée, partagée avec le formulaire : rien d'autre n'est accepté.
+  besoin: z.enum(BESOIN_VALUES),
+  budget: z.string().min(2).max(80).regex(singleLine),
   message: z.string().min(20).max(5000),
   // Honeypot : champ caché qui doit rester vide. Rempli = bot.
   website: z.string().optional(),
@@ -66,7 +73,7 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Champs invalides" }, { status: 422 })
   }
-  const { name, email, subject, message, website } = parsed.data
+  const { name, email, besoin, budget, message, website } = parsed.data
 
   // Honeypot rempli : on renvoie un succès factice sans rien envoyer
   // (ne pas signaler au bot que sa soumission a été rejetée).
@@ -89,14 +96,18 @@ export async function POST(request: Request) {
   const to = (process.env.CONTACT_EMAIL_TO || "jeanprudent03@gmail.com").trim()
   const from = (process.env.CONTACT_EMAIL_FROM || "Portfolio <onboarding@resend.dev>").trim()
 
+  const besoinTexte = besoinLabel(besoin)
+
   const html = `
     <div style="font-family:system-ui,sans-serif;line-height:1.6">
-      <h2 style="margin:0 0 12px">Nouveau message depuis le portfolio</h2>
+      <h2 style="margin:0 0 12px">Nouvelle demande depuis le portfolio</h2>
       <p><strong>Nom :</strong> ${escapeHtml(name)}</p>
       <p><strong>Email :</strong> ${escapeHtml(email)}</p>
-      <p><strong>Sujet :</strong> ${escapeHtml(subject)}</p>
+      <p><strong>Besoin :</strong> ${escapeHtml(besoinTexte)}</p>
+      <p><strong>Budget annoncé :</strong> ${escapeHtml(budget)}</p>
       <hr style="border:none;border-top:1px solid #eee;margin:16px 0" />
-      <p style="white-space:pre-wrap">${escapeHtml(message)}</p>
+      <p style="margin:0 0 8px"><strong>Projet :</strong></p>
+      <p style="white-space:pre-wrap;margin:0">${escapeHtml(message)}</p>
     </div>
   `
 
@@ -111,7 +122,9 @@ export async function POST(request: Request) {
         from,
         to: [to],
         reply_to: email,
-        subject:  `${name} : ${subject}`,
+        // Objet lisible d'un coup d'œil dans la boîte de réception :
+        // le besoin qualifie, le budget priorise.
+        subject: `${besoinTexte} — ${name} (budget : ${budget})`,
         html,
       }),
     })

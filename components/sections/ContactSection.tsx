@@ -2,18 +2,21 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Icon } from "@iconify/react"
 import toast, { Toaster } from "react-hot-toast"
 import { useTranslation } from "react-i18next"
 import type { PortfolioConfig } from "@/lib/supabase-data"
+import { BESOINS, BESOIN_VALUES } from "@/lib/contact-options"
 
 const schema = z.object({
   name: z.string().min(2, "Nom trop court"),
   email: z.string().email("Email invalide"),
-  subject: z.string().min(3, "Sujet requis"),
+  // Qualification du besoin dès le premier contact.
+  besoin: z.enum(BESOIN_VALUES, { message: "Sélectionnez votre besoin" }),
+  budget: z.string().min(2, "Indiquez un budget, même approximatif").max(80),
   message: z.string().min(20, "Message trop court (20 caractères min.)"),
   // Honeypot anti-spam : invisible pour les humains, doit rester vide.
   website: z.string().optional(),
@@ -59,8 +62,14 @@ export function ContactSection({ config }: { config?: PortfolioConfig | null }) 
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) })
+
+  // Le <select> n'a pas de placeholder natif : tant que rien n'est choisi,
+  // on grise le texte comme sur les autres champs. useWatch (et non watch)
+  // pour ne réabonner que ce champ.
+  const besoinChoisi = Boolean(useWatch({ control, name: "besoin" }))
 
   const onSubmit = async (data: FormData) => {
     setSubmitting(true)
@@ -231,27 +240,74 @@ export function ContactSection({ config }: { config?: PortfolioConfig | null }) 
               </div>
             </div>
 
-            {/* Subject */}
-            <div className="mb-4">
-              <label
-                htmlFor="subject"
-                className="block text-xs font-medium text-(--text-secondary) mb-1.5 uppercase tracking-wide"
-              >
-                {t("contact.form_subject")} *
-              </label>
-              <input
-                id="subject"
-                type="text"
-                placeholder={t("contact.form_placeholder_subject")}
-                {...register("subject")}
-                className="w-full h-11 px-4 rounded-xl glass border border-(--glass-border) bg-transparent text-(--text-primary) placeholder:text-(--text-muted) text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200"
-              />
-              {errors.subject && (
-                <p className="mt-1 text-xs text-red-400">{errors.subject.message}</p>
-              )}
+            <div className="grid sm:grid-cols-2 gap-4 mb-4">
+              {/* Besoin — qualifie la demande dès l'arrivée */}
+              <div>
+                <label
+                  htmlFor="besoin"
+                  className="block text-xs font-medium text-(--text-secondary) mb-1.5 uppercase tracking-wide"
+                >
+                  {t("contact.form_besoin")} *
+                </label>
+                <div className="relative">
+                  <select
+                    id="besoin"
+                    defaultValue=""
+                    {...register("besoin")}
+                    className={`w-full h-11 pl-4 pr-10 rounded-xl glass border border-(--glass-border) bg-transparent text-sm appearance-none cursor-pointer focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200 ${
+                      besoinChoisi ? "text-(--text-primary)" : "text-(--text-muted)"
+                    }`}
+                  >
+                    <option value="" disabled className="bg-(--bg) text-(--text-muted)">
+                      {t("contact.form_besoin_placeholder")}
+                    </option>
+                    {BESOINS.map((b) => (
+                      <option
+                        key={b.value}
+                        value={b.value}
+                        className="bg-(--bg) text-(--text-primary)"
+                      >
+                        {t(b.i18nKey)}
+                      </option>
+                    ))}
+                  </select>
+                  <Icon
+                    icon="line-md:chevron-down"
+                    width={16}
+                    aria-hidden
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-(--text-muted)"
+                  />
+                </div>
+                {errors.besoin && (
+                  <p className="mt-1 text-xs text-red-400">{errors.besoin.message}</p>
+                )}
+              </div>
+
+              {/* Budget */}
+              <div>
+                <label
+                  htmlFor="budget"
+                  className="block text-xs font-medium text-(--text-secondary) mb-1.5 uppercase tracking-wide"
+                >
+                  {t("contact.form_budget")} *
+                </label>
+                <input
+                  id="budget"
+                  type="text"
+                  inputMode="text"
+                  placeholder={t("contact.form_placeholder_budget")}
+                  {...register("budget")}
+                  className="w-full h-11 px-4 rounded-xl glass border border-(--glass-border) bg-transparent text-(--text-primary) placeholder:text-(--text-muted) text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200"
+                />
+                {errors.budget ? (
+                  <p className="mt-1 text-xs text-red-400">{errors.budget.message}</p>
+                ) : (
+                  <p className="mt-1 text-xs text-(--text-muted)">{t("contact.form_budget_hint")}</p>
+                )}
+              </div>
             </div>
 
-            {/* Message */}
+            {/* Décrivez votre projet */}
             <div className="mb-6">
               <label
                 htmlFor="message"
