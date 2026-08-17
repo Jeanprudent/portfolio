@@ -5,7 +5,10 @@ import { Icon } from "@iconify/react"
 import { ParticlesCanvas } from "./ParticlesCanvas"
 import { useTranslation } from "react-i18next"
 import type { PortfolioConfig } from "@/lib/supabase-data"
-import ROICalculator from "@/components/ui/ROICalculator"
+// ROICalculator est retiré du hero (bloc commenté plus bas). L'import est
+// commenté avec lui : le laisser actif déclenche un avertissement de lint.
+// Pour le réactiver, décommenter cette ligne ET le bloc « Right: ROI calculator ».
+// import ROICalculator from "@/components/ui/ROICalculator"
 
 export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
   const { t } = useTranslation()
@@ -63,10 +66,10 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
         initial="hidden"
         animate="show"
       >
-        <div className="md:grid md:grid-cols-2 gap-8 items-center text-center md:text-left">
+        <div className="md:grid md:grid-cols-1 gap-8 items-center text-center md:text-left">
           {/* Left: copy and CTAs */}
           <motion.div variants={itemVariants} className="space-y-6">
-            <h1 className="font-heading font-bold text-2xl md:text-4xl lg:text-5xl leading-[1.05] tracking-tight">
+            <h1 className="font-heading font-bold text-3xl md:text-5xl lg:text-5xl leading-[1.05] tracking-tight">
               Transformez votre <span className="gradient-text">site web</span> en machine à clients automatique
             </h1>
 
@@ -75,9 +78,9 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
             </p>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <a href="/#contact" className="btn-primary" aria-label="Réserver audit SEO gratuit 15 minutes">
+              <a href="/#projets" className="btn-primary" aria-label="Réserver audit SEO gratuit 15 minutes">
                 <Icon icon="line-md:briefcase-twotone" width={18} />
-                Réserver un audit gratuit
+                Voir mes réalisations
                 <Icon icon="line-md:arrow-right" width={16} />
               </a>
 
@@ -103,10 +106,10 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
             
           </motion.div>
 
-          {/* Right: ROI calculator */}
+          {/* Right: ROI calculator 
           <motion.div variants={itemVariants} className="mt-6 md:mt-0">
             <ROICalculator />
-          </motion.div>
+          </motion.div> */}
         </div>
       </motion.div>
 
