@@ -55,13 +55,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             )}
           </div>
 
-          <div className="mt-8">
-            <h3 className="font-semibold text-lg mb-3">Offres</h3>
-            <ServiceOffers offers={service.offers || []} serviceTitle={service.title} />
-          </div>
         </div>
 
-        <aside className="sticky top-24">
+        <aside className="md:sticky md:top-24 md:self-start">
           <div className="glass-card p-6">
             <h4 className="font-semibold mb-2">Intéressé ?</h4>
             <p className="text-sm text-(--text-secondary) mb-4">Discutons de votre projet et obtenez un devis personnalisé.</p>
@@ -73,6 +69,19 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           </div>
         </aside>
       </div>
+
+      {/* Les offres sortent de la colonne 2/3 : sur la même largeur que la
+          bannière, les 3 cartes respirent au lieu d'être tassées. */}
+      {service.offers?.length ? (
+        <section className="mt-14">
+          <h2 className="font-heading font-bold text-2xl mb-2">Offres</h2>
+          <p className="text-(--text-secondary) text-sm mb-6 max-w-2xl">
+            Des formules claires, ajustables à votre contexte. Les prix sont indicatifs et
+            confirmés après un premier échange.
+          </p>
+          <ServiceOffers offers={service.offers} serviceTitle={service.title} />
+        </section>
+      ) : null}
     </div>
   )
 }
