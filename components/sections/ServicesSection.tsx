@@ -7,6 +7,7 @@ import { Icon } from "@iconify/react"
 import { SERVICES } from "@/data/portfolio-data"
 import type { Service } from "@/types/portfolio"
 import { T } from "@/components/ui/T"
+import { serviceSlug } from "@/lib/slug"
 
 const SERVICE_COLORS = [
   { from: "#7C3AED", to: "#A855F7", glow: "rgba(124,58,237,0.30)" },
@@ -15,16 +16,10 @@ const SERVICE_COLORS = [
   { from: "#6D28D9", to: "#9F67F5", glow: "rgba(109,40,217,0.25)" },
 ]
 
-const slugify = (str: string) =>
-  str
-    .toLowerCase()
-    .replace(/&/g, "et")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "")
-
 /**
  * Illustrations livrées avec le site (public/services, voir CREDITS.md).
- * Sert de repli quand la fiche service n'a pas de bannière propre.
+ * Indexées par slug canonique — la table `services` de Supabase ne stocke
+ * aucune colonne `banner`, c'est donc ce repli qui alimente les cartes.
  */
 const SERVICE_IMAGES: Record<string, string> = {
   "creation-de-sites-web-sur-mesure": "/services/creation-de-sites-web-sur-mesure.webp",
@@ -38,9 +33,8 @@ const SERVICE_IMAGES: Record<string, string> = {
 const LEGACY_PLACEHOLDER = /^\/services\/[a-z0-9-]+\.svg$/
 
 function resolveImage(service: Service): string | null {
-  const key = service.slug ?? slugify(service.title)
   if (service.banner && !LEGACY_PLACEHOLDER.test(service.banner)) return service.banner
-  return SERVICE_IMAGES[key] ?? null
+  return SERVICE_IMAGES[serviceSlug(service)] ?? null
 }
 
 /**
@@ -92,7 +86,7 @@ function useTilt(enabled = true) {
 
 function ServiceCard({ service, index }: { service: Service; index: number }) {
   const colors = SERVICE_COLORS[index % SERVICE_COLORS.length]
-  const href = `/services/${service.slug ?? slugify(service.title)}`
+  const href = `/services/${serviceSlug(service)}`
   const image = resolveImage(service)
   // Le tilt vit sur la carte interne : la reveal framer-motion reste
   // sur le wrapper, les deux n'écrivent jamais sur le même `transform`.
@@ -118,7 +112,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
           {image ? (
             <Image
               src={image}
-              alt={`Illustration du service : ${service.title}`}
+              alt={`${service.title}`}
               fill
               sizes="(min-width: 1200px) 560px, (min-width: 768px) 50vw, 100vw"
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
@@ -198,7 +192,7 @@ export function ServicesSection({ services = SERVICES.filter((s) => s.visible) }
             Mes services
           </span>
           <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
-            Ce que je peux faire{" "}
+            Ce que je fais{" "}
             <span className="gradient-text">pour vous</span>
           </h2>
           <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">

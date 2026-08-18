@@ -2,11 +2,14 @@ import ServiceBanner from "@/components/services/ServiceBanner"
 import ServiceOffers from "@/components/services/ServiceOffers"
 import ContactModal from "@/components/services/ContactModal"
 import { SERVICES } from "@/data/portfolio-data"
+import { serviceSlug } from "@/lib/slug"
 
+// Le contenu riche des fiches (long_description, offres, bannière) vit dans
+// data/portfolio-data.ts : la table `services` de Supabase ne porte pas ces
+// colonnes. On résout donc toujours depuis SERVICES, en calculant le slug de
+// la même façon que les cartes de la page d'accueil.
 export async function generateStaticParams() {
-  return SERVICES
-    .filter((s) => typeof s.slug === "string" && s.slug.length > 0)
-    .map((s) => ({ slug: s.slug as string }))
+  return SERVICES.map((s) => ({ slug: serviceSlug(s) }))
 }
 
 // Next 16 : `params` est une Promise, il faut l'attendre. La lire de façon
@@ -17,7 +20,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const { slug: rawSlug } = await params
   const slug = decodeURIComponent(String(rawSlug ?? "")).trim().toLowerCase()
 
-  const service = SERVICES.find((s) => ((s.slug ?? "").toLowerCase() === slug))
+  const service = SERVICES.find((s) => serviceSlug(s).toLowerCase() === slug)
 
   if (!service) {
     return (

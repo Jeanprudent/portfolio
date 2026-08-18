@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { SERVICES } from "@/data/portfolio-data"
+import { serviceSlug } from "@/lib/slug"
 import { Icon } from "@iconify/react"
 
 export default function Page() {
@@ -28,7 +29,7 @@ export default function Page() {
                 <p className="text-(--text-secondary) text-sm mt-2">{service.description}</p>
 
                 <div className="mt-4">
-                  <Link href={`/services/${service.slug}`} className="text-xs font-semibold inline-flex items-center gap-2">
+                  <Link href={`/services/${serviceSlug(service)}`} className="text-xs font-semibold inline-flex items-center gap-2">
                     En savoir plus
                     <Icon icon="line-md:arrow-right" width={14} />
                   </Link>
