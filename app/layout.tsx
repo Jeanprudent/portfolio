@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { SITE_URL } from "@/lib/site"
 import Script from "next/script"
 import { Syne, DM_Sans } from "next/font/google"
 import { ThemeProvider } from "@/components/layout/ThemeProvider"
@@ -20,7 +21,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://jeanprudent.dev"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Jean Prudent — Développeur Web & Designer | Cotonou, Bénin",
     template: "%s | Jean Prudent",

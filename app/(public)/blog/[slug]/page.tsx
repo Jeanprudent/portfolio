@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react"
 import { getBlogPost, getBlogPosts } from "@/lib/supabase-data"
 import { formatDate } from "@/lib/utils"
 import { sanitizeHtml } from "@/lib/sanitize"
+import { absoluteUrl } from "@/lib/site"
 import type { Metadata } from "next"
 
 // Relire l'article depuis Supabase à chaque requête (backoffice).
@@ -134,7 +135,7 @@ export default async function BlogPostPage({
       <div className="mt-8 flex items-center gap-3">
         <span className="text-sm text-(--text-muted)">Partager :</span>
         <a
-          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://jeanprudent.dev/blog/${post.slug}`)}`}
+          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(absoluteUrl(`/blog/${post.slug}`))}`}
           target="_blank"
           rel="noopener noreferrer"
           className="w-9 h-9 rounded-lg glass border border-(--glass-border) flex items-center justify-center text-(--text-secondary) hover:text-primary hover:border-primary/40 transition-all duration-200"
@@ -143,7 +144,7 @@ export default async function BlogPostPage({
           <Icon icon="line-md:linkedin" width={16} />
         </a>
         <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://jeanprudent.dev/blog/${post.slug}`)}`}
+          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(absoluteUrl(`/blog/${post.slug}`))}`}
           target="_blank"
           rel="noopener noreferrer"
           className="w-9 h-9 rounded-lg glass border border-(--glass-border) flex items-center justify-center text-(--text-secondary) hover:text-primary hover:border-primary/40 transition-all duration-200"

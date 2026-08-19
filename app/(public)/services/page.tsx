@@ -1,6 +1,14 @@
 import Link from "next/link"
+import type { Metadata } from "next"
 import { SERVICES } from "@/data/portfolio-data"
 import { serviceSlug } from "@/lib/slug"
+
+export const metadata: Metadata = {
+  title: "Services — création de site web, SEO et automatisation à Cotonou",
+  description:
+    "Création de sites web sur mesure, référencement naturel, maintenance WordPress et automatisation. Prestations pour PME, artisans et entrepreneurs à Cotonou et au Bénin.",
+  alternates: { canonical: "/services" },
+}
 import { Icon } from "@iconify/react"
 
 export default function Page() {

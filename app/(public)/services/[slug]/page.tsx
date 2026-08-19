@@ -1,9 +1,50 @@
 import ServiceBanner from "@/components/services/ServiceBanner"
 import ServiceOffers from "@/components/services/ServiceOffers"
 import ContactModal from "@/components/services/ContactModal"
+import { notFound } from "next/navigation"
+import type { Metadata } from "next"
 import { SERVICES } from "@/data/portfolio-data"
 import { serviceSlug } from "@/lib/slug"
+import { absoluteUrl } from "@/lib/site"
 import { CONTACT_EMAIL, CONTACT_WHATSAPP, CONTACT_PHONE_DISPLAY } from "@/lib/contact-info"
+
+function findService(slug: string) {
+  const normalized = decodeURIComponent(String(slug ?? "")).trim().toLowerCase()
+  return SERVICES.find((s) => serviceSlug(s).toLowerCase() === normalized)
+}
+
+// Sans ceci, les 4 fiches héritaient du titre générique du layout : Google
+// voyait quatre pages au même intitulé, et aucune URL canonique propre.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const service = findService(slug)
+  if (!service) return { title: "Service introuvable" }
+
+  const path = `/services/${serviceSlug(service)}`
+  const title = `${service.title} à Cotonou, Bénin`
+
+  return {
+    title,
+    description: service.description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "article",
+      title,
+      description: service.description,
+      url: absoluteUrl(path),
+      images: service.banner ? [{ url: service.banner }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: service.description,
+    },
+  }
+}
 
 // Le contenu riche des fiches (long_description, offres, bannière) vit dans
 // data/portfolio-data.ts : la table `services` de Supabase ne porte pas ces
@@ -17,20 +58,13 @@ export async function generateStaticParams() {
 // synchrone renvoyait `undefined` → toutes les fiches affichaient
 // « Service introuvable ».
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
-  // Normalize the incoming slug (handle URL encoding and casing)
-  const { slug: rawSlug } = await params
-  const slug = decodeURIComponent(String(rawSlug ?? "")).trim().toLowerCase()
+  const { slug } = await params
+  const service = findService(slug)
 
-  const service = SERVICES.find((s) => serviceSlug(s).toLowerCase() === slug)
-
-  if (!service) {
-    return (
-      <div className="container-max section-spacing">
-        <h2>Service introuvable</h2>
-        <p>Le service demandé est introuvable.</p>
-      </div>
-    )
-  }
+  // notFound() renvoie un vrai statut 404. L'ancien message rendu tel quel
+  // répondait 200 : Google indexait une page d'erreur comme du contenu valide
+  // (soft 404).
+  if (!service) notFound()
 
   // Safe handling of optional long_description
   const longDesc = service.long_description ?? service.description ?? ""
@@ -45,7 +79,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
       <div className="grid md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <h2 className="font-heading font-bold text-2xl mb-4">Pourquoi ce service est important à Cotonou & au Bénin</h2>
+          <h2 className="font-heading font-bold text-2xl mb-4">Pourquoi ce service est important pour votre activité au Bénin</h2>
           {/* prose-jp (et non `prose`, qui n'existe pas ici) : sans lui les
               paragraphes se collent les uns aux autres. */}
           <div className="prose-jp max-w-none">

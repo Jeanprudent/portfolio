@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next"
-
-const BASE_URL = "https://jprudent-portfolio.vercel.app"
+import { SITE_URL, absoluteUrl } from "@/lib/site"
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -9,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/gestion", "/api"],
     },
-    sitemap: `${BASE_URL}/sitemap.xml`,
-    host: BASE_URL,
+    sitemap: absoluteUrl("/sitemap.xml"),
+    host: SITE_URL,
   }
 }
