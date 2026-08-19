@@ -43,9 +43,9 @@ export const SERVICES: Service[] = [
     description:
       "Je conçois des sites web professionnels sur mesure, pensés pour valoriser votre image, offrir une expérience utilisateur fluide et transformer vos visiteurs en clients.",
     long_description:
-      `Problème : De nombreuses entreprises à Cotonou et au Bénin n'ont pas encore de présence en ligne adaptée aux besoins modernes : sites non responsives, navigation lente ou absence complète de contenu à jour. Résultat : le prospect qui cherche votre nom depuis son téléphone tombe sur une page illisible — ou sur rien du tout.
+      `Problème : De nombreuses entreprises à Cotonou et au Bénin n'ont pas encore de présence en ligne adaptée aux besoins modernes : sites non responsives, navigation lente ou absence complète de contenu à jour. Résultat : un prospect qui cherche votre nom depuis son téléphone, tombe sur une page illisible ou sur rien du tout.
 
-Aggravation : Sans un site performant, ces entreprises manquent d'opportunités, perdent des clients face à la concurrence et peinent à être trouvées via les recherches locales sur Google. Concrètement : un téléphone qui sonne moins, des devis qui partent chez le concurrent mieux référencé, et une activité qui repose entièrement sur le bouche-à-oreille.
+Sans un site performant, ces entreprises manquent d'opportunités, perdent des clients face à la concurrence et peinent à être trouvées via les recherches locales sur Google. Concrètement : un téléphone qui sonne moins, des devis qui partent chez le concurrent mieux référencé, et une activité qui repose entièrement sur le bouche-à-oreille.
 
 Solution : Je conçois des sites sur-mesure, mobile-first, rapides et optimisés pour le référencement local. Chaque projet inclut une stratégie de conversion pour transformer les visiteurs en demandes de devis : parcours clair, arguments hiérarchisés, formulaires courts et bouton d'appel toujours visible sur mobile.
 
@@ -308,7 +308,6 @@ export const SKILLS: Skill[] = [
   { id: "8", name: "SEO Technique", icon: "line-md:search-twotone", category: "seo", level: 85 },
   { id: "9", name: "Google Analytics", icon: "logos:google-analytics", category: "seo", level: 80 },
   // Tools
-  { id: "10", name: "Figma", icon: "logos:figma", category: "design", level: 78 },
   { id: "11", name: "n8n", icon: "simple-icons:n8n", category: "tools", level: 75 },
   { id: "12", name: "Git / GitHub", icon: "logos:git-icon", category: "tools", level: 82 },
 ]

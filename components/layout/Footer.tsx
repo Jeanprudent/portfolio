@@ -157,11 +157,11 @@ export function Footer({ config }: { config?: PortfolioConfig | null }) {
                 {email}
               </a>
               <a
-                href={`tel:+${whatsapp}`}
+                href={`tel:${whatsapp}`}
                 className="flex items-center gap-2 text-(--text-secondary) hover:text-primary text-sm transition-colors duration-200"
               >
                 <Icon icon="line-md:phone-call-loop" width={16} className="text-secondary shrink-0" />
-                {config?.whatsapp ? `+${whatsapp}` : CONTACT_PHONE_DISPLAY}
+                {config?.whatsapp ? `${whatsapp}` : CONTACT_PHONE_DISPLAY}
               </a>
               <a
                 href={whatsappLink(whatsapp)}
