@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { ParticlesCanvas } from "./ParticlesCanvas"
 import { useTranslation } from "react-i18next"
+import Link from "next/link"
 import type { PortfolioConfig } from "@/lib/supabase-data"
 // ROICalculator est retiré du hero (bloc commenté plus bas). L'import est
 // commenté avec lui : le laisser actif déclenche un avertissement de lint.
@@ -12,9 +13,9 @@ import type { PortfolioConfig } from "@/lib/supabase-data"
 
 export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
   const { t } = useTranslation()
-  const location = config?.location || "Cotonou, Bénin"
-  const disponible = config?.disponible !== false
-  const tagline = config?.tagline || "Je crée des sites web qui transforment votre présence en ligne en moteur de croissance."
+  // location / disponible / tagline ont été retirés : les blocs qui les
+  // affichaient (badge de localisation, accroche) sont commentés plus bas.
+  // Les rétablir en même temps que ces blocs si besoin.
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -78,11 +79,11 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
             </p>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <a href="/#projets" className="btn-primary" aria-label="Réserver audit SEO gratuit 15 minutes">
+              <Link href="/#projets" className="btn-primary">
                 <Icon icon="line-md:briefcase-twotone" width={18} />
                 Voir mes réalisations
                 <Icon icon="line-md:arrow-right" width={16} />
-              </a>
+              </Link>
 
               <a href="#contact" className="btn-ghost">
                 <Icon icon="line-md:telegram" width={18} />

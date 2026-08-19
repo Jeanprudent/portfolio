@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import { Icon } from "@iconify/react"
+import { CONTACT_EMAIL } from "@/lib/contact-info"
 
 export default function ContactModal({ projectType }: { projectType?: string }) {
   const [open, setOpen] = useState(false)
@@ -44,7 +45,7 @@ export default function ContactModal({ projectType }: { projectType?: string }) 
     const body = `Nom: ${name}%0AEmail: ${email}%0AType de projet: ${projectType}%0A%0AMessage:%0A${encodeURIComponent(
       message,
     )}`
-    window.location.href = `mailto:jeanprudent03@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`
     close()
   }
 

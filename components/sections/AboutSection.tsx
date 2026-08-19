@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react"
 import { useTranslation } from "react-i18next"
 import { useAutoTranslate } from "@/hooks/useAutoTranslate"
 import type { PortfolioConfig } from "@/lib/supabase-data"
+import { CONTACT_LOCATION } from "@/lib/contact-info"
 
 const HIGHLIGHTS = [
   {
@@ -22,7 +23,7 @@ const HIGHLIGHTS = [
 export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
   const { t } = useTranslation()
   const bio = useAutoTranslate(config?.bio || "")
-  const location = config?.location || "Cotonou, Bénin"
+  const location = config?.location || CONTACT_LOCATION
 
   return (
     <section id="a-propos" className="section-spacing">

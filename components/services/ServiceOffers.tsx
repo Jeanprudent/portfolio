@@ -1,8 +1,9 @@
 import { Icon } from "@iconify/react"
 import type { Offer } from "@/types/portfolio"
+import { CONTACT_EMAIL } from "@/lib/contact-info"
 
 const mailto = (subject: string, intro: string) =>
-  `mailto:jeanprudent03@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+  `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
     `Bonjour,\n\n${intro}\n\nMon nom :\nEmail :\nMessage :\n\n`,
   )}`
 

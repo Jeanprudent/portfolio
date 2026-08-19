@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 import { BESOIN_VALUES, besoinLabel } from "@/lib/contact-options"
+import { CONTACT_EMAIL } from "@/lib/contact-info"
 
 // Route dynamique : jamais mise en cache (envoi d'email à chaque requête).
 export const dynamic = "force-dynamic"
@@ -93,7 +94,7 @@ export async function POST(request: Request) {
 
   // Adresse destinataire (toi) et expéditeur (domaine vérifié sur Resend,
   // ou onboarding@resend.dev pour les tests).
-  const to = (process.env.CONTACT_EMAIL_TO || "jeanprudent03@gmail.com").trim()
+  const to = (process.env.CONTACT_EMAIL_TO || CONTACT_EMAIL).trim()
   const from = (process.env.CONTACT_EMAIL_FROM || "Portfolio <onboarding@resend.dev>").trim()
 
   const besoinTexte = besoinLabel(besoin)

@@ -10,6 +10,7 @@ import toast, { Toaster } from "react-hot-toast"
 import { useTranslation } from "react-i18next"
 import type { PortfolioConfig } from "@/lib/supabase-data"
 import { BESOINS, BESOIN_VALUES } from "@/lib/contact-options"
+import { CONTACT_EMAIL, CONTACT_WHATSAPP, CONTACT_LOCATION, whatsappLink } from "@/lib/contact-info"
 
 const schema = z.object({
   name: z.string().min(2, "Nom trop court"),
@@ -26,9 +27,9 @@ type FormData = z.infer<typeof schema>
 
 export function ContactSection({ config }: { config?: PortfolioConfig | null }) {
   const { t } = useTranslation()
-  const email = config?.email || "jeanprudent03@gmail.com"
-  const whatsapp = config?.whatsapp || "2290192175002"
-  const location = config?.location || "Cotonou, Bénin"
+  const email = config?.email || CONTACT_EMAIL
+  const whatsapp = config?.whatsapp || CONTACT_WHATSAPP
+  const location = config?.location || CONTACT_LOCATION
 
   const CONTACT_INFO = [
     {
@@ -47,7 +48,7 @@ export function ContactSection({ config }: { config?: PortfolioConfig | null }) 
       icon: "prime:whatsapp",
       label: "WhatsApp",
       value: `${whatsapp}`,
-      href: `https://wa.me/${whatsapp}`,
+      href: whatsappLink(whatsapp),
     },
     {
       icon: "line-md:map-marker-twotone",

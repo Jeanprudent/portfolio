@@ -3,6 +3,7 @@ import ServiceOffers from "@/components/services/ServiceOffers"
 import ContactModal from "@/components/services/ContactModal"
 import { SERVICES } from "@/data/portfolio-data"
 import { serviceSlug } from "@/lib/slug"
+import { CONTACT_EMAIL, CONTACT_WHATSAPP, CONTACT_PHONE_DISPLAY } from "@/lib/contact-info"
 
 // Le contenu riche des fiches (long_description, offres, bannière) vit dans
 // data/portfolio-data.ts : la table `services` de Supabase ne porte pas ces
@@ -63,8 +64,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             <p className="text-sm text-(--text-secondary) mb-4">Discutons de votre projet et obtenez un devis personnalisé.</p>
             <ContactModal projectType={service.title} />
             <div className="mt-4 text-sm text-(--text-secondary)">
-              <div>Téléphone: <a href="tel:+2290192175002">+229 01 92 17 50 02</a></div>
-              <div>Email: <a href="mailto:jeanprudent03@gmail.com">jeanprudent03@gmail.com</a></div>
+              <div>
+                Téléphone : <a href={`tel:+${CONTACT_WHATSAPP}`}>{CONTACT_PHONE_DISPLAY}</a>
+              </div>
+              <div>
+                Email : <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              </div>
             </div>
           </div>
         </aside>
