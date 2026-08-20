@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js"
 import { STATS, SERVICES, PROJECTS, TESTIMONIALS } from "@/data/portfolio-data"
 import { BLOG_POSTS } from "@/data/blog-data"
+import { serviceSlug } from "@/lib/slug"
 import type { Stat, Service, Project, Testimonial, BlogPost } from "@/types/portfolio"
 
 export type PortfolioConfig = {
@@ -50,6 +51,63 @@ export async function getServices(): Promise<Service[]> {
   } catch {
     return SERVICES.filter((s) => s.visible)
   }
+}
+
+/**
+ * Une fiche service par son slug.
+ *
+ * Le repli sur data/portfolio-data.ts n'est pas décoratif : c'est lui qui
+ * garantit que la page reste servie si Supabase est injoignable. Il couvre
+ * aussi les colonnes que la base ne porte pas encore pour un service donné
+ * (long_description, offers), tant que le contenu n'y a pas été repris.
+ */
+export async function getService(slug: string): Promise<Service | null> {
+  const local = SERVICES.find((s) => serviceSlug(s) === slug) ?? null
+
+  try {
+    const { data } = await client()
+      .from("services")
+      .select("*")
+      .eq("slug", slug)
+      .maybeSingle()
+
+    if (data) {
+      const distant = data as Service
+      // Fusion : la base fait autorité, le fichier comble les trous. Sans
+      // cela, activer la base viderait les offres et le texte long des
+      // services pas encore repris.
+      return {
+        ...local,
+        ...Object.fromEntries(
+          Object.entries(distant).filter(([, v]) => v !== null && v !== undefined)
+        ),
+      } as Service
+    }
+  } catch {
+    /* repli ci-dessous */
+  }
+
+  return local
+}
+
+/** Slugs des services visibles, pour generateStaticParams. */
+export async function getServiceSlugs(): Promise<string[]> {
+  try {
+    const { data } = await client()
+      .from("services")
+      .select("slug")
+      .eq("visible", true)
+
+    const slugs = (data ?? [])
+      .map((r) => (r as { slug: string | null }).slug)
+      .filter((s): s is string => Boolean(s))
+
+    if (slugs.length) return slugs
+  } catch {
+    /* repli ci-dessous */
+  }
+
+  return SERVICES.filter((s) => s.visible).map(serviceSlug)
 }
 
 export async function getProjects(): Promise<Project[]> {

@@ -20,7 +20,8 @@ export default function ServiceOffers({
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {offers.map((offer) => (
         <div key={offer.id} className="glass-card flex flex-col p-6">
-          <h4 className="font-heading font-semibold text-lg mb-2">{offer.name}</h4>
+          {/* h3 : ces cartes sont filles du h2 « Offres ». */}
+          <h3 className="font-heading font-semibold text-lg mb-2">{offer.name}</h3>
           <p className="text-sm text-(--text-secondary) leading-relaxed">{offer.description}</p>
 
           <dl className="mt-5 space-y-3 border-t border-(--glass-border) pt-4">

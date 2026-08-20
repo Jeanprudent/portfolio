@@ -94,7 +94,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
         <aside className="md:sticky md:top-24 md:self-start">
           <div className="glass-card p-6">
-            <h4 className="font-semibold mb-2">Intéressé ?</h4>
+            {/* h3 et non h4 : le titre précédent est un h2, sauter un niveau
+                casse la hiérarchie pour les lecteurs d'écran et Google. */}
+            <h3 className="font-semibold mb-2">Intéressé ?</h3>
             <p className="text-sm text-(--text-secondary) mb-4">Discutons de votre projet et obtenez un devis personnalisé.</p>
             <ContactModal projectType={service.title} />
             <div className="mt-4 text-sm text-(--text-secondary)">

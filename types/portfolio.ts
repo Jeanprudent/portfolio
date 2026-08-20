@@ -37,6 +37,12 @@ export interface Service {
   description: string
   long_description?: string
   banner?: string
+  /**
+   * Contenu structuré des sections de la fiche (colonne jsonb `content`,
+   * migration 004). Volontairement typé `unknown` : la forme est validée à
+   * la lecture par parseServiceContent, jamais supposée ici.
+   */
+  content?: unknown
   offers?: Offer[]
   icon: string
   order_index: number
