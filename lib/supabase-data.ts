@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js"
 import { STATS, SERVICES, PROJECTS, TESTIMONIALS } from "@/data/portfolio-data"
 import { BLOG_POSTS } from "@/data/blog-data"
 import { serviceSlug } from "@/lib/slug"
+import { mergeService } from "@/lib/merge-service"
 import type { Stat, Service, Project, Testimonial, BlogPost } from "@/types/portfolio"
 
 export type PortfolioConfig = {
@@ -71,18 +72,9 @@ export async function getService(slug: string): Promise<Service | null> {
       .eq("slug", slug)
       .maybeSingle()
 
-    if (data) {
-      const distant = data as Service
-      // Fusion : la base fait autorité, le fichier comble les trous. Sans
-      // cela, activer la base viderait les offres et le texte long des
-      // services pas encore repris.
-      return {
-        ...local,
-        ...Object.fromEntries(
-          Object.entries(distant).filter(([, v]) => v !== null && v !== undefined)
-        ),
-      } as Service
-    }
+    // Fusion : la base fait autorité, le fichier comble les trous.
+    // Voir lib/merge-service.ts — un tableau vide n'est pas une valeur.
+    if (data) return mergeService(local, data as Service)
   } catch {
     /* repli ci-dessous */
   }

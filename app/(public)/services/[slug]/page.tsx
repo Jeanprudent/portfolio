@@ -1,107 +1,106 @@
-import ServiceBanner from "@/components/services/ServiceBanner"
-import ServiceOffers from "@/components/services/ServiceOffers"
-import ContactModal from "@/components/services/ContactModal"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
-import { SERVICES } from "@/data/portfolio-data"
+
+import ServiceHero from "@/components/services/ServiceHero"
+import ServiceDefinition from "@/components/services/ServiceDefinition"
+import ServiceWhy from "@/components/services/ServiceWhy"
+import ServiceIncludes from "@/components/services/ServiceIncludes"
+import ServiceProcess from "@/components/services/ServiceProcess"
+import ServicePricing from "@/components/services/ServicePricing"
+import ServiceFaq from "@/components/services/ServiceFaq"
+import RelatedServices from "@/components/services/RelatedServices"
+import ContactModal from "@/components/services/ContactModal"
+
+import { getService, getServiceSlugs } from "@/lib/supabase-data"
+import { parseServiceContent } from "@/lib/service-content"
 import { serviceSlug } from "@/lib/slug"
 import { absoluteUrl } from "@/lib/site"
-import { CONTACT_EMAIL, CONTACT_WHATSAPP, CONTACT_PHONE_DISPLAY } from "@/lib/contact-info"
+import {
+  CONTACT_EMAIL,
+  CONTACT_WHATSAPP,
+  CONTACT_PHONE_DISPLAY,
+} from "@/lib/contact-info"
 
-function findService(slug: string) {
-  const normalized = decodeURIComponent(String(slug ?? "")).trim().toLowerCase()
-  return SERVICES.find((s) => serviceSlug(s).toLowerCase() === normalized)
+const normalize = (slug: string) =>
+  decodeURIComponent(String(slug ?? "")).trim().toLowerCase()
+
+// Les slugs viennent de la base, avec repli sur le fichier : un service créé
+// depuis le back-office doit être prérendu comme les autres.
+export async function generateStaticParams() {
+  const slugs = await getServiceSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
-// Sans ceci, les 4 fiches héritaient du titre générique du layout : Google
-// voyait quatre pages au même intitulé, et aucune URL canonique propre.
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const service = findService(slug)
+  const service = await getService(normalize(slug))
   if (!service) return { title: "Service introuvable" }
 
-  const path = `/services/${serviceSlug(service)}`
-  const title = `${service.title} à Cotonou, Bénin`
+  const path = `/services/${service.slug ?? serviceSlug(service)}`
+  const content = parseServiceContent(service.content)
+  const description = content.hero.tagline || service.description
 
+  // Le gabarit « %s | Jean Prudent » du layout consomme 15 caractères :
+  // au-delà de 45 ici, le titre est tronqué dans les résultats Google.
   return {
-    title,
-    description: service.description,
+    title: service.title,
+    description,
     alternates: { canonical: path },
     openGraph: {
       type: "article",
-      title,
-      description: service.description,
+      title: service.title,
+      description,
       url: absoluteUrl(path),
       images: service.banner ? [{ url: service.banner }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description: service.description,
+      title: service.title,
+      description,
     },
   }
 }
 
-// Le contenu riche des fiches (long_description, offres, bannière) vit dans
-// data/portfolio-data.ts : la table `services` de Supabase ne porte pas ces
-// colonnes. On résout donc toujours depuis SERVICES, en calculant le slug de
-// la même façon que les cartes de la page d'accueil.
-export async function generateStaticParams() {
-  return SERVICES.map((s) => ({ slug: serviceSlug(s) }))
-}
-
-// Next 16 : `params` est une Promise, il faut l'attendre. La lire de façon
-// synchrone renvoyait `undefined` → toutes les fiches affichaient
-// « Service introuvable ».
-export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
   const { slug } = await params
-  const service = findService(slug)
+  const service = await getService(normalize(slug))
 
-  // notFound() renvoie un vrai statut 404. L'ancien message rendu tel quel
-  // répondait 200 : Google indexait une page d'erreur comme du contenu valide
-  // (soft 404).
+  // Vrai 404 : rendre un message en 200 serait un soft 404, indexé par
+  // Google comme du contenu valide.
   if (!service) notFound()
 
-  // Safe handling of optional long_description
-  const longDesc = service.long_description ?? service.description ?? ""
-  const paragraphs = longDesc
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter(Boolean)
+  const content = parseServiceContent(service.content)
+  const currentSlug = service.slug ?? serviceSlug(service)
 
   return (
     <div className="container-max section-spacing">
-      <ServiceBanner service={service} />
+      <ServiceHero service={service} content={content} />
 
-      <div className="grid md:grid-cols-3 gap-8">
+      {/* Encart de contact, en tête de colonne tant que la page est courte. */}
+      <div className="grid gap-8 md:grid-cols-3">
         <div className="md:col-span-2">
-          <h2 className="font-heading font-bold text-2xl mb-4">Pourquoi ce service est important pour votre activité au Bénin</h2>
-          {/* prose-jp (et non `prose`, qui n'existe pas ici) : sans lui les
-              paragraphes se collent les uns aux autres. */}
-          <div className="prose-jp max-w-none">
-            {paragraphs.length ? (
-              paragraphs.map((p: string, i: number) => <p key={i}>{p}</p>)
-            ) : (
-              <p>{service.description}</p>
-            )}
-          </div>
-
+          <ServiceDefinition content={content} />
         </div>
 
         <aside className="md:sticky md:top-24 md:self-start">
           <div className="glass-card p-6">
-            {/* h3 et non h4 : le titre précédent est un h2, sauter un niveau
-                casse la hiérarchie pour les lecteurs d'écran et Google. */}
-            <h3 className="font-semibold mb-2">Intéressé ?</h3>
-            <p className="text-sm text-(--text-secondary) mb-4">Discutons de votre projet et obtenez un devis personnalisé.</p>
+            <h2 className="font-heading font-semibold text-lg mb-2">Intéressé ?</h2>
+            <p className="text-sm text-(--text-secondary) mb-4">
+              Discutons de votre projet et obtenez un devis personnalisé.
+            </p>
             <ContactModal projectType={service.title} />
-            <div className="mt-4 text-sm text-(--text-secondary)">
+            <div className="mt-4 text-sm text-(--text-secondary) space-y-1">
               <div>
-                Téléphone : <a href={`tel:+${CONTACT_WHATSAPP}`}>{CONTACT_PHONE_DISPLAY}</a>
+                Téléphone :{" "}
+                <a href={`tel:+${CONTACT_WHATSAPP}`}>{CONTACT_PHONE_DISPLAY}</a>
               </div>
               <div>
                 Email : <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
@@ -111,18 +110,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         </aside>
       </div>
 
-      {/* Les offres sortent de la colonne 2/3 : sur la même largeur que la
-          bannière, les 3 cartes respirent au lieu d'être tassées. */}
-      {service.offers?.length ? (
-        <section className="mt-14">
-          <h2 className="font-heading font-bold text-2xl mb-2">Offres</h2>
-          <p className="text-(--text-secondary) text-sm mb-6 max-w-2xl">
-            Des formules claires, ajustables à votre contexte. Les prix sont indicatifs et
-            confirmés après un premier échange.
-          </p>
-          <ServiceOffers offers={service.offers} serviceTitle={service.title} />
-        </section>
-      ) : null}
+      <ServiceWhy content={content} />
+      <ServiceIncludes content={content} />
+      <ServiceProcess content={content} />
+      <ServicePricing service={service} content={content} />
+      <ServiceFaq content={content} />
+      <RelatedServices currentSlug={currentSlug} />
     </div>
   )
 }
