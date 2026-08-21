@@ -106,6 +106,28 @@ export type ServiceContent = ServiceContentBase & {
   hasFaq: boolean
 }
 
+/**
+ * Retire les drapeaux `has*` avant écriture en base.
+ *
+ * Ils sont DÉDUITS du contenu à chaque lecture : les persister créerait une
+ * seconde source de vérité, fatalement désynchronisée dès qu'un champ change
+ * par un autre chemin (SQL direct, import).
+ */
+export function toStored(c: ServiceContent): ServiceContentBase {
+  // Sélection explicite plutôt que déstructuration à rebut : le jour où une
+  // section s'ajoute, oublier de la lister ici se voit tout de suite.
+  return {
+    version: c.version,
+    hero: c.hero,
+    definition: c.definition,
+    why: c.why,
+    includes: c.includes,
+    process: c.process,
+    pricing: c.pricing,
+    faq: c.faq,
+  }
+}
+
 const rempli = (b: { title: string; text: string }) => Boolean(b.title || b.text)
 
 export function parseServiceContent(raw: unknown): ServiceContent {

@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test"
-import { parseServiceContent } from "../../lib/service-content"
+import { parseServiceContent, toStored } from "../../lib/service-content"
 
 // Ce que garantit ce fichier : quelle que soit la forme de `content` en base,
 // parseServiceContent renvoie toujours un document exploitable et ne lève
@@ -76,4 +76,32 @@ test("les bénéfices vivent dans le temps « solution » du PASA", () => {
   expect(c.why.solution.benefits).toHaveLength(2)
   expect(c.why.solution.benefits[1].icon).toBe("")
   expect(c.hasWhy).toBe(true)
+})
+
+test("toStored retire les drapeaux calculés avant écriture", () => {
+  const c = parseServiceContent({ faq: [{ q: "Q", a: "R" }] })
+  const stocke = toStored(c) as Record<string, unknown>
+
+  expect(stocke.hasFaq).toBeUndefined()
+  expect(stocke.hasWhy).toBeUndefined()
+  expect(stocke.version).toBe(1)
+  expect(stocke.faq).toHaveLength(1)
+})
+
+test("un aller-retour lecture -> écriture -> lecture ne perd rien", () => {
+  const initial = {
+    hero: { tagline: "Accroche", badges: ["Next.js"] },
+    why: { solution: { title: "La réponse", benefits: [{ title: "Rapide", text: "…" }] } },
+    process: { steps: [{ title: "Cadrage", text: "…" }] },
+    faq: [{ q: "Q", a: "R" }],
+  }
+  const aller = parseServiceContent(initial)
+  const retour = parseServiceContent(toStored(aller))
+
+  expect(retour.hero.tagline).toBe("Accroche")
+  expect(retour.hero.badges).toEqual(["Next.js"])
+  expect(retour.why.solution.benefits).toHaveLength(1)
+  expect(retour.process.steps[0].title).toBe("Cadrage")
+  expect(retour.faq).toHaveLength(1)
+  expect(retour.hasWhy).toBe(true)
 })

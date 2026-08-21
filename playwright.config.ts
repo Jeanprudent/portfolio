@@ -18,9 +18,16 @@ export default defineConfig({
   // 'list' en local : le rapport HTML ouvre un serveur qui bloque le terminal.
   reporter: process.env.CI ? "html" : "list",
 
+  // 90 s : en dev, Turbopack compile chaque route à sa première visite, ce
+  // qui dépasse largement les 30 s par défaut. Les tests qui touchaient une
+  // route en premier échouaient donc pour une raison sans rapport avec ce
+  // qu'ils vérifient. Les visites suivantes prennent moins de 2 s.
+  timeout: 90_000,
+
   use: {
     baseURL: "http://localhost:3100",
     trace: "on-first-retry",
+    navigationTimeout: 60_000,
   },
 
   // Port dédié 3100 : les tests n'entrent pas en conflit avec un

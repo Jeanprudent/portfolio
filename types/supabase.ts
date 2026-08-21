@@ -1,3 +1,4 @@
+
 export type Database = {
   public: {
     Tables: {
@@ -64,27 +65,45 @@ export type Database = {
         }
         Relationships: []
       }
+      // Colonnes slug, banner, long_description, offers et content ajoutées
+      // par les migrations 003 et 004. Sans elles ici, le client Supabase
+      // typé rejette les écritures du back-office.
       services: {
         Row: {
           id: string
           title: string
+          slug: string | null
           description: string
+          long_description: string | null
+          banner: string | null
           icon: string
+          offers: unknown
+          content: unknown
           order_index: number
           visible: boolean
           created_at: string
         }
         Insert: {
           title: string
+          slug?: string | null
           description: string
+          long_description?: string | null
+          banner?: string | null
           icon?: string
+          offers?: unknown
+          content?: unknown
           order_index?: number
           visible?: boolean
         }
         Update: {
           title?: string
+          slug?: string | null
           description?: string
+          long_description?: string | null
+          banner?: string | null
           icon?: string
+          offers?: unknown
+          content?: unknown
           order_index?: number
           visible?: boolean
         }
