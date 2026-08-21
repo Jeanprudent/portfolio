@@ -281,7 +281,7 @@ export default function AdminBlogPage() {
 
             <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               <button onClick={() => togglePublish(post.id)} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-white/5" title={post.published ? "Dépublier" : "Publier"}>
-                <Icon icon={post.published ? "line-md:eye-off-twotone" : "line-md:eye-twotone"} width={16} className={post.published ? "text-green-400" : "text-white/30"} />
+                <Icon icon={post.published ? "line-md:watch-off" : "line-md:watch"} width={16} className={post.published ? "text-green-400" : "text-white/30"} />
               </button>
               <button onClick={() => setEditing(post)} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors duration-200">
                 <Icon icon="line-md:pencil-twotone" width={16} />

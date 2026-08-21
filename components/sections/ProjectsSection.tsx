@@ -167,7 +167,7 @@ export function ProjectsSection({ projects = PROJECTS }: { projects?: Project[] 
             Vous avez un projet en tête ?
           </p>
           <a href="#contact" className="btn-primary inline-flex">
-            <Icon icon="line-md:chat-arrow-up-twotone" width={18} />
+            <Icon icon="line-md:chat-twotone" width={18} />
             Discutons de votre projet
           </a>
         </motion.div>

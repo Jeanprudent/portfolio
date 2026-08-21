@@ -150,7 +150,7 @@ export default function AdminLoginPage() {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
                   aria-label={showPwd ? "Masquer" : "Afficher"}
                 >
-                  <Icon icon={showPwd ? "line-md:eye-off" : "line-md:eye"} width={18} />
+                  <Icon icon={showPwd ? "line-md:watch-off" : "line-md:watch"} width={18} />
                 </button>
               </div>
               {errors.password && (

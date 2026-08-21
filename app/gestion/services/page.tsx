@@ -14,7 +14,7 @@ const ICON_OPTIONS = [
   "line-md:laptop-twotone",
   "line-md:search-twotone",
   "line-md:cog-loop",
-  "line-md:lightning-twotone-loop",
+  "line-md:speed-twotone",
   "line-md:star-twotone",
   "line-md:briefcase-twotone",
   "line-md:pencil-alt-twotone",
@@ -316,7 +316,7 @@ export default function AdminServicesPage() {
                   className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-white/5"
                   title={service.visible ? "Masquer" : "Afficher"}
                 >
-                  <Icon icon={service.visible ? "line-md:eye-twotone" : "line-md:eye-off-twotone"} width={16} className={service.visible ? "text-white/50" : "text-white/20"} />
+                  <Icon icon={service.visible ? "line-md:watch" : "line-md:watch-off"} width={16} className={service.visible ? "text-white/50" : "text-white/20"} />
                 </button>
                 <button
                   onClick={() => setEditing(service)}

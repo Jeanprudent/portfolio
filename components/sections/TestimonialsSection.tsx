@@ -10,12 +10,15 @@ import { T } from "@/components/ui/T"
 function StarRating({ rating }: { rating: number }) {
   return (
     <div className="flex gap-0.5">
+      {/* Même icône pour les cinq étoiles, la couleur fait la différence :
+          `line-md:star-outline` n'existe pas et les étoiles vides ne
+          s'affichaient donc pas du tout. */}
       {Array.from({ length: 5 }).map((_, i) => (
         <Icon
           key={i}
-          icon={i < rating ? "line-md:star-twotone" : "line-md:star-outline"}
+          icon="line-md:star-twotone"
           width={16}
-          className={i < rating ? "text-yellow-400" : "text-(--text-muted)"}
+          className={i < rating ? "text-yellow-400" : "text-(--text-muted) opacity-40"}
         />
       ))}
     </div>
@@ -41,7 +44,7 @@ export function TestimonialsSection({ testimonials = TESTIMONIALS.filter((t) => 
           transition={{ duration: 0.6 }}
         >
           <span className="section-label mb-4 inline-flex">
-            <Icon icon="line-md:chat-arrow-up-twotone" width={14} />
+            <Icon icon="line-md:chat-twotone" width={14} />
             Témoignages
           </span>
           <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">

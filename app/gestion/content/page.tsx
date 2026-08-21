@@ -346,7 +346,7 @@ function TestimonialsTab() {
           </div>
           <div className="flex items-center gap-1 shrink-0">
             <button onClick={() => toggleVisible(t.id)} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-white/5" title={t.visible ? "Masquer" : "Afficher"}>
-              <Icon icon={t.visible ? "line-md:eye-twotone" : "line-md:eye-off-twotone"} width={16} className={t.visible ? "text-white/50" : "text-white/20"} />
+              <Icon icon={t.visible ? "line-md:watch" : "line-md:watch-off"} width={16} className={t.visible ? "text-white/50" : "text-white/20"} />
             </button>
             <button onClick={() => setEditing(t)} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors duration-200">
               <Icon icon="line-md:pencil-twotone" width={16} />

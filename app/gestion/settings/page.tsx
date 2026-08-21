@@ -181,10 +181,10 @@ export default function AdminSettingsPage() {
             <Field label="Facebook" id="facebook" value={profile.facebook_url} onChange={set("facebook_url")} placeholder="https://facebook.com/votre-profil" />
           </Section>
 
-          <Section title="Sécurité" icon="line-md:lock-twotone">
+          <Section title="Sécurité" icon="line-md:security-twotone">
             <p className="text-white/40 text-sm">Pour changer votre mot de passe, utilisez le lien "Mot de passe oublié" sur la page de connexion.</p>
             <div className="flex items-center gap-3 p-3 rounded-xl text-sm" style={{ background: "rgba(6,182,212,0.08)", border: "1px solid rgba(6,182,212,0.2)" }}>
-              <Icon icon="line-md:shield-twotone" width={18} className="text-cyan-400 shrink-0" />
+              <Icon icon="line-md:security-twotone" width={18} className="text-cyan-400 shrink-0" />
               <span className="text-white/60">
                 Authentification gérée par <span className="text-cyan-400 font-medium">Supabase Auth</span> — double facteur disponible depuis le dashboard Supabase.
               </span>
