@@ -13,7 +13,11 @@ export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  // Une reprise en local aussi : les workers partagent un unique serveur de
+  // dev, et une page peut manquer son rendu pendant que Turbopack compile
+  // pour un autre test. Un vrai échec échoue les deux fois — la reprise
+  // absorbe la contention, elle ne masque rien.
+  retries: process.env.CI ? 2 : 1,
   workers: process.env.CI ? 1 : undefined,
   // 'list' en local : le rapport HTML ouvre un serveur qui bloque le terminal.
   reporter: process.env.CI ? "html" : "list",

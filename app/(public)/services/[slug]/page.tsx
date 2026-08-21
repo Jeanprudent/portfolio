@@ -10,6 +10,7 @@ import ServicePricing from "@/components/services/ServicePricing"
 import ServiceFaq from "@/components/services/ServiceFaq"
 import RelatedServices from "@/components/services/RelatedServices"
 import ContactModal from "@/components/services/ContactModal"
+import { ServiceJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd"
 
 import { getService, getServiceSlugs } from "@/lib/supabase-data"
 import { parseServiceContent } from "@/lib/service-content"
@@ -82,6 +83,18 @@ export default async function Page({
 
   return (
     <div className="container-max section-spacing">
+      <ServiceJsonLd
+        service={service}
+        content={content}
+        path={`/services/${currentSlug}`}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Services", path: "/services" },
+          { name: service.title, path: `/services/${currentSlug}` },
+        ]}
+      />
+
       <ServiceHero service={service} content={content} />
 
       {/* Encart de contact, en tête de colonne tant que la page est courte. */}

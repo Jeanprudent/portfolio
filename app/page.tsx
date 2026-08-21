@@ -9,6 +9,7 @@ import { SkillsSection } from "@/components/sections/SkillsSection"
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection"
 import { FaqSection } from "@/components/sections/FaqSection"
 import { ContactSection } from "@/components/sections/ContactSection"
+import { HomeJsonLd } from "@/components/seo/JsonLd"
 import {
   getStats,
   getServices,
@@ -34,6 +35,7 @@ export default async function HomePage() {
   return (
     <>
       <Navbar />
+      <HomeJsonLd />
       <main>
         <HeroSection config={config} />
         <StatsSection stats={stats} />

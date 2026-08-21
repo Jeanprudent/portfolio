@@ -1,11 +1,16 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Icon } from "@iconify/react"
+import type { Metadata } from "next"
+
+import ArticleHero from "@/components/blog/ArticleHero"
+import RelatedPosts from "@/components/blog/RelatedPosts"
+import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd"
+
 import { getBlogPost, getBlogPosts } from "@/lib/supabase-data"
-import { formatDate } from "@/lib/utils"
 import { sanitizeHtml } from "@/lib/sanitize"
 import { absoluteUrl } from "@/lib/site"
-import type { Metadata } from "next"
+import { CONTACT_EMAIL } from "@/lib/contact-info"
 
 // Relire l'article depuis Supabase à chaque requête (backoffice).
 export const dynamic = "force-dynamic"
@@ -17,10 +22,30 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const post = await getBlogPost(slug)
-  if (!post) return {}
+  if (!post) return { title: "Article introuvable" }
+
+  const path = `/blog/${post.slug}`
+
+  // Le gabarit « %s | Jean Prudent » du layout ajoute 15 caractères : au-delà
+  // de 45 ici, le titre est tronqué dans les résultats Google.
   return {
-    title: `${post.title} — Jean Prudent IDOHOU`,
+    title: post.title,
     description: post.excerpt,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.excerpt,
+      url: absoluteUrl(path),
+      publishedTime: post.created_at,
+      modifiedTime: post.updated_at || post.created_at,
+      images: post.cover_url ? [{ url: post.cover_url }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+    },
   }
 }
 
@@ -33,160 +58,118 @@ export default async function BlogPostPage({
   const post = await getBlogPost(slug)
   if (!post) notFound()
 
-  const related = (await getBlogPosts()).filter((p) => p.id !== post.id).slice(0, 2)
+  const related = (await getBlogPosts()).filter((p) => p.id !== post.id).slice(0, 3)
+  const url = absoluteUrl(`/blog/${post.slug}`)
 
   return (
-    <article className="section-spacing container-max max-w-3xl">
-      {/* Back */}
+    <div className="container-max section-spacing">
+      <ArticleJsonLd post={post} />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Blog", path: "/blog" },
+          { name: post.title, path: `/blog/${post.slug}` },
+        ]}
+      />
+
       <Link
         href="/blog"
-        className="inline-flex items-center gap-1.5 text-sm text-(--text-secondary) hover:text-primary transition-colors duration-200 mb-10 group"
+        className="group mb-6 inline-flex items-center gap-1.5 text-sm text-(--text-secondary) transition-colors duration-200 hover:text-primary"
       >
         <Icon
           icon="line-md:arrow-left"
           width={14}
-          className="group-hover:-translate-x-0.5 transition-transform duration-200"
+          aria-hidden
+          className="transition-transform duration-200 group-hover:-translate-x-0.5"
         />
         Retour au blog
       </Link>
 
-      {/* Cover */}
-      <div
-        className="w-full h-56 md:h-72 rounded-2xl flex items-center justify-center mb-8 overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, rgba(124,58,237,0.12), rgba(168,85,247,0.08))",
-          border: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
-        {post.cover_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={post.cover_url} alt={post.title} className="w-full h-full object-cover" />
-        ) : (
-          <Icon icon="line-md:pencil-alt-twotone" width={60} className="text-primary/25" />
-        )}
-      </div>
+      <ArticleHero post={post} />
 
-      {/* Tags */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        {post.tags.map((tag) => (
-          <span
-            key={tag}
-            className="px-2.5 py-1 rounded-lg text-xs font-medium"
-            style={{ background: "rgba(124,58,237,0.15)", color: "#A855F7" }}
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      {/* Title */}
-      <h1 className="font-heading font-bold text-3xl md:text-4xl text-(--text-primary) leading-tight mb-4">
-        {post.title}
-      </h1>
-
-      {/* Meta */}
-      <div className="flex items-center gap-4 text-sm text-(--text-muted) mb-10 pb-8" style={{ borderBottom: "1px solid var(--glass-border)" }}>
-        <span className="flex items-center gap-1.5">
-          <Icon icon="line-md:person-twotone" width={14} />
-          Jean Prudent IDOHOU
-        </span>
-        <span className="flex items-center gap-1.5">
-          <Icon icon="line-md:calendar-twotone" width={14} />
-          <time dateTime={post.created_at}>{formatDate(post.created_at)}</time>
-        </span>
-      </div>
-
-      {/* Content */}
-      <div
-        className="prose-jp"
-        dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
-      />
-
-      {/* Author CTA */}
-      <div
-        className="mt-14 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-5"
-        style={{
-          background: "rgba(124,58,237,0.08)",
-          border: "1px solid rgba(124,58,237,0.2)",
-        }}
-      >
-        <div
-          className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0"
-          style={{ background: "rgba(124,58,237,0.2)", border: "1px solid rgba(124,58,237,0.3)" }}
-        >
-          <Icon icon="line-md:person-twotone" width={28} className="text-[#A855F7]" />
+      {/* Même gabarit que les fiches services : lecture en 2/3, encart collé. */}
+      <div className="grid gap-8 md:grid-cols-3">
+        <div className="md:col-span-2">
+          <div
+            className="prose-jp max-w-none"
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
+          />
         </div>
-        <div className="flex-1">
-          <p className="text-white font-semibold text-sm mb-0.5">Jean Prudent IDOHOU</p>
-          <p className="text-white/50 text-sm">
-            Développeur web &amp; Designer basé à Cotonou. Vous avez un projet web ?
-          </p>
-        </div>
-        <Link
-          href="/#contact"
-          className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white shrink-0 transition-all duration-200 hover:scale-[1.03]"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
-        >
-          Me contacter
-        </Link>
-      </div>
 
-      {/* Share */}
-      <div className="mt-8 flex items-center gap-3">
-        <span className="text-sm text-(--text-muted)">Partager :</span>
-        <a
-          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(absoluteUrl(`/blog/${post.slug}`))}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-9 h-9 rounded-lg glass border border-(--glass-border) flex items-center justify-center text-(--text-secondary) hover:text-primary hover:border-primary/40 transition-all duration-200"
-          aria-label="Partager sur LinkedIn"
-        >
-          <Icon icon="line-md:linkedin" width={16} />
-        </a>
-        <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(absoluteUrl(`/blog/${post.slug}`))}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-9 h-9 rounded-lg glass border border-(--glass-border) flex items-center justify-center text-(--text-secondary) hover:text-primary hover:border-primary/40 transition-all duration-200"
-          aria-label="Partager sur Facebook"
-        >
-          <Icon icon="line-md:facebook" width={16} />
-        </a>
-      </div>
-
-      {/* Related posts */}
-      {related.length > 0 && (
-        <div className="mt-16">
-          <h2 className="font-heading font-bold text-xl text-(--text-primary) mb-6">
-            Articles similaires
-          </h2>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {related.map((rel) => (
-              <Link
-                key={rel.id}
-                href={`/blog/${rel.slug}`}
-                className="glass-card p-5 group hover:border-primary/30 transition-colors duration-300"
+        <aside className="md:sticky md:top-24 md:self-start">
+          <div className="glass-card p-6">
+            <div className="mb-4 flex items-center gap-3">
+              <span
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                style={{
+                  background: "rgba(124,58,237,0.15)",
+                  border: "1px solid rgba(124,58,237,0.3)",
+                }}
               >
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  {rel.tags.slice(0, 2).map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-0.5 rounded text-xs"
-                      style={{ background: "rgba(124,58,237,0.15)", color: "#A855F7" }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-sm font-semibold text-(--text-primary) group-hover:text-primary transition-colors duration-200 leading-snug mb-1">
-                  {rel.title}
+                <Icon
+                  icon="line-md:person-twotone"
+                  width={22}
+                  aria-hidden
+                  className="text-primary"
+                />
+              </span>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-(--text-primary)">
+                  Jean Prudent IDOHOU
                 </p>
-                <p className="text-xs text-(--text-muted)">{formatDate(rel.created_at)}</p>
-              </Link>
-            ))}
+                <p className="text-xs text-(--text-muted)">Développeur web &amp; designer</p>
+              </div>
+            </div>
+
+            <p className="mb-4 text-sm leading-relaxed text-(--text-secondary)">
+              J&apos;accompagne les PME et entrepreneurs de Cotonou, de la conception
+              du site à son référencement. Un projet en tête ?
+            </p>
+
+            <Link href="/#contact" className="btn-primary w-full justify-center text-sm">
+              <Icon icon="line-md:telegram" width={16} aria-hidden />
+              Me contacter
+            </Link>
+
+            <div className="mt-4 space-y-1 text-sm text-(--text-secondary)">
+              <div>
+                Email : <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              </div>
+            </div>
+
+            <div
+              className="mt-5 border-t pt-4"
+              style={{ borderColor: "var(--glass-border)" }}
+            >
+              <p className="mb-2 text-xs uppercase tracking-wide text-(--text-muted)">
+                Partager
+              </p>
+              <div className="flex items-center gap-2">
+                <a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Partager sur LinkedIn"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg glass border border-(--glass-border) text-(--text-secondary) transition-all duration-200 hover:border-primary/40 hover:text-primary"
+                >
+                  <Icon icon="line-md:linkedin" width={16} />
+                </a>
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Partager sur Facebook"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg glass border border-(--glass-border) text-(--text-secondary) transition-all duration-200 hover:border-primary/40 hover:text-primary"
+                >
+                  <Icon icon="line-md:facebook" width={16} />
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-      )}
-    </article>
+        </aside>
+      </div>
+
+      {/* Pleine largeur, à la place qu'occupe la section Offres sur une fiche. */}
+      <RelatedPosts posts={related} />
+    </div>
   )
 }

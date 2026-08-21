@@ -92,9 +92,9 @@ export function Footer({ config }: { config?: PortfolioConfig | null }) {
 
           {/* Navigation */}
           <div>
-            <h3 className="font-heading font-semibold text-(--text-primary) mb-4 text-sm uppercase tracking-widest">
+            <h2 className="font-heading font-semibold text-(--text-primary) mb-4 text-sm uppercase tracking-widest">
               {t("footer.nav_title")}
-            </h3>
+            </h2>
             <ul className="space-y-2">
               {FOOTER_LINKS.map((link) => (
                 <li key={link.href}>
@@ -111,9 +111,9 @@ export function Footer({ config }: { config?: PortfolioConfig | null }) {
 
           {/* Services */}
           <div>
-            <h3 className="font-heading font-semibold text-(--text-primary) mb-4 text-sm uppercase tracking-widest">
+            <h2 className="font-heading font-semibold text-(--text-primary) mb-4 text-sm uppercase tracking-widest">
               Services
-            </h3>
+            </h2>
             <ul className="space-y-2">
               {services.map((service) => (
                 <li key={service.id}>
@@ -145,9 +145,9 @@ export function Footer({ config }: { config?: PortfolioConfig | null }) {
 
           {/* Contact */}
           <div>
-            <h3 className="font-heading font-semibold text-(--text-primary) mb-4 text-sm uppercase tracking-widest">
+            <h2 className="font-heading font-semibold text-(--text-primary) mb-4 text-sm uppercase tracking-widest">
               {t("footer.contact_title")}
-            </h3>
+            </h2>
             <div className="space-y-3">
               <a
                 href={`mailto:${email}`}
