@@ -18,7 +18,16 @@ export const SITE_URL = (
   .trim()
   .replace(/\/+$/, "")
 
-/** Construit une URL absolue à partir d'un chemin (« /services » -> « https://…/services »). */
+/**
+ * Construit une URL absolue à partir d'un chemin (« /services » ->
+ * « https://…/services »).
+ *
+ * Une URL déjà absolue est renvoyée intacte : les couvertures d'articles et
+ * les bannières peuvent être hébergées n'importe où, et les préfixer
+ * produisait « https://mon-site.com/https://autre-site.com/img.jpg » dans
+ * les données structurées.
+ */
 export function absoluteUrl(path = "/"): string {
+  if (/^https?:\/\//i.test(path)) return path
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`
 }

@@ -71,7 +71,7 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
           {/* Left: copy and CTAs */}
           <motion.div variants={itemVariants} className="space-y-6">
             <h1 className="font-heading font-bold text-3xl md:text-5xl lg:text-5xl leading-[1.05] tracking-tight">
-              Transformez votre <span className="gradient-text">site web</span> en machine à clients automatique
+              Transformez votre <span className="gradient-text">site web</span> <br/> en machine à clients automatique
             </h1>
 
             <p className="text-(--text-secondary) text-base md:text-lg leading-relaxed max-w-xl">
