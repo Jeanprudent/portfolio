@@ -168,7 +168,7 @@ export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
 
             {/* CTA */}
             <div className="flex flex-wrap gap-3 pt-2">
-              <a href="#contact" className="btn-primary">
+              <a href="#contact" className="btn-primary w-full justify-center sm:w-auto">
                 <Icon icon="line-md:telegram" width={18} />
                 {t("about.cta_contact")}
               </a>

@@ -17,6 +17,10 @@ const schema = z.object({
   besoin: z.enum(BESOIN_VALUES),
   budget: z.string().min(2).max(80).regex(singleLine),
   message: z.string().min(20).max(5000),
+  // Service concerné, quand la demande part du modal d'une fiche service.
+  // Absent depuis le formulaire de la page d'accueil. Même contrainte de
+  // ligne unique que le nom : il finit lui aussi dans l'objet de l'email.
+  service: z.string().max(120).regex(singleLine).optional(),
   // Honeypot : champ caché qui doit rester vide. Rempli = bot.
   website: z.string().optional(),
 })
@@ -74,7 +78,7 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Champs invalides" }, { status: 422 })
   }
-  const { name, email, besoin, budget, message, website } = parsed.data
+  const { name, email, besoin, budget, message, service, website } = parsed.data
 
   // Honeypot rempli : on renvoie un succès factice sans rien envoyer
   // (ne pas signaler au bot que sa soumission a été rejetée).
@@ -105,6 +109,7 @@ export async function POST(request: Request) {
       <p><strong>Nom :</strong> ${escapeHtml(name)}</p>
       <p><strong>Email :</strong> ${escapeHtml(email)}</p>
       <p><strong>Besoin :</strong> ${escapeHtml(besoinTexte)}</p>
+      ${service ? `<p><strong>Service consulté :</strong> ${escapeHtml(service)}</p>` : ""}
       <p><strong>Budget annoncé :</strong> ${escapeHtml(budget)}</p>
       <hr style="border:none;border-top:1px solid #eee;margin:16px 0" />
       <p style="margin:0 0 8px"><strong>Projet :</strong></p>
@@ -123,9 +128,10 @@ export async function POST(request: Request) {
         from,
         to: [to],
         reply_to: email,
-        // Objet lisible d'un coup d'œil dans la boîte de réception :
-        // le besoin qualifie, le budget priorise.
-        subject: `${besoinTexte} — ${name} (budget : ${budget})`,
+        // Objet lisible d'un coup d'œil dans la boîte de réception : le
+        // besoin qualifie, le budget priorise. Quand la demande vient d'une
+        // fiche service, ce service est plus précis que le besoin générique.
+        subject: `${service || besoinTexte} — ${name} (budget : ${budget})`,
         html,
       }),
     })

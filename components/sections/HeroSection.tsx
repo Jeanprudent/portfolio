@@ -78,14 +78,14 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
               Vous êtes une PME/TPE ou Entrepreneur, je vous aide à gagner en visibilité, automatiser votre processus de travail et accélérer votre croissance grâce à un site web performant optimisé pour le SEO et à des automatisations intelligentes.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <Link href="/#projets" className="btn-primary">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              <Link href="/#projets" className="btn-primary w-full justify-center sm:w-auto">
                 <Icon icon="line-md:briefcase-twotone" width={18} />
                 Voir mes réalisations
                 <Icon icon="line-md:arrow-right" width={16} />
               </Link>
 
-              <a href="#contact" className="btn-ghost">
+              <a href="#contact" className="btn-ghost w-full justify-center sm:w-auto">
                 <Icon icon="line-md:telegram" width={18} />
                 {t("hero.cta_secondary")}
               </a>

@@ -3,16 +3,21 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import { Icon } from "@iconify/react"
-import { CONTACT_EMAIL } from "@/lib/contact-info"
+import { ContactForm } from "@/components/contact/ContactForm"
+import type { BesoinValue } from "@/lib/contact-options"
 
-export default function ContactModal({ projectType }: { projectType?: string }) {
+export default function ContactModal({
+  projectType,
+  besoin,
+}: {
+  projectType?: string
+  /** Besoin pré-sélectionné, déduit du service depuis la fiche. */
+  besoin?: BesoinValue
+}) {
   const [open, setOpen] = useState(false)
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [message, setMessage] = useState("")
 
   const openerRef = useRef<HTMLButtonElement | null>(null)
-  const firstFieldRef = useRef<HTMLInputElement | null>(null)
+  const dialogRef = useRef<HTMLDivElement | null>(null)
 
   const close = useCallback(() => {
     setOpen(false)
@@ -31,23 +36,15 @@ export default function ContactModal({ projectType }: { projectType?: string }) 
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = "hidden"
 
-    firstFieldRef.current?.focus()
+    // Le premier champ est rendu par ContactForm : on le cherche dans le
+    // dialogue plutôt que de faire remonter une ref à travers le composant.
+    dialogRef.current?.querySelector<HTMLInputElement>("input:not([aria-hidden])")?.focus()
 
     return () => {
       document.removeEventListener("keydown", onKeyDown)
       document.body.style.overflow = previousOverflow
     }
   }, [open, close])
-
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const subject = `Demande de devis: ${projectType ?? "Projet"}`
-    const body = `Nom: ${name}%0AEmail: ${email}%0AType de projet: ${projectType}%0A%0AMessage:%0A${encodeURIComponent(
-      message,
-    )}`
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`
-    close()
-  }
 
   const dialog = (
     <div
@@ -62,7 +59,10 @@ export default function ContactModal({ projectType }: { projectType?: string }) 
         aria-hidden="true"
       />
 
-      <div className="relative z-10 w-full max-w-md rounded-2xl border border-(--glass-border) bg-(--bg) p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div
+        ref={dialogRef}
+        className="relative z-10 w-full max-w-md rounded-2xl border border-(--glass-border) bg-(--bg) p-6 shadow-2xl max-h-[90vh] overflow-y-auto"
+      >
         <button
           type="button"
           onClick={close}
@@ -77,66 +77,30 @@ export default function ContactModal({ projectType }: { projectType?: string }) 
         </h3>
         <p className="text-sm text-(--text-secondary) mb-5">{projectType}</p>
 
-        <form onSubmit={submit} className="space-y-4">
-          <div>
-            <label htmlFor="modal-name" className="block text-xs font-medium text-(--text-secondary) mb-1.5 uppercase tracking-wide">
-              Votre nom *
-            </label>
-            <input
-              id="modal-name"
-              ref={firstFieldRef}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="input"
-              autoComplete="name"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="modal-email" className="block text-xs font-medium text-(--text-secondary) mb-1.5 uppercase tracking-wide">
-              Email *
-            </label>
-            <input
-              id="modal-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="input"
-              autoComplete="email"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="modal-message" className="block text-xs font-medium text-(--text-secondary) mb-1.5 uppercase tracking-wide">
-              Message
-            </label>
-            <textarea
-              id="modal-message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="input h-24"
-            />
-          </div>
-
-          <div className="flex flex-wrap justify-end gap-2 pt-1">
-            <button type="button" className="btn-ghost text-sm" onClick={close}>
-              Annuler
-            </button>
-            <button type="submit" className="btn-primary text-sm">
-              <Icon icon="line-md:email-twotone" width={16} />
-              Envoyer par email
-            </button>
-          </div>
-        </form>
+        {/*
+          `compact` : la boîte fait 28rem de large, deux colonnes y
+          écraseraient les champs. `idPrefix` distinct de celui de la page
+          d'accueil, au cas où les deux formulaires se retrouveraient un jour
+          sur la même page — des id dupliqués casseraient les <label for>.
+        */}
+        <ContactForm
+          compact
+          idPrefix="devis"
+          service={projectType}
+          besoinParDefaut={besoin}
+          onSuccess={close}
+        />
       </div>
     </div>
   )
 
   return (
     <>
-      <button ref={openerRef} className="btn-primary w-full justify-center" onClick={() => setOpen(true)}>
+      <button
+        ref={openerRef}
+        className="btn-primary w-full justify-center"
+        onClick={() => setOpen(true)}
+      >
         <Icon icon="line-md:telegram" width={16} />
         Contactez-moi
       </button>

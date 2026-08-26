@@ -16,6 +16,7 @@ import { getService, getServiceSlugs } from "@/lib/supabase-data"
 import { parseServiceContent } from "@/lib/service-content"
 import { serviceSlug } from "@/lib/slug"
 import { absoluteUrl } from "@/lib/site"
+import { besoinPourService } from "@/lib/contact-options"
 import {
   CONTACT_EMAIL,
   CONTACT_WHATSAPP,
@@ -109,7 +110,7 @@ export default async function Page({
             <p className="text-sm text-(--text-secondary) mb-4">
               Discutons de votre projet et obtenez un devis personnalisé.
             </p>
-            <ContactModal projectType={service.title} />
+            <ContactModal projectType={service.title} besoin={besoinPourService(slug)} />
             <div className="mt-4 text-sm text-(--text-secondary) space-y-1">
               <div>
                 Téléphone :{" "}
