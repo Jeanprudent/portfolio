@@ -23,7 +23,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Jean Prudent — Développeur Web & Designer | Cotonou, Bénin",
+    default: "Développeur Web, SEO & Automatisation au Bénin | Jean Prudent IDOHOU",
     template: "%s | Jean Prudent",
   },
   description:
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     "WordPress",
     "SEO",
     "Bénin",
-    "Cotonou",
+    "Automatisation",
     "création site web",
   ],
   authors: [{ name: "Jean Prudent IDOHOU" }],
@@ -44,14 +44,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    title: "Jean Prudent — Développeur Web & Designer",
+    title: "Développeur Web, Consultant SEO & Automatisation | Jean Prudent IDOHOU",
     description:
       "Sites web performants, élégants et optimisés pour le SEO. Spécialisé PME/TPE.",
-    siteName: "Jean Prudent Portfolio",
+    siteName: "Jean Prudent",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jean Prudent — Développeur Web & Designer",
+    title: "Développeur Web & Designer web | Jean Prudent IDOHOU",
     description: "Sites web performants, élégants et optimisés pour le SEO.",
   },
   robots: {
