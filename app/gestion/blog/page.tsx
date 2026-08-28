@@ -47,7 +47,7 @@ function Editor({ content, onChange }: { content: string; onChange: (html: strin
         </button>
       </div>
       <div style={{ background: "rgba(255,255,255,0.03)" }}>
-        <EditorContent editor={editor} className="prose-jp min-h-[240px] px-4 py-3 focus-within:outline-none text-white/80" />
+        <EditorContent editor={editor} className="prose-jp prose-admin min-h-[240px] px-4 py-3 focus-within:outline-none" />
       </div>
     </div>
   )

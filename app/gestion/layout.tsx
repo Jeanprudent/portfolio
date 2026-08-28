@@ -57,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen flex" style={{ background: "#05050F" }}>
+    <div className="admin-shell min-h-screen flex" style={{ background: "#05050F" }}>
       {/* Sidebar */}
       <aside
         className={cn(

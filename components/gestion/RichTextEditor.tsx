@@ -99,7 +99,7 @@ export function RichTextEditor({
       <div style={{ background: "rgba(255,255,255,0.03)" }}>
         <EditorContent
           editor={editor}
-          className="prose-jp px-4 py-3 focus-within:outline-none text-white/80"
+          className="prose-jp prose-admin px-4 py-3 focus-within:outline-none"
           style={{ minHeight }}
         />
       </div>

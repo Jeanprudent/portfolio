@@ -400,3 +400,42 @@ body {
     color: var(--text-secondary);
   }
 }
+
+/* ================================================================
+   BACK-OFFICE — surcouches sombres
+   Le shell d'administration est peint en dur sur #05050F, quel que soit
+   le thème choisi pour le site public. Tout ce qui hérite des tokens
+   `--text-*` y devient donc illisible dès que le visiteur est en thème
+   clair (`--text-primary` vaut alors #0f0023, quasi noir).
+=============================================================== */
+
+/* Éditeur riche : `.prose-jp` colore le texte, les titres et les listes
+   avec les tokens de thème. Cette variante les repasse en blanc. */
+.prose-admin {
+  color: #ffffff;
+
+  h1, h2, h3, h4 { color: #ffffff; }
+  p, li, blockquote { color: rgba(255, 255, 255, 0.82); }
+  strong { color: #ffffff; }
+  a { color: #A855F7; }
+
+  code {
+    background: rgba(124, 58, 237, 0.22);
+    border-color: rgba(124, 58, 237, 0.35);
+    color: #D6BCFF;
+  }
+
+  pre {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.82);
+  }
+}
+
+/* Les <option> sont rendues par l'OS dans une liste déroulante claire :
+   sans couleur explicite elles héritent du blanc du <select> et
+   disparaissent sur fond blanc (Windows/Chrome). */
+.admin-shell select option {
+  background: #12121F;
+  color: #ffffff;
+}
