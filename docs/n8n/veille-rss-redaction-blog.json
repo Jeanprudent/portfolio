@@ -1,0 +1,380 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "4aa28db1-5f1d-4206-8c71-4ade06ccd1b6",
+      "name": "Chaque matin à 7h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -240,
+        1584
+      ],
+      "notes": "Du lundi au vendredi. Un article par jour ouvré suffit largement."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Flux surveillés. Ajoute / retire des lignes librement : chaque URL produit\n// un item, et le nœud « Lire le flux RSS » s'exécute une fois par item.\nconst FEEDS = [\n  // Développement web & performance\n  \"https://nextjs.org/feed.xml\",\n  \"https://web.dev/static/blog/feed.xml\",\n  \"https://www.smashingmagazine.com/feed/\",\n  \"https://css-tricks.com/feed/\",\n\n  // SEO & marketing digital\n  \"https://searchengineland.com/feed\",\n  \"https://www.searchenginejournal.com/feed/\",\n  \"https://www.abondance.com/feed\",\n\n  // Automatisation & IA\n  \"https://blog.n8n.io/rss/\",\n  \"https://liora.io/feed\",\n\n  // Francophone / PME\n  \"https://www.blogdumoderateur.com/feed/\",\n\"https://www.alsacreations.com/rss/actualites.xml\",\n\"https://www.blogdumoderateur.com/feed/\",\n]\n\nreturn FEEDS.map((feedUrl) => ({ json: { feedUrl } }))"
+      },
+      "id": "2a283238-3b9b-4cfb-bcd6-ee43cf80bc28",
+      "name": "Flux RSS surveillés",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        1584
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.feedUrl }}",
+        "options": {}
+      },
+      "id": "7b0d871a-a0fe-41fd-84af-640d254a132a",
+      "name": "Lire le flux RSS",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        1584
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput",
+      "notes": "S'exécute une fois par URL. Un flux mort n'interrompt pas le workflow (continue on error)."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Sélectionne les sujets qui parlent VRAIMENT à l'audience du site :\n// PME et entrepreneurs qui veulent un site qui convertit, du SEO, et de\n// l'automatisation. Ajuste les poids ci-dessous, c'est le seul réglage qui\n// change la qualité des sujets retenus.\nconst KEYWORDS = {\n  // Cœur de cible : poids fort\n  3: [\"seo\", \"référencement\", \"referencement\", \"google search\", \"conversion\",\n      \"taux de conversion\", \"landing page\", \"core web vitals\", \"vitesse\",\n      \"performance web\", \"automatisation\", \"automation\", \"n8n\", \"workflow\",\n      \"pme\", \"small business\", \"e-commerce\", \"ecommerce\"],\n  // Sujets techniques que je traite : poids moyen\n  2: [\"next.js\", \"nextjs\", \"react\", \"wordpress\", \"accessibilité\", \"accessibility\",\n      \"ux\", \"design system\", \"responsive\", \"webflow\", \"cms\", \"headless\",\n      \"analytics\", \"tracking\", \"schema.org\", \"structured data\", \"ia\", \"llm\",\n      \"chatbot\", \"agent\"],\n  // Contexte général : poids faible\n  1: [\"site web\", \"website\", \"marketing\", \"contenu\", \"content\", \"branding\",\n      \"mobile\", \"sécurité\", \"https\", \"hébergement\", \"hosting\"],\n}\n\n// Fenêtre de fraîcheur : un article de veille sur un sujet de 3 mois ne\n// présente aucun intérêt.\nconst MAX_AGE_DAYS = 14\nconst now = Date.now()\n\nconst scored = []\nconst seenTitles = new Set()\n\nfor (const item of $input.all()) {\n  const j = item.json\n  const title = (j.title || \"\").trim()\n  const link = (j.link || \"\").trim()\n  if (!title || !link) continue\n\n  // Doublon à l'intérieur du même passage (le même sujet remonte souvent\n  // sur plusieurs flux le même jour).\n  const fingerprint = title.toLowerCase().replace(/[^a-z0-9]+/g, \" \").trim()\n  if (seenTitles.has(fingerprint)) continue\n  seenTitles.add(fingerprint)\n\n  const dateStr = j.isoDate || j.pubDate || j.date\n  const published = dateStr ? new Date(dateStr).getTime() : NaN\n  if (!Number.isNaN(published)) {\n    const ageDays = (now - published) / 86400000\n    if (ageDays > MAX_AGE_DAYS || ageDays < -1) continue\n  }\n\n  const haystack = [title, j.contentSnippet || \"\", (j.categories || []).join(\" \")]\n    .join(\" \")\n    .toLowerCase()\n\n  let score = 0\n  for (const [weight, words] of Object.entries(KEYWORDS)) {\n    for (const word of words) {\n      if (haystack.includes(word)) score += Number(weight)\n    }\n  }\n\n  // En dessous, le sujet est hors niche : on ne dépense pas de tokens dessus.\n  if (score < 3) continue\n\n  scored.push({\n    json: {\n      title,\n      link,\n      score,\n      publishedAt: dateStr || null,\n      summary: (j.contentSnippet || \"\").slice(0, 1200),\n      source: (() => { try { return new URL(link).hostname } catch { return \"\" } })(),\n    },\n  })\n}\n\n// Meilleur score d'abord ; le nœud « Limiter » ne gardera que le premier.\nscored.sort((a, b) => b.json.score - a.json.score)\nreturn scored"
+      },
+      "id": "94960679-5c49-4198-806f-094f5bcae3bf",
+      "name": "Noter la pertinence",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        432,
+        1584
+      ],
+      "notes": "Filtre par fraîcheur puis par mots-clés de la niche, et trie du plus pertinent au moins pertinent."
+    },
+    {
+      "parameters": {
+        "operation": "removeItemsSeenInPreviousExecutions",
+        "dedupeValue": "={{ $json.title }}",
+        "options": {}
+      },
+      "id": "60ad8935-f682-42a0-8b9f-0678ff5f93c4",
+      "name": "Écarter les sujets déjà traités",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        640,
+        1584
+      ],
+      "notes": "Mémorise les URL vues lors des exécutions précédentes. Nécessite n8n 1.62+ — si ta version ne connaît pas ce nœud, supprime-le : le site renvoie de toute façon un 409 sur un doublon."
+    },
+    {
+      "parameters": {},
+      "id": "9f0ec278-a7dc-4498-93e9-afa20935191b",
+      "name": "Choisir le sujet du jour",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        864,
+        1584
+      ],
+      "notes": "Passe à 2 ou 3 si tu veux plusieurs brouillons par jour."
+    },
+    {
+      "parameters": {
+        "jsCode": "// La chaîne LLM place l'objet validé par l'analyseur structuré dans `output`.\n// Selon la version de n8n et le modèle, il arrive déjà désérialisé ou encore\n// sous forme de chaîne.\nconst raw = $input.first().json\nlet article = raw.output !== undefined ? raw.output : raw\n\nif (typeof article === \"string\") {\n  const cleaned = article.replace(/^\\s*\\`\\`\\`(?:json)?\\s*/i, \"\").replace(/\\`\\`\\`\\s*$/, \"\")\n  try {\n    article = JSON.parse(cleaned)\n  } catch {\n    throw new Error(\"Sortie du modèle illisible : \" + String(article).slice(0, 500))\n  }\n}\n\nif (!article || typeof article !== \"object\" || !article.content) {\n  throw new Error(\"Sortie du modèle sans champ content : \" + JSON.stringify(raw).slice(0, 500))\n}\n\n// Le sujet d'origine, récupéré depuis le nœud de scoring.\nconst topic = $('Choisir le sujet du jour').first().json\n\n// Même si la consigne l'interdit, un modèle encadre parfois son HTML d'un bloc\n// de code Markdown. Le webhook rejetterait alors le contenu en 422.\nconst content = String(article.content)\n  .replace(/^\\s*\\`\\`\\`(?:html)?\\s*/i, \"\")\n  .replace(/\\`\\`\\`\\s*$/, \"\")\n  .trim()\n\n// Le site refuse un titre de plus de 160 caractères. Plutôt que de perdre une\n// génération entière sur un 422, on coupe sur un mot entier.\nlet title = String(article.title || \"\").replace(/\\s+/g, \" \").trim()\nif (title.length > 160) {\n  const cut = title.slice(0, 160)\n  const lastSpace = cut.lastIndexOf(\" \")\n  title = (lastSpace > 100 ? cut.slice(0, lastSpace) : cut).trim()\n}\n\n// Filet de sécurité sur le slug : la route le régénère depuis le titre s'il est\n// absent, mais un slug accentué, espacé ou finissant par un tiret serait rejeté.\nconst slug = String(article.slug || \"\")\n  .normalize(\"NFD\")\n  .replace(/[\\u0300-\\u036f]/g, \"\")\n  .toLowerCase()\n  .replace(/[^a-z0-9]+/g, \"-\")\n  .replace(/(^-|-$)/g, \"\")\n  .slice(0, 120)\n  .replace(/-+$/, \"\")\n\n// Mention de la source, ajoutée hors du texte rédigé : elle rend la veille\n// vérifiable au moment de la relecture dans /gestion/blog.\nconst sourceNote = topic && topic.link\n  ? '<hr><p><em>Article inspiré de l\\'actualité : <a href=\"' + topic.link +\n    '\" target=\"_blank\" rel=\"noopener noreferrer\">' + (topic.title || topic.link) + '</a>' +\n    (topic.source ? \" (\" + topic.source + \")\" : \"\") + '.</em></p>'\n  : \"\"\n\nreturn [{\n  json: {\n    title,\n    slug: slug || undefined,\n    excerpt: String(article.excerpt || \"\")\n      .replace(/<[^>]+>/g, \"\")\n      .replace(/\\s+/g, \" \")\n      .trim()\n      .slice(0, 300),\n    content: content + sourceNote,\n    tags: Array.isArray(article.tags)\n      ? article.tags\n          .map((t) => String(t).replace(/\\s+/g, \" \").trim().slice(0, 40))\n          .filter(Boolean)\n          .slice(0, 6)\n      : [],\n    // cover_url : laissé vide ici. Pour une image, ajoute avant ce nœud un\n    // appel à Unsplash/Pexels et renseigne cover_url avec une URL https.\n  },\n}]"
+      },
+      "id": "77c68a32-dc23-40c8-9d4b-bfa98ff82db2",
+      "name": "Préparer l'article",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        1584
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Le nœud « Publier » est configuré en « never error » + « full response » :\n// on lit nous-mêmes le code HTTP pour distinguer les cas.\nconst res = $input.first().json\nconst status = res.statusCode\nconst body = res.body || {}\nconst article = $('Préparer l\\'article').first().json\n\nif (status === 201) {\n  return [{ json: {\n    resultat: \"brouillon_cree\",\n    message: \"Brouillon créé. À relire puis publier dans /gestion/blog.\",\n    titre: article.title,\n    slug: body.slug,\n    relecture: body.review_url,\n  }}]\n}\n\nif (status === 409) {\n  return [{ json: {\n    resultat: \"doublon_ignore\",\n    message: \"Un article portant ce slug existe déjà — rien n'a été écrit.\",\n    titre: article.title,\n    slug: body.slug,\n  }}]\n}\n\n// 401 : secret faux. 422 : le modèle a produit un champ invalide (body.details\n// dit lequel). 503 : variables d'environnement manquantes côté site.\nthrow new Error(\n  \"Publication refusée (HTTP \" + status + \") : \" + JSON.stringify(body)\n)"
+      },
+      "id": "8ac73132-b7e0-4c43-a6a4-afef1b5e496c",
+      "name": "Lire le résultat",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1840,
+        1584
+      ],
+      "notes": "201 = brouillon créé, 409 = doublon ignoré (normal), tout le reste lève une erreur visible dans les exécutions."
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {
+          "maxOutputTokens": 8192,
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1232,
+        1648
+      ],
+      "id": "b8f04c1a-abc3-4cad-b378-373eddca29f6",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "xKXaFNXrKmkL5gHL",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "notes": "maxOutputTokens explicite : le défaut n8n est 1024, ce qui tronquait l'article en plein JSON."
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Actualité repérée dans la veille :\n\nTitre : {{ $json.title }}\nSource : {{ $json.source }}\nURL : {{ $json.link }}\nPublié le : {{ $json.publishedAt || 'date inconnue' }}\nRésumé du flux : {{ $json.summary || '(aucun résumé fourni)' }}\n\nÉcris l'article de blog correspondant, en respectant toutes les règles de fond et de format.",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Tu rédiges les articles du blog de Jean Prudent IDOHOU, développeur web et designer basé à Cotonou (Bénin).\nSon audience : des dirigeants de PME, commerçants et entrepreneurs francophones qui veulent un site web qui rapporte des clients — pas des développeurs.\n\nTu pars d'une actualité repérée dans un flux RSS. Tu n'en fais JAMAIS une traduction ni un résumé : tu écris un article original qui explique ce que cette actualité change concrètement pour une PME.\n\nRÈGLES DE FOND\n- Français, vouvoiement, ton direct et concret. Zéro jargon non expliqué.\n- 1500 à 2000 mots dans le champ `content`.\n- Structure : une introduction accrocheuse qui n'annonce pas le plan, plusieurs sections <h2>, des <h3> quand une section est longue, des listes quand elles clarifient, une conclusion qui invite à un échange sans être une publicité agressive.\n- Chaque section apporte une information actionnable : quoi faire, dans quel ordre, avec quel effet attendu.\n- SEO : le sujet principal et ses variantes apparaissent naturellement dans les <h2> et dans le premier paragraphe. Jamais de bourrage de mots-clés.\n- Pas de superlatif creux (« révolutionnaire », « incontournable »).\n- N'invente aucun chiffre, aucune étude, aucune citation. Si tu n'es pas certain d'une donnée, écris la phrase sans elle.\n\nFORMAT DE SORTIE\nTu renvoies un objet structuré à cinq champs : title, slug, excerpt, content, tags. Rien d'autre — aucun texte avant, aucun commentaire après.\n\n- `content` : du HTML, PAS du Markdown. Aucun `#`, aucun `**`, et surtout aucun bloc de code encadrant le HTML.\n  Balises autorisées uniquement : <p> <h2> <h3> <h4> <ul> <ol> <li> <strong> <em> <blockquote> <a> <code> <pre> <br> <hr>.\n  Pas de <h1> : le titre de l'article est affiché à part par le site.\n  Interdits : <script>, <style>, <iframe>, <img>, tout attribut d'événement (onclick…), tout attribut style.\n  Les liens <a> pointent vers des URL https complètes et réellement existantes (la source, une documentation officielle). En cas de doute, pas de lien.\n- `content` tient sur une seule ligne : n'insère aucun retour à la ligne entre les balises. Le HTML n'en a pas besoin, et chaque retour à la ligne est une occasion d'invalider le JSON.\n- `title` : 45 caractères maximum (le site y ajoute « | Jean Prudent »), orienté bénéfice ou question.\n- `slug` : minuscules, chiffres et tirets uniquement, 6 mots maximum, sans accent.\n- `excerpt` : une seule phrase de 150 caractères maximum, sans HTML. Elle sert de meta description.\n- `tags` : 2 à 4 étiquettes courtes en français (ex. « SEO », « Automatisation », « Performance »)."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1040,
+        1584
+      ],
+      "id": "9f95c87e-d4e1-486f-b23e-101afe9757d0",
+      "name": "Rédaction de l'article: Basic LLM Chain1",
+      "notes": "La sortie est contrainte par l'analyseur structuré branché en dessous : le modèle ne peut renvoyer que les 5 champs attendus."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://jprudent-portfolio.vercel.app/api/blog/webhook",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1616,
+        1584
+      ],
+      "id": "64773abe-6118-4c9f-a73e-33c0fa30cf70",
+      "name": "Publier l'article sur le site",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "HTYl3HelNqYEvqg8",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "Credential Header Auth — Name: Authorization, Value: Bearer <BLOG_WEBHOOK_SECRET>. Le secret n'est jamais dans ce fichier."
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"title\": {\n      \"type\": \"string\",\n      \"description\": \"Titre de l'article, 45 caractères maximum, sans le nom du site.\"\n    },\n    \"slug\": {\n      \"type\": \"string\",\n      \"description\": \"Identifiant d'URL : minuscules, chiffres et tirets uniquement, sans accent, 6 mots maximum.\"\n    },\n    \"excerpt\": {\n      \"type\": \"string\",\n      \"description\": \"Une seule phrase de 150 caractères maximum, sans HTML. Sert de meta description.\"\n    },\n    \"content\": {\n      \"type\": \"string\",\n      \"description\": \"L'article complet en HTML (<h2>, <p>, <ul>…), 1500 à 2000 mots, sans <h1> ni <img>.\"\n    },\n    \"tags\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      },\n      \"description\": \"2 à 4 étiquettes courtes en français.\"\n    }\n  },\n  \"required\": [\n    \"title\",\n    \"slug\",\n    \"excerpt\",\n    \"content\",\n    \"tags\"\n  ]\n}"
+      },
+      "id": "4f7ce85d-3857-4d00-82f1-d2e497328679",
+      "name": "Structure de sortie de l'article",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1440,
+        1872
+      ],
+      "notes": "Impose les 5 champs attendus par /api/blog/webhook. Sans ce nœud, la chaîne LLM échoue car « Require Specific Output Format » est coché."
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "c3000000-0000-4000-8000-000000000012",
+      "name": "Correction automatique de la sortie",
+      "type": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        1648
+      ],
+      "notes": "Enveloppe l'analyseur structuré : si le JSON est malformé, il est renvoyé au modèle avec le message d'erreur pour correction. Supprimable si tu préfères voir échouer l'exécution."
+    }
+  ],
+  "connections": {
+    "Chaque matin à 7h": {
+      "main": [
+        [
+          {
+            "node": "Flux RSS surveillés",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flux RSS surveillés": {
+      "main": [
+        [
+          {
+            "node": "Lire le flux RSS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lire le flux RSS": {
+      "main": [
+        [
+          {
+            "node": "Noter la pertinence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noter la pertinence": {
+      "main": [
+        [
+          {
+            "node": "Écarter les sujets déjà traités",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Écarter les sujets déjà traités": {
+      "main": [
+        [
+          {
+            "node": "Choisir le sujet du jour",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Choisir le sujet du jour": {
+      "main": [
+        [
+          {
+            "node": "Rédaction de l'article: Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Préparer l'article": {
+      "main": [
+        [
+          {
+            "node": "Publier l'article sur le site",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Rédaction de l'article: Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Correction automatique de la sortie",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rédaction de l'article: Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "Préparer l'article",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publier l'article sur le site": {
+      "main": [
+        [
+          {
+            "node": "Lire le résultat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structure de sortie de l'article": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Correction automatique de la sortie",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Correction automatique de la sortie": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Rédaction de l'article: Basic LLM Chain1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "16e86a1e77c730aee953473f51321c73775b4cd8538ca5869e7829486d920d51"
+  }
+}
