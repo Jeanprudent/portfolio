@@ -56,7 +56,8 @@ export function ContactSection({ config }: { config?: PortfolioConfig | null }) 
           </span>
           <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
             {t("contact.title")}{" "}
-            <span className="gradient-text">{t("contact.title_highlight")}</span>
+            <span className="gradient-text">{t("contact.title_highlight")} </span> 
+            sur votre projet
           </h2>
           <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
             {t("contact.subtitle")}
