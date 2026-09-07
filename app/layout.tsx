@@ -1,7 +1,17 @@
 import type { Metadata } from "next"
 import { SITE_URL } from "@/lib/site"
 import Script from "next/script"
-import { Syne, DM_Sans } from "next/font/google"
+import {
+  Syne,
+  DM_Sans,
+  Outfit,
+  Inter,
+  Space_Grotesk,
+  Plus_Jakarta_Sans,
+  Manrope,
+} from "next/font/google"
+import { fontPairStyle } from "@/lib/font-pairs"
+import { getFontPair } from "@/lib/supabase-data"
 import { ThemeProvider } from "@/components/layout/ThemeProvider"
 import { I18nProvider } from "@/components/providers/I18nProvider"
 import "./globals.css"
@@ -19,6 +29,19 @@ const dmSans = DM_Sans({
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 })
+
+// Paires alternatives proposées dans /gestion/design. `preload: false` est
+// délibéré : les sept familles déclarent leur @font-face, mais le navigateur
+// ne télécharge que les fichiers de la paire réellement référencée par
+// --font-heading-family / --font-body-family.
+const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], display: "swap", preload: false })
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap", preload: false })
+const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: ["latin"], display: "swap", preload: false })
+const plusJakarta = Plus_Jakarta_Sans({ variable: "--font-plus-jakarta", subsets: ["latin"], display: "swap", preload: false })
+const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"], display: "swap", preload: false })
+
+const FONTS = [syne, dmSans, outfit, inter, spaceGrotesk, plusJakarta, manrope]
+const FONT_VARIABLES = FONTS.map((f) => f.variable).join(" ")
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -64,13 +87,15 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const fontPair = await getFontPair()
+
   return (
-    <html lang="fr" suppressHydrationWarning className={`${syne.variable} ${dmSans.variable}`}>
+    <html lang="fr" suppressHydrationWarning className={FONT_VARIABLES} style={fontPairStyle(fontPair)}>
       <head>
         {/* Google tag (gtag.js) */}
         <Script

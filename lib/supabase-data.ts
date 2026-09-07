@@ -4,6 +4,7 @@ import { BLOG_POSTS } from "@/data/blog-data"
 import { serviceSlug } from "@/lib/slug"
 import { mergeService } from "@/lib/merge-service"
 import type { Stat, Service, Project, Testimonial, BlogPost } from "@/types/portfolio"
+import { DEFAULT_FONT_PAIR, resolveFontPair, type FontPair } from "@/lib/font-pairs"
 
 export type PortfolioConfig = {
   id: string
@@ -146,5 +147,35 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     return BLOG_POSTS.find((p) => p.slug === slug && p.published) ?? null
   } catch {
     return BLOG_POSTS.find((p) => p.slug === slug && p.published) ?? null
+  }
+}
+
+/**
+ * Paire de polices choisie dans /gestion/design, lue par le layout racine.
+ *
+ * Requête REST directe plutôt que supabase-js : elle seule accepte les
+ * options de cache de Next. Un fetch non caché dans le layout racine ferait
+ * basculer les fiches services — prérendues via generateStaticParams — en
+ * rendu dynamique à chaque visite. Trente secondes de fraîcheur suffisent
+ * pour un réglage qui change deux fois par an.
+ *
+ * Repli silencieux sur la paire par défaut : tant que la migration 006 n'est
+ * pas jouée, la colonne n'existe pas et PostgREST renvoie une 400.
+ */
+export async function getFontPair(): Promise<FontPair> {
+  const url = (process.env.NEXT_PUBLIC_SUPABASE_URL || "").trim()
+  const key = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "").trim()
+  if (!url || !key) return DEFAULT_FONT_PAIR
+
+  try {
+    const res = await fetch(`${url}/rest/v1/portfolio_config?select=font_pair&limit=1`, {
+      headers: { apikey: key, Authorization: `Bearer ${key}` },
+      next: { revalidate: 30 },
+    })
+    if (!res.ok) return DEFAULT_FONT_PAIR
+    const rows = (await res.json()) as { font_pair?: string }[]
+    return resolveFontPair(rows?.[0]?.font_pair)
+  } catch {
+    return DEFAULT_FONT_PAIR
   }
 }

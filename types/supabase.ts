@@ -21,6 +21,7 @@ export type Database = {
           seo_title: string | null
           seo_description: string | null
           google_analytics_id: string | null
+          font_pair: string
           disponible: boolean
           created_at: string
           updated_at: string
@@ -42,6 +43,7 @@ export type Database = {
           seo_title?: string | null
           seo_description?: string | null
           google_analytics_id?: string | null
+          font_pair?: string
           disponible?: boolean
         }
         Update: {
@@ -61,6 +63,7 @@ export type Database = {
           seo_title?: string | null
           seo_description?: string | null
           google_analytics_id?: string | null
+          font_pair?: string
           disponible?: boolean
         }
         Relationships: []

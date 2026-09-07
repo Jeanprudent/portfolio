@@ -14,8 +14,8 @@
   --color-bg-dark: #050510;
   --color-bg-light: #F8F7FF;
 
-  --font-heading: var(--font-syne);
-  --font-sans: var(--font-dm-sans);
+  --font-heading: var(--font-heading-family);
+  --font-sans: var(--font-body-family);
 
   --radius-glass: 1rem;
 }
@@ -27,6 +27,12 @@
    CSS CUSTOM PROPERTIES — Theme-aware semantic tokens
 =============================================================== */
 :root {
+  /* Typographie — surchargée en ligne sur <html> par app/layout.tsx selon la
+     paire choisie dans /gestion/design. Les valeurs ci-dessous ne servent que
+     de repli (base injoignable, colonne font_pair absente). */
+  --font-heading-family: var(--font-syne), sans-serif;
+  --font-body-family:    var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+
   --bg:             #F8F7FF;
   --bg-secondary:   #EEE9FF;
   --text-primary:   #0f0023;
@@ -80,7 +86,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text-primary);
-  font-family: var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body-family);
   overflow-x: clip;
   transition: background-color 0.3s ease, color 0.3s ease;
   -webkit-font-smoothing: antialiased;
@@ -358,7 +364,7 @@ body {
   max-width: 72ch;
 
   h1, h2, h3, h4 {
-    font-family: var(--font-syne), sans-serif;
+    font-family: var(--font-heading-family);
     font-weight: 700;
     color: var(--text-primary);
     margin-top: 2rem;
