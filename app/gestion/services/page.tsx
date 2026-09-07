@@ -136,7 +136,7 @@ export default function AdminServicesPage() {
               <div
                 key={service.id}
                 className={cn(
-                  "flex items-start gap-4 rounded-xl p-4 transition-opacity duration-200",
+                  "flex flex-wrap items-start gap-3 rounded-xl p-4 transition-opacity duration-200 sm:gap-4",
                   !service.visible && "opacity-50"
                 )}
                 style={{
@@ -184,12 +184,12 @@ export default function AdminServicesPage() {
                   </div>
                 </div>
 
-                <div className="flex shrink-0 items-center gap-1">
+                <div className="flex w-full shrink-0 items-center justify-end gap-1 border-t border-white/[0.07] pt-2 sm:w-auto sm:border-t-0 sm:pt-0">
                   <button
                     onClick={() => deplacer(index, -1)}
                     disabled={index === 0}
                     aria-label="Monter"
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/10 hover:text-white/80 disabled:opacity-20 disabled:hover:bg-transparent"
+                    className="flex h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/10 hover:text-white/80 disabled:opacity-20 disabled:hover:bg-transparent"
                   >
                     <Icon icon="line-md:chevron-up" width={16} />
                   </button>
@@ -197,7 +197,7 @@ export default function AdminServicesPage() {
                     onClick={() => deplacer(index, 1)}
                     disabled={index === services.length - 1}
                     aria-label="Descendre"
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/10 hover:text-white/80 disabled:opacity-20 disabled:hover:bg-transparent"
+                    className="flex h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/10 hover:text-white/80 disabled:opacity-20 disabled:hover:bg-transparent"
                   >
                     <Icon icon="line-md:chevron-down" width={16} />
                   </button>
@@ -205,7 +205,7 @@ export default function AdminServicesPage() {
                     onClick={() => toggleVisible(service.id)}
                     aria-label={service.visible ? "Masquer" : "Afficher"}
                     title={service.visible ? "Visible sur le site" : "Masqué"}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-white/10"
+                    className="flex h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 items-center justify-center rounded-lg transition-colors hover:bg-white/10"
                   >
                     <Icon
                       icon={service.visible ? "line-md:watch" : "line-md:watch-off"}
@@ -217,7 +217,7 @@ export default function AdminServicesPage() {
                   <Link
                     href={`/gestion/services/${service.id}`}
                     aria-label="Éditer"
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/10 hover:text-white/80"
+                    className="flex h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/10 hover:text-white/80"
                   >
                     <Icon icon="line-md:pencil-twotone" width={16} />
                   </Link>
@@ -225,7 +225,7 @@ export default function AdminServicesPage() {
                   <button
                     onClick={() => setConfirmDelete(service.id)}
                     aria-label="Supprimer"
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-red-500/15 hover:text-red-400"
+                    className="flex h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-red-500/15 hover:text-red-400"
                   >
                     <Icon icon="line-md:close-circle-twotone" width={16} />
                   </button>

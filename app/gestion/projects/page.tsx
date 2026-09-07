@@ -264,7 +264,7 @@ export default function AdminProjectsPage() {
           {!loading && projects.map((project) => (
             <div
               key={project.id}
-              className="flex items-start gap-4 p-4 rounded-xl group"
+              className="flex flex-wrap items-start gap-3 sm:gap-4 p-4 rounded-xl"
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
             >
               <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}>
@@ -279,7 +279,7 @@ export default function AdminProjectsPage() {
                   )}
                   <span className="px-1.5 py-0.5 rounded text-xs text-white/40" style={{ background: "rgba(255,255,255,0.06)" }}>{project.category}</span>
                 </div>
-                <p className="text-white/50 text-xs line-clamp-1 mb-1.5">{project.description}</p>
+                <p className="text-white/50 text-xs line-clamp-2 sm:line-clamp-1 mb-1.5">{project.description}</p>
                 <div className="flex flex-wrap gap-1">
                   {project.tags.map((tag) => (
                     <span key={tag} className="px-1.5 py-0.5 rounded text-xs" style={{ background: "rgba(124,58,237,0.1)", color: "#A855F7" }}>{tag}</span>
@@ -287,26 +287,26 @@ export default function AdminProjectsPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div className="flex w-full shrink-0 items-center justify-end gap-1 border-t border-white/[0.07] pt-2 sm:w-auto sm:border-t-0 sm:pt-0">
                 <button
                   onClick={() => toggleFeatured(project.id)}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-white/5"
+                  className="h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-white/5"
                   title={project.featured ? "Retirer de la vedette" : "Mettre en vedette"}
                 >
                   <Icon icon="line-md:star-twotone" width={16} style={{ color: project.featured ? "#FCD34D" : "rgba(255,255,255,0.3)" }} />
                 </button>
-                <button onClick={() => setEditing(project)} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors duration-200">
+                <button onClick={() => setEditing(project)} className="h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors duration-200">
                   <Icon icon="line-md:pencil-twotone" width={16} />
                 </button>
                 {confirmDelete === project.id ? (
                   <>
-                    <button onClick={() => handleDelete(project.id)} className="px-2 h-8 rounded-lg text-xs font-medium text-red-400 hover:bg-red-500/10 transition-colors">Confirmer</button>
-                    <button onClick={() => setConfirmDelete(null)} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/40 hover:bg-white/5 transition-colors">
+                    <button onClick={() => handleDelete(project.id)} className="h-9 px-2.5 max-sm:bg-white/[0.06] sm:h-8 sm:px-2 rounded-lg text-xs font-medium text-red-400 hover:bg-red-500/10 transition-colors">Confirmer</button>
+                    <button onClick={() => setConfirmDelete(null)} className="h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 rounded-lg flex items-center justify-center text-white/40 hover:bg-white/5 transition-colors">
                       <Icon icon="line-md:close" width={14} />
                     </button>
                   </>
                 ) : (
-                  <button onClick={() => setConfirmDelete(project.id)} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/30 hover:text-red-400 hover:bg-red-500/10 transition-colors duration-200">
+                  <button onClick={() => setConfirmDelete(project.id)} className="h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 rounded-lg flex items-center justify-center text-white/30 hover:text-red-400 hover:bg-red-500/10 transition-colors duration-200">
                     <Icon icon="line-md:close-circle-twotone" width={16} />
                   </button>
                 )}

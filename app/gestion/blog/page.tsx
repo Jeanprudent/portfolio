@@ -259,42 +259,42 @@ export default function AdminBlogPage() {
           </div>
         )}
         {!loading && posts.map((post) => (
-          <div key={post.id} className="flex items-start gap-4 p-4 rounded-xl group" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
+          <div key={post.id} className="flex flex-wrap items-start gap-3 sm:gap-4 p-4 rounded-xl" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
             <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}>
               <Icon icon="line-md:pencil-alt-twotone" width={20} className="text-[#7C3AED]" />
             </div>
 
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-0.5">
-                <p className="text-white font-semibold text-sm truncate">{post.title}</p>
+              <div className="flex items-start gap-2 mb-0.5">
+                <p className="min-w-0 flex-1 sm:flex-initial text-white font-semibold text-sm line-clamp-2 sm:truncate">{post.title}</p>
                 <span className="px-1.5 py-0.5 rounded text-xs font-medium shrink-0"
                   style={post.published ? { background: "rgba(34,197,94,0.15)", color: "#4ADE80" } : { background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.4)" }}>
                   {post.published ? "Publié" : "Brouillon"}
                 </span>
               </div>
-              <p className="text-white/40 text-xs mb-1.5 line-clamp-1">{post.excerpt}</p>
+              <p className="text-white/40 text-xs mb-1.5 line-clamp-2 sm:line-clamp-1">{post.excerpt}</p>
               <div className="flex items-center gap-3 text-xs text-white/30">
                 <time>{formatDate(post.created_at)}</time>
                 {post.tags.length > 0 && <span>{post.tags.slice(0, 2).join(", ")}</span>}
               </div>
             </div>
 
-            <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <button onClick={() => togglePublish(post.id)} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-white/5" title={post.published ? "Dépublier" : "Publier"}>
+            <div className="flex w-full shrink-0 items-center justify-end gap-1 border-t border-white/[0.07] pt-2 sm:w-auto sm:border-t-0 sm:pt-0">
+              <button onClick={() => togglePublish(post.id)} className="h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 rounded-lg flex items-center justify-center transition-colors duration-200 hover:bg-white/5" title={post.published ? "Dépublier" : "Publier"}>
                 <Icon icon={post.published ? "line-md:watch-off" : "line-md:watch"} width={16} className={post.published ? "text-green-400" : "text-white/30"} />
               </button>
-              <button onClick={() => setEditing(post)} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors duration-200">
+              <button onClick={() => setEditing(post)} className="h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors duration-200">
                 <Icon icon="line-md:pencil-twotone" width={16} />
               </button>
               {confirmDelete === post.id ? (
                 <>
-                  <button onClick={() => handleDelete(post.id)} className="px-2 h-8 rounded-lg text-xs font-medium text-red-400 hover:bg-red-500/10 transition-colors">Supprimer</button>
-                  <button onClick={() => setConfirmDelete(null)} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/40 hover:bg-white/5 transition-colors">
+                  <button onClick={() => handleDelete(post.id)} className="h-9 px-2.5 max-sm:bg-white/[0.06] sm:h-8 sm:px-2 rounded-lg text-xs font-medium text-red-400 hover:bg-red-500/10 transition-colors">Supprimer</button>
+                  <button onClick={() => setConfirmDelete(null)} className="h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 rounded-lg flex items-center justify-center text-white/40 hover:bg-white/5 transition-colors">
                     <Icon icon="line-md:close" width={14} />
                   </button>
                 </>
               ) : (
-                <button onClick={() => setConfirmDelete(post.id)} className="w-8 h-8 rounded-lg flex items-center justify-center text-white/30 hover:text-red-400 hover:bg-red-500/10 transition-colors duration-200">
+                <button onClick={() => setConfirmDelete(post.id)} className="h-9 w-9 max-sm:bg-white/[0.06] sm:h-8 sm:w-8 rounded-lg flex items-center justify-center text-white/30 hover:text-red-400 hover:bg-red-500/10 transition-colors duration-200">
                   <Icon icon="line-md:close-circle-twotone" width={16} />
                 </button>
               )}
