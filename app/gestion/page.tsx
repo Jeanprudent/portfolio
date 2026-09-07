@@ -1,31 +1,45 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Icon } from "@iconify/react"
 import Link from "next/link"
+import { supabase } from "@/lib/supabase"
 
-const OVERVIEW_CARDS = [
+type CardKey = "services" | "projects" | "posts" | "testimonials"
+
+type Counts = Record<CardKey, number | null>
+
+const OVERVIEW_CARDS: {
+  key: CardKey
+  label: string
+  icon: string
+  href: string
+  color: string
+}[] = [
   {
+    key: "services",
     label: "Services actifs",
-    value: "4",
     icon: "line-md:star-twotone",
     href: "/gestion/services",
     color: "#7C3AED",
   },
   {
+    key: "projects",
     label: "Projets publiés",
-    value: "4",
     icon: "line-md:briefcase-twotone",
     href: "/gestion/projects",
     color: "#06B6D4",
   },
   {
-    label: "Articles de blog",
-    value: "0",
+    key: "posts",
+    label: "Articles publiés",
     icon: "line-md:pencil-alt-twotone",
     href: "/gestion/blog",
     color: "#A855F7",
   },
   {
-    label: "Témoignages",
-    value: "3",
+    key: "testimonials",
+    label: "Témoignages visibles",
     icon: "line-md:chat-twotone",
     href: "/gestion/content",
     color: "#F59E0B",
@@ -41,7 +55,49 @@ const QUICK_ACTIONS = [
   { label: "Paramètres généraux", href: "/gestion/settings", icon: "line-md:cog-loop" },
 ]
 
+const EMPTY_COUNTS: Counts = {
+  services: null,
+  projects: null,
+  posts: null,
+  testimonials: null,
+}
+
 export default function AdminDashboardPage() {
+  // Les compteurs viennent de Supabase : `head: true` ne rapatrie que le
+  // total, jamais les lignes. Les cartes affichent l'état publié/visible,
+  // c'est-à-dire ce que le visiteur voit réellement sur le site.
+  const [counts, setCounts] = useState<Counts>(EMPTY_COUNTS)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+
+    const count = async (
+      table: "services" | "projects" | "blog_posts" | "testimonials",
+      filter?: { column: string; value: boolean }
+    ) => {
+      let query = supabase.from(table).select("id", { count: "exact", head: true })
+      if (filter) query = query.eq(filter.column, filter.value)
+      const { count: total, error } = await query
+      return error ? null : total ?? 0
+    }
+
+    Promise.all([
+      count("services", { column: "visible", value: true }),
+      count("projects"),
+      count("blog_posts", { column: "published", value: true }),
+      count("testimonials", { column: "visible", value: true }),
+    ]).then(([services, projects, posts, testimonials]) => {
+      if (cancelled) return
+      setCounts({ services, projects, posts, testimonials })
+      setLoading(false)
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   return (
     <div className="space-y-8 max-w-5xl">
       {/* Header */}
@@ -56,28 +112,37 @@ export default function AdminDashboardPage() {
 
       {/* Stats cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {OVERVIEW_CARDS.map((card) => (
-          <Link
-            key={card.href}
-            href={card.href}
-            className="group rounded-xl p-5 flex flex-col gap-3 transition-all duration-200 hover:scale-[1.02]"
-            style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.07)",
-            }}
-          >
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center"
-              style={{ background: `${card.color}20`, border: `1px solid ${card.color}30` }}
+        {OVERVIEW_CARDS.map((card) => {
+          const value = counts[card.key]
+          return (
+            <Link
+              key={card.href}
+              href={card.href}
+              className="group rounded-xl p-5 flex flex-col gap-3 transition-all duration-200 hover:scale-[1.02]"
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.07)",
+              }}
             >
-              <Icon icon={card.icon} width={20} style={{ color: card.color }} />
-            </div>
-            <div>
-              <p className="text-white font-bold text-2xl">{card.value}</p>
-              <p className="text-white/50 text-xs mt-0.5">{card.label}</p>
-            </div>
-          </Link>
-        ))}
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center"
+                style={{ background: `${card.color}20`, border: `1px solid ${card.color}30` }}
+              >
+                <Icon icon={card.icon} width={20} style={{ color: card.color }} />
+              </div>
+              <div>
+                <p className="text-white font-bold text-2xl">
+                  {loading ? (
+                    <Icon icon="line-md:loading-loop" width={22} className="text-white/30" />
+                  ) : (
+                    value ?? "—"
+                  )}
+                </p>
+                <p className="text-white/50 text-xs mt-0.5">{card.label}</p>
+              </div>
+            </Link>
+          )
+        })}
       </div>
 
       {/* Quick actions */}
