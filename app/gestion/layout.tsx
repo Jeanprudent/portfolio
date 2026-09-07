@@ -1,11 +1,24 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { Icon } from "@iconify/react"
 import { supabase } from "@/lib/supabase"
+import {
+  AUTH_CHANNEL,
+  SIGNED_OUT,
+  clearActivity,
+  isSessionExpired,
+  readActivity,
+  touchActivity,
+} from "@/lib/admin-session"
 import { cn } from "@/lib/utils"
+
+/** Fréquence de rafraîchissement du cookie d'activité et du contrôle d'inactivité. */
+const BATTEMENT_MS = 30_000
+
+const EVENEMENTS_ACTIVITE = ["pointerdown", "keydown", "scroll", "visibilitychange"] as const
 
 const NAV_ITEMS = [
   { label: "Vue d'ensemble", href: "/gestion", icon: "line-md:grid-3-twotone" },
@@ -24,6 +37,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [checking, setChecking] = useState(true)
+  const canal = useRef<BroadcastChannel | null>(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -34,6 +48,83 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         setChecking(false)
       }
     })
+  }, [pathname, router])
+
+  /**
+   * Fin de session : le signOut() révoque réellement le jeton côté Supabase,
+   * là où le proxy se contente d'effacer les cookies.
+   */
+  const terminerSession = useCallback(
+    async (expiree: boolean) => {
+      await supabase.auth.signOut()
+      clearActivity()
+      canal.current?.postMessage(SIGNED_OUT)
+      router.push(expiree ? "/gestion/login?expiree=1" : "/gestion/login")
+    },
+    [router]
+  )
+
+  // Durée de vie de la session : voir lib/admin-session.ts. Le cookie
+  // d'activité est réécrit à chaque geste, et un onglet laissé ouvert se
+  // déconnecte tout seul au bout de 30 minutes sans rien attendre du serveur.
+  useEffect(() => {
+    if (pathname === "/gestion/login") return
+
+    touchActivity()
+    let dernierEcrit = Date.now()
+
+    const marquer = () => {
+      // Contrôler avant d'écrire : revenir sur un onglet resté en arrière-plan
+      // déclenche visibilitychange, qui ressusciterait une session déjà expirée.
+      if (isSessionExpired(readActivity())) {
+        terminerSession(true)
+        return
+      }
+      if (Date.now() - dernierEcrit < BATTEMENT_MS) return
+      dernierEcrit = Date.now()
+      touchActivity()
+    }
+
+    for (const evenement of EVENEMENTS_ACTIVITE) {
+      window.addEventListener(evenement, marquer, { passive: true })
+    }
+
+    const veille = setInterval(() => {
+      if (isSessionExpired(readActivity())) terminerSession(true)
+    }, BATTEMENT_MS)
+
+    return () => {
+      for (const evenement of EVENEMENTS_ACTIVITE) {
+        window.removeEventListener(evenement, marquer)
+      }
+      clearInterval(veille)
+    }
+  }, [pathname, terminerSession])
+
+  // Déconnexion partagée entre onglets : le canal couvre l'onglet actif,
+  // onAuthStateChange rattrape ceux qui n'écoutaient pas encore.
+  useEffect(() => {
+    if (typeof BroadcastChannel === "undefined") return
+
+    const bc = new BroadcastChannel(AUTH_CHANNEL)
+    canal.current = bc
+    bc.onmessage = (event) => {
+      if (event.data === SIGNED_OUT && pathname !== "/gestion/login") {
+        router.push("/gestion/login")
+      }
+    }
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT" && pathname !== "/gestion/login") {
+        router.push("/gestion/login")
+      }
+    })
+
+    return () => {
+      subscription.unsubscribe()
+      bc.close()
+      canal.current = null
+    }
   }, [pathname, router])
 
   if (pathname === "/gestion/login") return <>{children}</>
@@ -51,10 +142,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     )
   }
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut()
-    router.push("/gestion/login")
-  }
+  const handleSignOut = () => terminerSession(false)
 
   return (
     <div className="admin-shell min-h-screen flex" style={{ background: "#05050F" }}>

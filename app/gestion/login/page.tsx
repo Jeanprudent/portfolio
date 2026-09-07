@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useSyncExternalStore } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Icon } from "@iconify/react"
@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { supabase } from "@/lib/supabase"
+import { clearActivity, touchActivity } from "@/lib/admin-session"
 
 const schema = z.object({
   email: z.string().email("Email invalide"),
@@ -21,6 +22,23 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showPwd, setShowPwd] = useState(false)
+  // ?expiree=1 est posé par le proxy ou par le garde d'inactivité.
+  // useSyncExternalStore plutôt que useSearchParams, qui imposerait un
+  // <Suspense> et sortirait le formulaire du HTML prérendu ; l'instantané
+  // serveur (false) évite l'écart d'hydratation.
+  const expiree = useSyncExternalStore(
+    () => () => {},
+    () => new URLSearchParams(window.location.search).has("expiree"),
+    () => false
+  )
+
+  useEffect(() => {
+    if (!expiree) return
+    clearActivity()
+    // La session peut survivre en mémoire quand la redirection vient du proxy
+    // au cours d'une navigation client : on la coupe pour de bon.
+    supabase.auth.signOut()
+  }, [expiree])
 
   const {
     register,
@@ -34,6 +52,9 @@ export default function AdminLoginPage() {
     try {
       const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
       if (authError) throw authError
+      // Ouvre la fenêtre de session : sans ce cookie, le proxy renverrait
+      // aussitôt sur cet écran. Voir lib/admin-session.ts.
+      touchActivity()
       router.push("/gestion")
       router.refresh()
     } catch (err: unknown) {
@@ -90,6 +111,21 @@ export default function AdminLoginPage() {
               Connectez-vous pour gérer votre portfolio
             </p>
           </div>
+
+          {/* Session expirée */}
+          {expiree && !error && (
+            <div
+              className="flex items-center gap-2 p-3 rounded-xl mb-5 text-sm"
+              style={{
+                background: "rgba(245,158,11,0.1)",
+                border: "1px solid rgba(245,158,11,0.3)",
+                color: "#FCD34D",
+              }}
+            >
+              <Icon icon="line-md:alert-twotone" width={16} className="shrink-0" />
+              Session expirée après 30 minutes d&apos;inactivité. Reconnectez-vous.
+            </div>
+          )}
 
           {/* Error */}
           {error && (
