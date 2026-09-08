@@ -120,6 +120,7 @@ export type Database = {
           image_url: string | null
           project_url: string | null
           github_url: string | null
+          result: string | null
           tags: string[]
           category: string
           featured: boolean
@@ -132,6 +133,7 @@ export type Database = {
           image_url?: string | null
           project_url?: string | null
           github_url?: string | null
+          result?: string | null
           tags?: string[]
           category?: string
           featured?: boolean
@@ -143,6 +145,7 @@ export type Database = {
           image_url?: string | null
           project_url?: string | null
           github_url?: string | null
+          result?: string | null
           tags?: string[]
           category?: string
           featured?: boolean

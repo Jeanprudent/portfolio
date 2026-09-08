@@ -57,6 +57,8 @@ export interface Project {
   image_url?: string
   project_url?: string
   github_url?: string
+  /** Resultat mesure, affiche en badge sur la carte. Vide tant qu il n y a pas de chiffre verifiable. */
+  result?: string
   tags: string[]
   category: string
   featured: boolean

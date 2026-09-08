@@ -35,7 +35,10 @@ export function ProjectCard({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={project.image_url}
-            alt={project.title}
+            /* Un alt reduit au titre ne dit ni ce qu'on voit, ni qui l'a fait.
+               La categorie vient de la fiche du projet : aucun lieu n'est
+               ajoute ici, plusieurs references sont a l'etranger. */
+            alt={`Aperçu du site ${project.title} — ${project.category} réalisé par Jean Prudent IDOHOU`}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
@@ -77,9 +80,18 @@ export function ProjectCard({
         <h3 className="font-heading font-semibold text-xl text-(--text-primary) mb-2 group-hover:gradient-text transition-all duration-300">
           <T>{project.title}</T>
         </h3>
-        <p className="text-(--text-secondary) text-sm leading-relaxed mb-5">
+        <p className="text-(--text-secondary) text-sm leading-relaxed mb-4">
           <T>{project.description}</T>
         </p>
+
+        {/* Resultat mesure. Absent tant que le projet n'a pas de chiffre a
+            montrer : un badge vide vaudrait moins que pas de badge. */}
+        {project.result && (
+          <p className="inline-flex items-center gap-1.5 mb-5 px-2.5 py-1 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+            <Icon icon="line-md:arrow-up" width={15} className="shrink-0" />
+            <T>{project.result}</T>
+          </p>
+        )}
 
         <div className="flex items-center gap-3">
           {project.project_url && project.project_url !== "#" && (

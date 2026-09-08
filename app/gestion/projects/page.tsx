@@ -15,6 +15,7 @@ const EMPTY_PROJECT: Omit<Project, "id"> = {
   image_url: "",
   project_url: "",
   github_url: "",
+  result: "",
   tags: [],
   category: "web",
   featured: false,
@@ -64,21 +65,32 @@ function ProjectForm({
   }
   const removeTag = (tag: string) => set("tags")(form.tags.filter((t) => t !== tag))
 
+  /**
+   * PostgREST renvoie 42703 / PGRST204 quand la colonne `result` manque,
+   * c'est-a-dire tant que la migration 007 n'a pas ete jouee. Le message brut
+   * ne dit pas quoi faire ; celui-ci, si.
+   */
+  const messageErreur = (error: { code?: string; message: string }) =>
+    error.code === "42703" || error.code === "PGRST204"
+      ? "Colonne manquante : exécutez supabase/migrations/007_projects_result.sql dans le SQL Editor Supabase."
+      : error.message
+
   const handleSave = async () => {
     if (!form.title.trim() || !form.description.trim()) { toast.error("Titre et description requis"); return }
     setSaving(true)
     const payload = {
       title: form.title, description: form.description, image_url: form.image_url || null,
       project_url: form.project_url || null, github_url: form.github_url || null,
+      result: form.result?.trim() || null,
       tags: form.tags, category: form.category, featured: form.featured, order_index: form.order_index,
     }
     if (isNew) {
       const { data, error } = await supabase.from("projects").insert(payload).select().single()
-      if (error) { toast.error(error.message); setSaving(false); return }
+      if (error) { toast.error(messageErreur(error)); setSaving(false); return }
       onSave(data as Project)
     } else {
       const { error } = await supabase.from("projects").update(payload).eq("id", form.id)
-      if (error) { toast.error(error.message); setSaving(false); return }
+      if (error) { toast.error(messageErreur(error)); setSaving(false); return }
       onSave(form)
     }
     setSaving(false)
@@ -111,6 +123,20 @@ function ProjectForm({
       </div>
 
       <Field label="Description" id="p_desc" value={form.description} onChange={set("description") as (v: string) => void} placeholder="Description du projet…" textarea />
+
+      <div>
+        <Field
+          label="Résultat mesuré"
+          id="p_result"
+          value={form.result || ""}
+          onChange={set("result") as (v: string) => void}
+          placeholder="+40 % de trafic SEO en 3 mois"
+        />
+        <p className="mt-1.5 text-xs text-white/35">
+          Affiché en badge vert sur la carte. Laissez vide si vous n&apos;avez pas
+          de chiffre vérifiable — mieux vaut aucun badge qu&apos;un chiffre inventé.
+        </p>
+      </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
         <Field label="URL du projet" id="p_url" value={form.project_url || ""} onChange={set("project_url") as (v: string) => void} placeholder="https://..." />
@@ -280,6 +306,9 @@ export default function AdminProjectsPage() {
                   <span className="px-1.5 py-0.5 rounded text-xs text-white/40" style={{ background: "rgba(255,255,255,0.06)" }}>{project.category}</span>
                 </div>
                 <p className="text-white/50 text-xs line-clamp-2 sm:line-clamp-1 mb-1.5">{project.description}</p>
+                {project.result && (
+                  <p className="mb-1.5 text-xs font-semibold text-emerald-400">{project.result}</p>
+                )}
                 <div className="flex flex-wrap gap-1">
                   {project.tags.map((tag) => (
                     <span key={tag} className="px-1.5 py-0.5 rounded text-xs" style={{ background: "rgba(124,58,237,0.1)", color: "#A855F7" }}>{tag}</span>
