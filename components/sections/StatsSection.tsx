@@ -1,16 +1,39 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { STATS } from "@/data/portfolio-data"
 import type { Stat } from "@/types/portfolio"
 import { T } from "@/components/ui/T"
 
+/**
+ * useLayoutEffect n'existe pas au rendu serveur ; s'y rabattre sur useEffect
+ * evite l'avertissement React sans rien changer au navigateur.
+ */
+const useEffetAvantPeinture = typeof window === "undefined" ? useEffect : useLayoutEffect
+
+/**
+ * Compteur anime.
+ *
+ * Il demarre a la valeur reelle, et non a zero : le HTML rendu par le serveur
+ * affichait « 0+ » et « 0% » a tout ce qui ne joue pas l'animation — les
+ * robots d'indexation, les apercus de lien, un visiteur sans JavaScript ou
+ * avant hydratation. Des chiffres a zero sur une page de presentation
+ * detruisent la credibilite qu'ils sont censes construire.
+ *
+ * La remise a zero se fait donc cote client uniquement, avant la peinture :
+ * l'animation reste identique, mais elle n'est plus la seule source du
+ * nombre affiche.
+ */
 function AnimatedCounter({ target, suffix }: { target: number; suffix: string }) {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(target)
   const ref = useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true, margin: "-80px" })
+
+  useEffetAvantPeinture(() => {
+    setCount(0)
+  }, [])
 
   useEffect(() => {
     if (!inView) return
