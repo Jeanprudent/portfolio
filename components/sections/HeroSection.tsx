@@ -81,7 +81,7 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <Link href="/#projets" className="btn-primary w-full justify-center sm:w-auto">
                 <Icon icon="line-md:briefcase-twotone" width={18} />
-                Voir mes réalisations
+                {t("hero.cta_primary")}
                 <Icon icon="line-md:arrow-right" width={16} />
               </Link>
 

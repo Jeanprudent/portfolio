@@ -17,7 +17,7 @@ const resources = {
       hero: {
         badge_disponible: "Disponible pour des projets",
         greeting: "Bonjour, je suis",
-        cta_primary: "Voir mes projets",
+        cta_primary: "Voir des résultats concrets",
         cta_secondary: "Discutons de votre projet",
       },
       stats: {
@@ -154,7 +154,7 @@ const resources = {
       hero: {
         badge_disponible: "Available for projects",
         greeting: "Hello, I am",
-        cta_primary: "See my projects",
+        cta_primary: "See concrete results",
         cta_secondary: "Let's discuss your project",
       },
       stats: {
