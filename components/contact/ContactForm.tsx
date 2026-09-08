@@ -110,6 +110,16 @@ export function ContactForm({
         throw new Error(detail?.error || t("contact.form_error"))
       }
 
+      // Conversion Google Analytics. Le tag global etait bien charge, mais
+      // aucun evenement ne remontait : GA ne comptait que des pages vues, donc
+      // aucune demande de devis. generate_lead est l'evenement recommande par
+      // GA4 pour un formulaire de prise de contact.
+      window.gtag?.("event", "generate_lead", {
+        form: compact ? "modal_devis" : "section_contact",
+        besoin: data.besoin,
+        service: service ?? "aucun",
+      })
+
       toast.success(t("contact.form_success"), TOAST_SUCCES)
       reset({ besoin: besoinParDefaut })
       onSuccess?.()
@@ -120,7 +130,11 @@ export function ContactForm({
     }
   }
 
-  const colonnes = compact ? "grid gap-4 mb-4" : "grid sm:grid-cols-2 gap-4 mb-4"
+  // Sur mobile les champs s'empilent : 16px entre chacun tassait le bloc.
+  // L'ecart repasse a 16px des que la grille a deux colonnes.
+  const colonnes = compact
+    ? "grid gap-5 mb-5 sm:gap-4 sm:mb-4"
+    : "grid gap-5 mb-5 sm:grid-cols-2 sm:gap-4 sm:mb-4"
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
