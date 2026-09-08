@@ -12,15 +12,16 @@ const TABS = ["Hero & Bio", "Stats", "Témoignages"] as const
 type Tab = (typeof TABS)[number]
 
 function Field({
-  label, id, value, onChange, placeholder, textarea,
+  label, id, value, onChange, placeholder, textarea, rows = 4, aide,
 }: {
-  label: string; id: string; value: string; onChange: (v: string) => void; placeholder?: string; textarea?: boolean
+  label: string; id: string; value: string; onChange: (v: string) => void
+  placeholder?: string; textarea?: boolean; rows?: number; aide?: React.ReactNode
 }) {
   return (
     <div>
       <label htmlFor={id} className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">{label}</label>
       {textarea ? (
-        <textarea id={id} rows={4} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
+        <textarea id={id} rows={rows} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
           className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] resize-none transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }} />
       ) : (
@@ -28,6 +29,7 @@ function Field({
           className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }} />
       )}
+      {aide && <div className="mt-1.5 text-xs text-white/35">{aide}</div>}
     </div>
   )
 }
@@ -90,7 +92,26 @@ function HeroTab() {
       <Card>
         <h2 className="text-white font-semibold text-sm">Texte principal</h2>
         <Field label="Accroche / Tagline" id="tagline" value={form.tagline} onChange={set("tagline") as (v: string) => void} placeholder="Votre proposition de valeur…" textarea />
-        <Field label="Bio courte" id="bio" value={form.bio} onChange={set("bio") as (v: string) => void} placeholder="Description de vous-même…" textarea />
+        <Field
+          label="Bio (section À propos)"
+          id="bio"
+          value={form.bio}
+          onChange={set("bio") as (v: string) => void}
+          placeholder={"Premier paragraphe.\n\nDeuxième paragraphe, avec un lien vers [la création de sites web](/services/creation-de-sites-web-sur-mesure)."}
+          textarea
+          rows={10}
+          aide={
+            <>
+              <span className="block">
+                Une <strong className="text-white/60">ligne vide</strong> sépare deux paragraphes.
+              </span>
+              <span className="block mt-1">
+                Lien interne : <code className="font-mono text-white/50">[texte affiché](/services/mon-service)</code> —
+                seuls les chemins du site sont acceptés.
+              </span>
+            </>
+          }
+        />
         <Field label="Localisation" id="location" value={form.location} onChange={set("location") as (v: string) => void} placeholder="Ville, Pays" />
       </Card>
       <Card>

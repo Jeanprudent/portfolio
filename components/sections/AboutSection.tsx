@@ -1,11 +1,41 @@
 "use client"
 
+import Link from "next/link"
 import { motion } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { useTranslation } from "react-i18next"
 import { useAutoTranslate } from "@/hooks/useAutoTranslate"
 import type { PortfolioConfig } from "@/lib/supabase-data"
 import { CONTACT_LOCATION } from "@/lib/contact-info"
+import { analyserLiens, decouperParagraphes } from "@/lib/rich-text"
+
+/**
+ * Bio du back-office : une ligne vide separe deux paragraphes, et
+ * [texte](/services/…) devient un lien interne. Voir lib/rich-text.ts.
+ */
+function BioRedigee({ texte }: { texte: string }) {
+  return (
+    <>
+      {decouperParagraphes(texte).map((paragraphe, i) => (
+        <p key={i}>
+          {analyserLiens(paragraphe).map((segment, j) =>
+            segment.type === "lien" ? (
+              <Link
+                key={j}
+                href={segment.href}
+                className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 transition-colors hover:decoration-primary"
+              >
+                {segment.contenu}
+              </Link>
+            ) : (
+              <span key={j}>{segment.contenu}</span>
+            )
+          )}
+        </p>
+      ))}
+    </>
+  )
+}
 
 const HIGHLIGHTS = [
   {
@@ -123,7 +153,7 @@ export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
               </h2>
               <div className="space-y-4 text-(--text-secondary) leading-relaxed">
                 {config?.bio ? (
-                  <p>{bio}</p>
+                  <BioRedigee texte={bio} />
                 ) : (
                   <>
                     <p>
