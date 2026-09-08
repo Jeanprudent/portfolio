@@ -37,7 +37,10 @@
   --bg-secondary:   #EEE9FF;
   --text-primary:   #0f0023;
   --text-secondary: rgba(15, 0, 35, 0.65);
-  --text-muted:     rgba(15, 0, 35, 0.4);
+  /* 0.40 donnait 2.75:1 sur --bg, sous le minimum WCAG AA de 4.5:1 : les
+     mentions secondaires, placeholders et libelles etaient les premiers a
+     disparaitre sur un ecran mobile peu lumineux. 0.58 -> 4.95:1. */
+  --text-muted:     rgba(15, 0, 35, 0.58);
   --glass-bg:       rgba(124, 58, 237, 0.06);
   --glass-border:   rgba(124, 58, 237, 0.15);
   --glass-shadow:   0 8px 32px rgba(124, 58, 237, 0.12);
@@ -54,7 +57,8 @@
   --bg-secondary:   #0a0520;
   --text-primary:   #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.65);
-  --text-muted:     rgba(255, 255, 255, 0.35);
+  /* Meme correction en theme sombre : 0.35 donnait 3.10:1, 0.52 donne 5.67:1. */
+  --text-muted:     rgba(255, 255, 255, 0.52);
   --glass-bg:       rgba(255, 255, 255, 0.04);
   --glass-border:   rgba(255, 255, 255, 0.08);
   --glass-shadow:   0 8px 32px rgba(124, 58, 237, 0.25);
