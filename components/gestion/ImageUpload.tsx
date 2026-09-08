@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from "react"
 import { Icon } from "@iconify/react"
 import { supabase } from "@/lib/supabase"
+import { compresserEnWebp, enKo } from "@/lib/image-compression"
 
 interface ImageUploadProps {
   currentUrl?: string | null
@@ -26,6 +27,7 @@ export function ImageUpload({
   const [uploading, setUploading] = useState(false)
   const [preview, setPreview] = useState<string | null>(currentUrl || null)
   const [error, setError] = useState<string | null>(null)
+  const [gain, setGain] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleFile = useCallback(
@@ -39,20 +41,29 @@ export function ImageUpload({
         return
       }
       setError(null)
+      setGain(null)
 
       // Prévisualisation immédiate
       const reader = new FileReader()
       reader.onload = (e) => setPreview(e.target?.result as string)
       reader.readAsDataURL(file)
 
-      // Upload Supabase Storage
       setUploading(true)
-      const ext = file.name.split(".").pop() ?? "jpg"
+
+      // Conversion WebP avant l'envoi : le stockage Supabase sert le fichier
+      // tel quel, c'est donc le seul endroit ou le poids peut encore baisser.
+      const compresse = await compresserEnWebp(file)
+      const aEnvoyer = compresse.fichier
+      if (compresse.converti) {
+        setGain(`${enKo(compresse.octetsAvant)} Ko → ${enKo(compresse.octetsApres)} Ko (WebP)`)
+      }
+
+      const ext = aEnvoyer.name.split(".").pop() ?? "jpg"
       const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
 
       const { error: uploadError } = await supabase.storage
         .from(bucket)
-        .upload(path, file, { upsert: true })
+        .upload(path, aEnvoyer, { upsert: true, contentType: aEnvoyer.type })
 
       if (uploadError) {
         setError(uploadError.message)
@@ -135,7 +146,7 @@ export function ImageUpload({
           <div className="absolute inset-0 flex items-center justify-center bg-black/60">
             <div className="flex flex-col items-center gap-2 text-white">
               <Icon icon="line-md:loading-loop" width={28} />
-              <span className="text-xs font-semibold">Upload en cours…</span>
+              <span className="text-xs font-semibold">Compression et envoi…</span>
             </div>
           </div>
         )}
@@ -163,7 +174,13 @@ export function ImageUpload({
           {error}
         </p>
       )}
-      {hint && !error && (
+      {gain && !error && (
+        <p className="mt-1.5 flex items-center gap-1 text-xs text-emerald-400">
+          <Icon icon="line-md:confirm-circle" width={12} />
+          Image compressée : {gain}
+        </p>
+      )}
+      {hint && !error && !gain && (
         <p className="mt-1 text-xs text-white/30">{hint}</p>
       )}
 
