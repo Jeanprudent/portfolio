@@ -8,8 +8,9 @@ import Link from "@tiptap/extension-link"
 import { Icon } from "@iconify/react"
 import toast, { Toaster } from "react-hot-toast"
 import { supabase } from "@/lib/supabase"
+import { ImageUpload } from "@/components/gestion/ImageUpload"
 import type { BlogPost } from "@/types/portfolio"
-import { formatDate, slugify, cn } from "@/lib/utils"
+import { formatDate, slugify, cn, datePublication } from "@/lib/utils"
 
 const TOOLBAR_ACTIONS = [
   { label: "B", title: "Gras", command: (e: ReturnType<typeof useEditor>) => e?.chain().focus().toggleBold().run(), active: (e: ReturnType<typeof useEditor>) => !!e?.isActive("bold") },
@@ -28,8 +29,18 @@ function Editor({ content, onChange }: { content: string; onChange: (html: strin
   })
 
   return (
-    <div className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
-      <div className="flex flex-wrap gap-1 p-2" style={{ background: "rgba(255,255,255,0.04)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+    <div className="rounded-xl" style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
+      {/* top-14 : hauteur de la barre superieure du back-office, elle-meme
+          collante. A 0 la barre d'edition passerait dessous. Fond opaque,
+          sinon le texte defilant se lirait au travers. */}
+      <div
+        className="sticky top-14 z-20 flex flex-wrap gap-1 rounded-t-xl p-2"
+        style={{
+          background: "rgba(20,17,31,0.97)",
+          backdropFilter: "blur(10px)",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
         {TOOLBAR_ACTIONS.map((action) => (
           <button
             key={action.title} type="button" title={action.title} onClick={() => action.command(editor)}
@@ -46,7 +57,7 @@ function Editor({ content, onChange }: { content: string; onChange: (html: strin
           ──
         </button>
       </div>
-      <div style={{ background: "rgba(255,255,255,0.03)" }}>
+      <div className="rounded-b-xl" style={{ background: "rgba(255,255,255,0.03)" }}>
         <EditorContent editor={editor} className="prose-jp prose-admin min-h-[240px] px-4 py-3 focus-within:outline-none" />
       </div>
     </div>
@@ -64,6 +75,41 @@ function PostForm({
   const [tagInput, setTagInput] = useState("")
   const [saving, setSaving] = useState(false)
 
+  /**
+   * Une couverture peut aussi etre une URL collee a la main. Rien ne
+   * garantissait qu'elle pointe vers une image : une adresse de page
+   * (Pinterest, Google Images, un article) s'enregistrait sans broncher et
+   * l'article s'affichait ensuite sans illustration, sans le moindre signe.
+   *
+   * Le navigateur est le seul juge fiable ici : si <img> ne sait pas
+   * l'afficher, la couverture ne s'affichera pas non plus sur le site.
+   */
+  const [etatCouverture, setEtatCouverture] = useState<"vide" | "verification" | "ok" | "invalide">("vide")
+
+  useEffect(() => {
+    const url = (form.cover_url || "").trim()
+    if (!url) {
+      // Pas de setState synchrone dans le corps de l'effet : le timer ci-dessous
+      // porte aussi la remise a zero.
+      const vide = setTimeout(() => setEtatCouverture("vide"), 0)
+      return () => clearTimeout(vide)
+    }
+
+    let annule = false
+    const timer = setTimeout(() => {
+      setEtatCouverture("verification")
+      const test = new window.Image()
+      test.onload = () => { if (!annule) setEtatCouverture("ok") }
+      test.onerror = () => { if (!annule) setEtatCouverture("invalide") }
+      test.src = url
+    }, 500)
+
+    return () => {
+      annule = true
+      clearTimeout(timer)
+    }
+  }, [form.cover_url])
+
   const set = <K extends keyof BlogPost>(key: K) => (v: BlogPost[K]) =>
     setForm((prev) => ({ ...prev, [key]: v }))
 
@@ -77,6 +123,16 @@ function PostForm({
   }
   const removeTag = (tag: string) => set("tags")(form.tags.filter((t) => t !== tag))
 
+  /**
+   * PostgREST renvoie 42703 / PGRST204 quand published_at manque, c'est-a-dire
+   * tant que la migration 008 n'a pas ete jouee. Le message brut ne dit pas
+   * quoi faire, celui-ci si.
+   */
+  const messageErreur = (error: { code?: string; message: string }) =>
+    error.code === "42703" || error.code === "PGRST204"
+      ? "Colonne manquante : executez supabase/migrations/008_blog_published_at.sql dans le SQL Editor Supabase."
+      : error.message
+
   const save = async (published: boolean) => {
     if (!form.title.trim()) { toast.error("Le titre est requis"); return }
     if (!form.content || form.content === "<p></p>") { toast.error("Le contenu est requis"); return }
@@ -84,14 +140,17 @@ function PostForm({
     const payload = {
       title: form.title, slug: form.slug || slugify(form.title), content: form.content,
       excerpt: form.excerpt, cover_url: form.cover_url || null, tags: form.tags, published,
+      // Horodatee au premier passage en ligne seulement : depublier puis
+      // republier ne doit pas reecrire l'histoire de l'article.
+      ...(published && !form.published_at ? { published_at: new Date().toISOString() } : {}),
     }
     if (isNew) {
       const { data, error } = await supabase.from("blog_posts").insert(payload).select().single()
-      if (error) { toast.error(error.message); setSaving(false); return }
+      if (error) { toast.error(messageErreur(error)); setSaving(false); return }
       onSave(data as BlogPost)
     } else {
       const { data, error } = await supabase.from("blog_posts").update(payload).eq("id", form.id).select().single()
-      if (error) { toast.error(error.message); setSaving(false); return }
+      if (error) { toast.error(messageErreur(error)); setSaving(false); return }
       onSave(data as BlogPost)
     }
     setSaving(false)
@@ -119,24 +178,60 @@ function PostForm({
         </div>
       </div>
 
+      <div className="space-y-3">
+        <ImageUpload
+          label="Image de couverture"
+          currentUrl={form.cover_url || null}
+          folder="blog"
+          onUpload={(url) => set("cover_url")(url)}
+          hint="Glissez une image ou cliquez - convertie en WebP et compressee automatiquement"
+        />
+
+        <div>
+          <label htmlFor="cover_url" className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">
+            ou coller l&apos;adresse d&apos;une image
+          </label>
+          <input
+            id="cover_url"
+            type="text"
+            value={form.cover_url || ""}
+            onChange={(e) => set("cover_url")(e.target.value)}
+            placeholder="https://exemple.com/photo.jpg"
+            className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] transition-all duration-200"
+            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
+          />
+
+          {etatCouverture === "verification" && (
+            <p className="mt-1.5 flex items-center gap-1 text-xs text-white/40">
+              <Icon icon="line-md:loading-loop" width={12} />
+              Verification de l&apos;adresse...
+            </p>
+          )}
+          {etatCouverture === "ok" && (
+            <p className="mt-1.5 flex items-center gap-1 text-xs text-emerald-400">
+              <Icon icon="line-md:confirm-circle" width={12} />
+              Image valide, elle s&apos;affichera sur l&apos;article.
+            </p>
+          )}
+          {etatCouverture === "invalide" && (
+            <p className="mt-1.5 flex items-start gap-1.5 text-xs text-amber-300">
+              <Icon icon="line-md:alert-twotone" width={13} className="mt-0.5 shrink-0" />
+              <span>
+                Cette adresse ne renvoie pas une image : l&apos;article s&apos;affichera sans
+                couverture. Un lien de page (Pinterest, Google Images, un article) ne
+                fonctionne pas - il faut l&apos;adresse du fichier lui-meme, qui finit par
+                .jpg, .png ou .webp. Le plus sur reste de televerser l&apos;image ci-dessus.
+              </span>
+            </p>
+          )}
+        </div>
+      </div>
       <div>
         <input type="text" value={form.title} onChange={(e) => handleTitleChange(e.target.value)} placeholder="Titre de l'article…"
           className="w-full px-0 py-2 text-2xl font-heading font-bold text-white placeholder:text-white/20 focus:outline-none bg-transparent border-b transition-colors duration-200"
           style={{ borderColor: "rgba(255,255,255,0.1)" }} />
         <input type="text" value={form.slug} onChange={(e) => set("slug")(e.target.value)} placeholder="slug-de-l-article"
           className="mt-1.5 w-full px-0 py-1 text-xs font-mono text-white/30 placeholder:text-white/15 focus:outline-none bg-transparent" />
-      </div>
-
-      <div>
-        <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Résumé</label>
-        <textarea rows={2} value={form.excerpt} onChange={(e) => set("excerpt")(e.target.value)} placeholder="Courte description affichée dans la liste du blog…"
-          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] resize-none transition-all duration-200"
-          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }} />
-      </div>
-
-      <div>
-        <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Contenu</label>
-        <Editor content={form.content} onChange={set("content")} />
       </div>
 
       <div>
@@ -159,12 +254,19 @@ function PostForm({
         </div>
       </div>
 
+
       <div>
-        <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Image de couverture (URL)</label>
-        <input type="text" value={form.cover_url || ""} onChange={(e) => set("cover_url")(e.target.value)} placeholder="https://... ou Cloudinary URL"
-          className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] transition-all duration-200"
+        <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Résumé</label>
+        <textarea rows={2} value={form.excerpt} onChange={(e) => set("excerpt")(e.target.value)} placeholder="Courte description affichée dans la liste du blog…"
+          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] resize-none transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }} />
       </div>
+
+      <div>
+        <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Contenu</label>
+        <Editor content={form.content} onChange={set("content")} />
+      </div>
+
     </div>
   )
 }
@@ -205,9 +307,17 @@ export default function AdminBlogPage() {
   const togglePublish = async (id: string) => {
     const post = posts.find((p) => p.id === id)
     if (!post) return
-    const { error } = await supabase.from("blog_posts").update({ published: !post.published }).eq("id", id)
+    const publie = !post.published
+    const horodatage = publie && !post.published_at ? new Date().toISOString() : post.published_at
+
+    const { error } = await supabase
+      .from("blog_posts")
+      .update({ published: publie, published_at: horodatage })
+      .eq("id", id)
     if (error) { toast.error(error.message); return }
-    setPosts((prev) => prev.map((p) => (p.id === id ? { ...p, published: !p.published } : p)))
+    setPosts((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, published: publie, published_at: horodatage } : p))
+    )
   }
 
   if (editing) {
@@ -274,7 +384,7 @@ export default function AdminBlogPage() {
               </div>
               <p className="text-white/40 text-xs mb-1.5 line-clamp-2 sm:line-clamp-1">{post.excerpt}</p>
               <div className="flex items-center gap-3 text-xs text-white/30">
-                <time>{formatDate(post.created_at)}</time>
+                <time>{formatDate(datePublication(post))}</time>
                 {post.tags.length > 0 && <span>{post.tags.slice(0, 2).join(", ")}</span>}
               </div>
             </div>

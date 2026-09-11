@@ -275,7 +275,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Page content */}
-        <main className="flex-1 p-5 lg:p-7 overflow-auto">{children}</main>
+        {/* overflow-x-clip et non overflow-auto : la valeur auto faisait de
+            <main> un conteneur de defilement, alors que c'est la fenetre qui
+            defile. Tout position:sticky a l'interieur se calait donc sur un
+            conteneur sans course possible, et ne collait jamais. clip borne le
+            debordement horizontal sans creer ce conteneur. */}
+        <main className="flex-1 p-5 lg:p-7 overflow-x-clip">{children}</main>
       </div>
     </div>
   )
