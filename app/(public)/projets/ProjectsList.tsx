@@ -46,7 +46,7 @@ export function ProjectsList({ projects }: { projects: Project[] }) {
           Projets <span className="gradient-text">réalisés</span>
         </h1>
         <p className="text-(--text-secondary) text-lg max-w-xl mx-auto">
-          L&apos;ensemble de mes réalisations — sites web, référencement naturel
+          L&apos;ensemble de mes réalisations: sites web, référencement naturel
           et automatisation. Filtrez par type de prestation.
         </p>
       </motion.div>

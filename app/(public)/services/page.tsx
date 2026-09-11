@@ -20,7 +20,7 @@ export default function Page() {
           Mes services
         </span>
         <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold mt-4">Services</h1>
-        <p className="text-(--text-secondary) max-w-2xl mx-auto mt-4">Découvrez les services proposés — cliquez sur un service pour en savoir plus.</p>
+        <p className="text-(--text-secondary) max-w-2xl mx-auto mt-4">Découvrez les services que je propose: cliquez sur un service pour en savoir plus.</p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">

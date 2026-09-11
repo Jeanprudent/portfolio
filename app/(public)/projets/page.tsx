@@ -7,9 +7,9 @@ import { ProjectsList } from "./ProjectsList"
 export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
-  title: "Projets réalisés — sites web, SEO et automatisation",
+  title: "Projets réalisés | sites web, SEO et automatisation",
   description:
-    "Découvrez la pluspart de mes réalisations : sites web sur mesure, référencement naturel et automatisation, pour des PME, artisans et entrepreneurs à Cotonou et au Bénin.",
+    "Découvrez la pluspart de mes réalisations : sites web sur mesure, référencement naturel et automatisation, pour des PME, artisans et entrepreneurs au Bénin et ailleurs.",
   alternates: { canonical: "/projets" },
   openGraph: {
     type: "website",
