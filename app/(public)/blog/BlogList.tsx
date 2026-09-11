@@ -48,12 +48,12 @@ export function BlogList({ posts }: { posts: BlogPost[] }) {
 
       {/* Search + Tags */}
       <motion.div
-        className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-10"
+        className="mb-10 flex flex-col gap-4"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2, ease: EASE }}
       >
-        <div className="relative flex-1 max-w-sm">
+        <div className="relative w-full max-w-sm">
           <Icon
             icon="line-md:search"
             width={16}
