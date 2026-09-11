@@ -5,7 +5,7 @@ import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Icon } from "@iconify/react"
 import type { BlogPost } from "@/types/portfolio"
-import { formatDate, cn } from "@/lib/utils"
+import { formatDate, cn, datePublication } from "@/lib/utils"
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
@@ -42,7 +42,7 @@ export function BlogList({ posts }: { posts: BlogPost[] }) {
           <span className="gradient-text">Conseils</span>
         </h1>
         <p className="text-(--text-secondary) text-lg max-w-xl mx-auto">
-          Web design, SEO, automatisation — des conseils concrets pour développer votre présence en ligne.
+          Web design, Référencement SEO, automatisation; des conseils concrets pour développer votre présence en ligne.
         </p>
       </motion.div>
 
@@ -170,7 +170,7 @@ export function BlogList({ posts }: { posts: BlogPost[] }) {
                       {post.excerpt}
                     </p>
                     <div className="flex items-center justify-between text-xs text-(--text-muted)">
-                      <time dateTime={post.created_at}>{formatDate(post.created_at)}</time>
+                      <time dateTime={datePublication(post)}>{formatDate(datePublication(post))}</time>
                       <span className="flex items-center gap-1 text-primary/60 group-hover:text-primary transition-colors duration-200">
                         Lire
                         <Icon icon="line-md:arrow-right" width={12} />

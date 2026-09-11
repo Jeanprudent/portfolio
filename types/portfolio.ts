@@ -96,6 +96,11 @@ export interface BlogPost {
   cover_url?: string
   tags: string[]
   published: boolean
+  /**
+   * Date de mise en ligne, distincte de created_at (creation du brouillon).
+   * NULL tant que l'article n'a jamais ete publie. Voir datePublication().
+   */
+  published_at?: string | null
   created_at: string
   updated_at: string
 }

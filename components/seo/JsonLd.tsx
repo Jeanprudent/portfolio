@@ -1,5 +1,6 @@
 import { absoluteUrl, SITE_URL } from "@/lib/site"
 import { CONTACT_EMAIL, CONTACT_LOCATION, CONTACT_WHATSAPP } from "@/lib/contact-info"
+import { datePublication } from "@/lib/utils"
 import type { Service, BlogPost } from "@/types/portfolio"
 import type { ServiceContent } from "@/lib/service-content"
 
@@ -131,7 +132,7 @@ export function ArticleJsonLd({ post }: { post: BlogPost }) {
         headline: post.title,
         description: post.excerpt,
         ...(post.cover_url ? { image: absoluteUrl(post.cover_url) } : {}),
-        datePublished: post.created_at,
+        datePublished: datePublication(post),
         dateModified: post.updated_at || post.created_at,
         author: {
           "@type": "Person",

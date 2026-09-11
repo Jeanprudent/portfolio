@@ -13,6 +13,18 @@ export function formatDate(date: string | Date): string {
   }).format(new Date(date))
 }
 
+/**
+ * Date a afficher pour un article : celle de sa mise en ligne.
+ *
+ * created_at est la date de creation du brouillon. Un article redige en aout
+ * et publie en septembre s'annoncait date d'aout, sur le site comme dans le
+ * balisage Schema.org. Repli sur created_at pour les brouillons et pour les
+ * lignes anterieures a la migration 008.
+ */
+export function datePublication(post: { published_at?: string | null; created_at: string }): string {
+  return post.published_at || post.created_at
+}
+
 export function slugify(text: string): string {
   return text
     .toLowerCase()

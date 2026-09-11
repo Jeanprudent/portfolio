@@ -1,6 +1,6 @@
 import SafeImage from "@/components/ui/SafeImage"
 import { Icon } from "@iconify/react"
-import { formatDate } from "@/lib/utils"
+import { formatDate, datePublication } from "@/lib/utils"
 import type { BlogPost } from "@/types/portfolio"
 
 /**
@@ -58,7 +58,7 @@ export default function ArticleHero({ post }: { post: BlogPost }) {
             </span>
             <span className="flex items-center gap-1.5">
               <Icon icon="line-md:calendar-twotone" width={15} aria-hidden />
-              <time dateTime={post.created_at}>{formatDate(post.created_at)}</time>
+              <time dateTime={datePublication(post)}>{formatDate(datePublication(post))}</time>
             </span>
           </div>
         </div>

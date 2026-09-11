@@ -1,7 +1,7 @@
 import Link from "next/link"
 import SafeImage from "@/components/ui/SafeImage"
 import { Icon } from "@iconify/react"
-import { formatDate } from "@/lib/utils"
+import { formatDate, datePublication } from "@/lib/utils"
 import type { BlogPost } from "@/types/portfolio"
 
 /**
@@ -64,7 +64,7 @@ export default function RelatedPosts({ posts }: { posts: BlogPost[] }) {
                 </p>
 
                 <p className="mt-auto pt-4 text-xs text-(--text-muted)">
-                  {formatDate(post.created_at)}
+                  {formatDate(datePublication(post))}
                 </p>
               </div>
             </Link>

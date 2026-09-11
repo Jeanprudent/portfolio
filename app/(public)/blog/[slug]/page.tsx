@@ -10,6 +10,7 @@ import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd"
 import { getBlogPost, getBlogPosts } from "@/lib/supabase-data"
 import { sanitizeHtml } from "@/lib/sanitize"
 import { absoluteUrl } from "@/lib/site"
+import { datePublication } from "@/lib/utils"
 import { CONTACT_EMAIL } from "@/lib/contact-info"
 
 // Relire l'article depuis Supabase à chaque requête (backoffice).
@@ -37,7 +38,7 @@ export async function generateMetadata({
       title: post.title,
       description: post.excerpt,
       url: absoluteUrl(path),
-      publishedTime: post.created_at,
+      publishedTime: datePublication(post),
       modifiedTime: post.updated_at || post.created_at,
       images: post.cover_url ? [{ url: post.cover_url }] : undefined,
     },

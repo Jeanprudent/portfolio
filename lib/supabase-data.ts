@@ -3,6 +3,7 @@ import { STATS, SERVICES, PROJECTS, TESTIMONIALS } from "@/data/portfolio-data"
 import { BLOG_POSTS } from "@/data/blog-data"
 import { serviceSlug } from "@/lib/slug"
 import { mergeService } from "@/lib/merge-service"
+import { datePublication } from "@/lib/utils"
 import type { Stat, Service, Project, Testimonial, BlogPost } from "@/types/portfolio"
 import { DEFAULT_FONT_PAIR, resolveFontPair, type FontPair } from "@/lib/font-pairs"
 
@@ -122,14 +123,28 @@ export async function getTestimonials(): Promise<Testimonial[]> {
   }
 }
 
+/**
+ * Classe sur la date reellement affichee. Sans cela, un article redige tot
+ * mais publie tard remonterait au-dessus d'articles plus recents que lui.
+ *
+ * Le tri est fait ici plutot que dans la requete : un .order() sur une
+ * colonne absente fait echouer toute la requete, et le blog public serait
+ * alors servi depuis le fichier de repli sans que rien ne le signale.
+ */
+function trierParPublication(posts: BlogPost[]): BlogPost[] {
+  return [...posts].sort(
+    (a, b) => +new Date(datePublication(b)) - +new Date(datePublication(a))
+  )
+}
+
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
     const { data } = await client()
       .from("blog_posts")
       .select("*")
       .order("created_at", { ascending: false })
-    if (data) return (data as BlogPost[]).filter((p) => p.published)
-    return BLOG_POSTS.filter((p) => p.published)
+    if (data) return trierParPublication((data as BlogPost[]).filter((p) => p.published))
+    return trierParPublication(BLOG_POSTS.filter((p) => p.published))
   } catch {
     return BLOG_POSTS.filter((p) => p.published)
   }
