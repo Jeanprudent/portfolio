@@ -19,7 +19,7 @@ import {
 const FOOTER_LINKS = [
   { label: "Accueil", href: "/#accueil" },
   { label: "Services", href: "/services" },
-  { label: "Projets", href: "/#projets" },
+  { label: "Projets", href: "/projets" },
   { label: "À propos", href: "/#a-propos" },
   { label: "FAQ", href: "/#faq" },
   { label: "Blog", href: "/blog" },
