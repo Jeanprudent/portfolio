@@ -64,7 +64,7 @@ export function ProjectsList({ projects }: { projects: Project[] }) {
             onClick={() => setActiveCategory(cat.id)}
             className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-250 ${
               activeCategory === cat.id
-                ? "bg-primary text-white shadow-[0_4px_16px_rgba(124,58,237,0.4)]"
+                ? "bg-primary text-white shadow-[0_4px_16px_rgba(255, 122, 26,0.4)]"
                 : "glass border border-(--glass-border) text-(--text-secondary) hover:text-(--text-primary) hover:border-primary/30"
             }`}
           >

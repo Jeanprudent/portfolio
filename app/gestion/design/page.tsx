@@ -36,7 +36,7 @@ function PairCard({
       className="w-full rounded-xl p-4 text-left transition-all duration-200"
       style={
         selected
-          ? { background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.4)" }
+          ? { background: "rgba(255, 122, 26,0.15)", border: "1px solid rgba(255, 122, 26,0.4)" }
           : { background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }
       }
     >
@@ -48,7 +48,7 @@ function PairCard({
           </p>
         </div>
         {selected && (
-          <Icon icon="line-md:confirm-circle-twotone" width={18} className="text-[#A855F7] shrink-0" />
+          <Icon icon="line-md:confirm-circle-twotone" width={18} className="text-[#ff7a1a] shrink-0" />
         )}
       </div>
 
@@ -110,7 +110,7 @@ export default function AdminDesignPage() {
       return
     }
     setSaved(fontPair.id)
-    toast.success("Typographie enregistrée — visible sur le site sous 30 s")
+    toast.success("Typographie enregistrée, visible sur le site sous 30 s")
   }
 
   const modifie = fontPair.id !== saved
@@ -130,7 +130,7 @@ export default function AdminDesignPage() {
           onClick={handleSave}
           disabled={saving || loading || !configId || !modifie}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white shrink-0 disabled:opacity-40 transition-all duration-200"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+          style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
         >
           {saving ? (
             <Icon icon="line-md:loading-loop" width={16} />
@@ -161,7 +161,7 @@ export default function AdminDesignPage() {
 
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" />
+          <Icon icon="line-md:loading-loop" width={28} className="text-[#ff7a1a]" />
         </div>
       ) : (
         <div

@@ -78,7 +78,7 @@ export function StatsSection({ stats = STATS }: { stats?: Stat[] }) {
               >
                 <div
                   className="w-11 h-11 rounded-xl flex items-center justify-center"
-                  style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}
+                  style={{ background: "rgba(255, 122, 26,0.1)", border: "1px solid rgba(255, 122, 26,0.2)" }}
                 >
                   <Icon icon={stat.icon} width={22} className="text-primary" />
                 </div>

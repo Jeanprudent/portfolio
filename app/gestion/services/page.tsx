@@ -100,7 +100,7 @@ export default function AdminServicesPage() {
         <div>
           <h1 className="font-heading font-bold text-2xl text-white mb-1">Services</h1>
           <p className="text-white/50 text-sm">
-            {services.length} service{services.length > 1 ? "s" : ""} — les flèches
+            {services.length} service{services.length > 1 ? "s" : ""}, les flèches
             réorganisent l&apos;affichage sur le site
           </p>
         </div>
@@ -108,7 +108,7 @@ export default function AdminServicesPage() {
         <Link
           href="/gestion/services/nouveau"
           className="flex shrink-0 items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.03]"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+          style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
         >
           <Icon icon="line-md:plus-circle-twotone" width={16} />
           Nouveau service
@@ -117,7 +117,7 @@ export default function AdminServicesPage() {
 
       {loading && (
         <div className="flex items-center justify-center py-12">
-          <Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" />
+          <Icon icon="line-md:loading-loop" width={28} className="text-[#ff7a1a]" />
         </div>
       )}
 
@@ -147,11 +147,11 @@ export default function AdminServicesPage() {
                 <span
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
                   style={{
-                    background: "rgba(124,58,237,0.12)",
-                    border: "1px solid rgba(124,58,237,0.25)",
+                    background: "rgba(255, 122, 26,0.12)",
+                    border: "1px solid rgba(255, 122, 26,0.25)",
                   }}
                 >
-                  <Icon icon={service.icon} width={20} className="text-[#A855F7]" />
+                  <Icon icon={service.icon} width={20} className="text-[#ff7a1a]" />
                 </span>
 
                 <div className="min-w-0 flex-1">

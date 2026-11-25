@@ -21,7 +21,7 @@ const OVERVIEW_CARDS: {
     label: "Services actifs",
     icon: "line-md:star-twotone",
     href: "/gestion/services",
-    color: "#7C3AED",
+    color: "#ff7a1a",
   },
   {
     key: "projects",
@@ -35,7 +35,7 @@ const OVERVIEW_CARDS: {
     label: "Articles publiés",
     icon: "line-md:pencil-alt-twotone",
     href: "/gestion/blog",
-    color: "#A855F7",
+    color: "#ff7a1a",
   },
   {
     key: "testimonials",
@@ -135,7 +135,7 @@ export default function AdminDashboardPage() {
                   {loading ? (
                     <Icon icon="line-md:loading-loop" width={22} className="text-white/30" />
                   ) : (
-                    value ?? "—"
+                    value ?? "-"
                   )}
                 </p>
                 <p className="text-white/50 text-xs mt-0.5">{card.label}</p>
@@ -153,7 +153,7 @@ export default function AdminDashboardPage() {
             <Link
               key={action.href}
               href={action.href}
-              className="flex items-center gap-3 p-4 rounded-xl transition-all duration-200 group hover:border-[rgba(124,58,237,0.4)]"
+              className="flex items-center gap-3 p-4 rounded-xl transition-all duration-200 group hover:border-[rgba(255, 122, 26,0.4)]"
               style={{
                 background: "rgba(255,255,255,0.03)",
                 border: "1px solid rgba(255,255,255,0.07)",
@@ -161,9 +161,9 @@ export default function AdminDashboardPage() {
             >
               <div
                 className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
-                style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}
+                style={{ background: "rgba(255, 122, 26,0.1)", border: "1px solid rgba(255, 122, 26,0.2)" }}
               >
-                <Icon icon={action.icon} width={18} className="text-[#A855F7]" />
+                <Icon icon={action.icon} width={18} className="text-[#ff7a1a]" />
               </div>
               <span className="text-white/70 group-hover:text-white text-sm font-medium transition-colors duration-200">
                 {action.label}
@@ -182,12 +182,12 @@ export default function AdminDashboardPage() {
       <div
         className="rounded-xl p-5 flex items-center justify-between"
         style={{
-          background: "rgba(124,58,237,0.08)",
-          border: "1px solid rgba(124,58,237,0.2)",
+          background: "rgba(255, 122, 26,0.08)",
+          border: "1px solid rgba(255, 122, 26,0.2)",
         }}
       >
         <div className="flex items-center gap-3">
-          <Icon icon="line-md:external-link" width={20} className="text-[#7C3AED]" />
+          <Icon icon="line-md:external-link" width={20} className="text-[#ff7a1a]" />
           <div>
             <p className="text-white font-medium text-sm">Voir votre portfolio en ligne</p>
             <p className="text-white/40 text-xs mt-0.5">Vérifiez le rendu public de votre site</p>
@@ -197,7 +197,7 @@ export default function AdminDashboardPage() {
           href="/"
           target="_blank"
           className="px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all duration-200"
-          style={{ background: "rgba(124,58,237,0.25)", border: "1px solid rgba(124,58,237,0.4)" }}
+          style={{ background: "rgba(255, 122, 26,0.25)", border: "1px solid rgba(255, 122, 26,0.4)" }}
         >
           Ouvrir
         </Link>

@@ -15,11 +15,11 @@ const CATEGORIES = [
 ]
 
 const CATEGORY_COLORS: Record<string, string> = {
-  frontend: "#7C3AED",
-  cms: "#8B5CF6",
+  frontend: "#ff7a1a",
+  cms: "#e66b0d",
   seo: "#10B981",
   design: "#F59E0B",
-  tools: "#A855F7",
+  tools: "#ff7a1a",
 }
 
 export function SkillsSection() {
@@ -61,7 +61,7 @@ export function SkillsSection() {
               onClick={() => setActiveCategory(cat.id)}
               className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                 activeCategory === cat.id
-                  ? "bg-primary text-white shadow-[0_4px_12px_rgba(124,58,237,0.4)]"
+                  ? "bg-primary text-white shadow-[0_4px_12px_rgba(255, 122, 26,0.4)]"
                   : "glass border border-(--glass-border) text-(--text-secondary) hover:text-(--text-primary)"
               }`}
             >
@@ -73,7 +73,7 @@ export function SkillsSection() {
         {/* Skills Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {filtered.map((skill, i) => {
-            const color = CATEGORY_COLORS[skill.category] || "#7C3AED"
+            const color = CATEGORY_COLORS[skill.category] || "#ff7a1a"
             return (
               <motion.div
                 key={skill.id}

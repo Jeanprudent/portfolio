@@ -6,7 +6,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "7 erreurs qui tuent le taux de conversion de votre site web",
     slug: "erreurs-taux-conversion-site-web",
     excerpt:
-      "Un site web magnifique peut quand même échouer à convertir. Voici les 7 erreurs les plus communes — et comment les corriger rapidement.",
+      "Un site web magnifique peut quand même échouer à convertir. Voici les 7 erreurs les plus communes, et comment les corriger rapidement.",
     content: `<h2>Pourquoi votre site ne convertit pas ?</h2>
 <p>Vous avez investi dans un site professionnel, vous avez du trafic, mais les contacts restent rares. Ce n'est pas une fatalité. Dans la grande majorité des cas, c'est l'une de ces 7 erreurs qui bloque vos conversions.</p>
 <h2>1. Un titre qui ne parle pas à votre cible</h2>
@@ -43,18 +43,18 @@ export const BLOG_POSTS: BlogPost[] = [
 <h2>1. L'expérience utilisateur (Core Web Vitals)</h2>
 <p>Google mesure précisément la qualité de l'expérience sur votre site :</p>
 <ul>
-<li><strong>LCP</strong> — le contenu principal s'affiche en moins de 2,5 secondes</li>
-<li><strong>INP</strong> — temps de réponse aux interactions inférieur à 200ms</li>
-<li><strong>CLS</strong> — les éléments ne sautent pas pendant le chargement</li>
+<li><strong>LCP</strong> : le contenu principal s'affiche en moins de 2,5 secondes</li>
+<li><strong>INP</strong> : temps de réponse aux interactions inférieur à 200ms</li>
+<li><strong>CLS</strong> : les éléments ne sautent pas pendant le chargement</li>
 </ul>
 <h2>2. L'E-E-A-T (Expérience, Expertise, Autorité, Confiance)</h2>
-<p>Google veut montrer du contenu créé par de vraies personnes expertes. Votre page "À propos", vos certifications, vos études de cas — tout cela renforce votre crédibilité.</p>
+<p>Google veut montrer du contenu créé par de vraies personnes expertes. Votre page "À propos", vos certifications, vos études de cas, tout cela renforce votre crédibilité.</p>
 <h2>3. L'intention de recherche</h2>
 <p>Écrire pour les mots-clés ne suffit plus. Il faut comprendre ce que l'utilisateur cherche <strong>vraiment</strong> et y répondre de la façon la plus complète possible.</p>
 <h2>4. Les liens internes et l'architecture</h2>
 <p>Une structure claire avec des liens internes logiques aide Google à comprendre votre site et distribue l'autorité vers vos pages prioritaires.</p>
 <h2>5. Le contenu long et de qualité</h2>
-<p>Les articles de 2000+ mots bien structurés surpassent systématiquement les contenus courts — pas parce qu'ils sont longs, mais parce qu'ils sont complets.</p>
+<p>Les articles de 2000+ mots bien structurés surpassent systématiquement les contenus courts, pas parce qu'ils sont longs, mais parce qu'ils sont complets.</p>
 <h2>Ma recommandation</h2>
 <p>Concentrez-vous d'abord sur la technique (vitesse, mobile), puis sur le contenu (qualité, profondeur), puis sur les backlinks (qualité, pas quantité). Dans cet ordre.</p>`,
     cover_url: "",
@@ -73,7 +73,7 @@ export const BLOG_POSTS: BlogPost[] = [
 <p>Mon client gérait chaque semaine des dizaines de formulaires de contact, devait les copier dans son CRM, envoyer des emails de confirmation manuellement, puis relancer les prospects qui n'avaient pas répondu.</p>
 <p>Résultat : <strong>10 heures perdues chaque semaine</strong> en tâches répétitives et sans valeur ajoutée.</p>
 <h2>La solution : n8n</h2>
-<p>n8n est un outil d'automatisation open-source qui permet de créer des "workflows" — des séquences d'actions automatiques déclenchées par des événements.</p>
+<p>n8n est un outil d'automatisation open-source qui permet de créer des "workflows", des séquences d'actions automatiques déclenchées par des événements.</p>
 <h2>Le workflow mis en place</h2>
 <ol>
 <li><strong>Formulaire soumis</strong> → n8n reçoit les données via webhook</li>

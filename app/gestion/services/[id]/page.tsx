@@ -193,7 +193,7 @@ export default function EditionServicePage({
   if (chargement || !service || !contenu) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" />
+        <Icon icon="line-md:loading-loop" width={28} className="text-[#ff7a1a]" />
       </div>
     )
   }
@@ -228,7 +228,7 @@ export default function EditionServicePage({
           onClick={enregistrer}
           disabled={sauvegarde}
           className="flex shrink-0 items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.03] disabled:opacity-60"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+          style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
         >
           <Icon
             icon={sauvegarde ? "line-md:loading-loop" : "line-md:confirm-circle-twotone"}
@@ -254,8 +254,8 @@ export default function EditionServicePage({
             style={
               onglet === o
                 ? {
-                    background: "rgba(124,58,237,0.25)",
-                    border: "1px solid rgba(124,58,237,0.35)",
+                    background: "rgba(255, 122, 26,0.25)",
+                    border: "1px solid rgba(255, 122, 26,0.35)",
                   }
                 : undefined
             }
@@ -308,7 +308,7 @@ export default function EditionServicePage({
               type="checkbox"
               checked={service.visible}
               onChange={(e) => setChamp("visible", e.target.checked)}
-              className="h-4 w-4 accent-[#7C3AED]"
+              className="h-4 w-4 accent-[#ff7a1a]"
             />
             <span className="text-sm text-white/70">Visible sur le site</span>
           </label>
@@ -432,7 +432,7 @@ export default function EditionServicePage({
               </div>
             ))}
 
-            <div className="space-y-3 rounded-xl p-4" style={{ background: "rgba(124,58,237,0.08)" }}>
+            <div className="space-y-3 rounded-xl p-4" style={{ background: "rgba(255, 122, 26,0.08)" }}>
               <p className="text-xs font-semibold uppercase tracking-wide text-white/40">
                 3 · Solution
                 <span className="ml-2 font-normal normal-case text-white/25">

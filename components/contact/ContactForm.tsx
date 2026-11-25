@@ -42,10 +42,10 @@ const TOAST_SUCCES = {
   style: {
     background: "rgba(5,5,16,0.95)",
     color: "#fff",
-    border: "1px solid rgba(124,58,237,0.4)",
+    border: "1px solid rgba(255, 122, 26,0.4)",
     backdropFilter: "blur(12px)",
   },
-  iconTheme: { primary: "#7C3AED", secondary: "#fff" },
+  iconTheme: { primary: "#ff7a1a", secondary: "#fff" },
 }
 
 const TOAST_ERREUR = {
@@ -130,11 +130,11 @@ export function ContactForm({
     }
   }
 
-  // Sur mobile les champs s'empilent : 16px entre chacun tassait le bloc.
-  // L'ecart repasse a 16px des que la grille a deux colonnes.
-  const colonnes = compact
-    ? "grid gap-5 mb-5 sm:gap-4 sm:mb-4"
-    : "grid gap-5 mb-5 sm:grid-cols-2 sm:gap-4 sm:mb-4"
+  // Deux colonnes dès que la place le permet, y compris dans le modal (élargi
+  // en conséquence) : les paires nom/email et besoin/budget tiennent sur une
+  // ligne, ce qui divise par deux la hauteur du formulaire et évite d'avoir à
+  // défiler pour voir le bouton d'envoi. Sur mobile, les champs s'empilent.
+  const colonnes = "grid gap-5 mb-5 sm:grid-cols-2 sm:gap-4 sm:mb-4"
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -233,13 +233,13 @@ export function ContactForm({
         </div>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-5">
         <label htmlFor={id("message")} className={LABEL}>
           {t("contact.form_message")} *
         </label>
         <textarea
           id={id("message")}
-          rows={compact ? 4 : 5}
+          rows={compact ? 3 : 5}
           placeholder={t("contact.form_placeholder_message")}
           {...register("message")}
           className="w-full px-4 py-3 rounded-xl glass border border-(--glass-border) bg-transparent text-(--text-primary) placeholder:text-(--text-muted) text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all duration-200 resize-none"

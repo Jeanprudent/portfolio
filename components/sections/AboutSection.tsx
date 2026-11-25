@@ -83,7 +83,7 @@ export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
                   <div
                     className="absolute inset-0 flex flex-col items-center justify-center gap-4"
                     style={{
-                      background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(168,85,247,0.15))",
+                      background: "linear-gradient(135deg, rgba(255, 122, 26,0.15), rgba(255, 122, 26,0.15))",
                     }}
                   >
                     <Icon icon="line-md:person-twotone" width={80} className="text-primary opacity-60" />
@@ -184,7 +184,7 @@ export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
                 >
                   <div
                     className="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center"
-                    style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}
+                    style={{ background: "rgba(255, 122, 26,0.1)", border: "1px solid rgba(255, 122, 26,0.2)" }}
                   >
                     <Icon icon={h.icon} width={20} className="text-primary" />
                   </div>
@@ -198,26 +198,13 @@ export function AboutSection({ config }: { config?: PortfolioConfig | null }) {
 
             {/* CTA */}
             <div className="flex flex-wrap gap-3 pt-2">
-              <a href="#contact" className="btn-primary w-full justify-center sm:w-auto">
+              <Link href="/a-propos" className="btn-primary w-full justify-center sm:w-auto">
+                <Icon icon="line-md:person-twotone" width={18} />
+                Découvrir mon parcours
+              </Link>
+              <a href="#contact" className="btn-ghost">
                 <Icon icon="line-md:telegram" width={18} />
                 {t("about.cta_contact")}
-              </a>
-              <a
-                href={config?.github_url || "https://github.com/Jeanprudent"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-ghost"
-              >
-                <Icon icon="line-md:github-loop" width={18} />
-                {t("about.cta_github")}
-              </a>
-              <a
-                href="/cv.pdf"
-                download="CV-Jean-Prudent-IDOHOU.pdf"
-                className="btn-ghost"
-              >
-                <Icon icon="line-md:download-loop" width={18} />
-                {t("about.cta_cv")}
               </a>
             </div>
           </motion.div>

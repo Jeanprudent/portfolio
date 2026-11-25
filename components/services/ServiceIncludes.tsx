@@ -20,8 +20,8 @@ export default function ServiceIncludes({ content }: { content: ServiceContent }
               <span
                 className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl"
                 style={{
-                  background: "rgba(124,58,237,0.12)",
-                  border: "1px solid rgba(124,58,237,0.25)",
+                  background: "rgba(255, 122, 26,0.12)",
+                  border: "1px solid rgba(255, 122, 26,0.25)",
                 }}
               >
                 <Icon icon={item.icon} width={20} aria-hidden className="text-primary" />

@@ -20,6 +20,14 @@ export type FontPair = {
 
 export const FONT_PAIRS: FontPair[] = [
   {
+    id: "sofia",
+    label: "Sofia Sans Extra Condensed + Sofia Sans (marque)",
+    heading: "Sofia Sans Extra Condensed",
+    body: "Sofia Sans",
+    headingVar: "--font-sofia-condensed",
+    bodyVar: "--font-sofia-sans",
+  },
+  {
     id: "syne-dm",
     label: "Syne + DM Sans",
     heading: "Syne",

@@ -10,11 +10,20 @@
 
 export const CONTACT_EMAIL = "jeanprudent03@gmail.com"
 
-/** Format international sans « + » ni espaces — c'est ce qu'attend wa.me. */
-export const CONTACT_WHATSAPP = "2290192175002"
+/** Téléphone (appels). Format international sans « + » ni espaces. */
+export const CONTACT_PHONE = "2290192175002"
 
-/** Version lisible, pour l'affichage uniquement. */
+/** Version lisible du téléphone, pour l'affichage uniquement. */
 export const CONTACT_PHONE_DISPLAY = "+229 01 92 17 50 02"
+
+/**
+ * WhatsApp — numéro DISTINCT du téléphone. Format sans « + » ni espaces,
+ * c'est ce qu'attend wa.me.
+ */
+export const CONTACT_WHATSAPP = "2290162484609"
+
+/** Version lisible du WhatsApp, pour l'affichage uniquement. */
+export const CONTACT_WHATSAPP_DISPLAY = "+229 01 62 48 46 09"
 
 export const CONTACT_LOCATION = "Cotonou, Bénin"
 

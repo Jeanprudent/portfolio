@@ -49,7 +49,7 @@ export default function RelatedPosts({ posts }: { posts: BlogPost[] }) {
                     <span
                       key={tag}
                       className="rounded-md px-2 py-0.5 text-xs"
-                      style={{ background: "rgba(124,58,237,0.15)", color: "#A855F7" }}
+                      style={{ background: "rgba(255, 122, 26,0.15)", color: "#ff7a1a" }}
                     >
                       {tag}
                     </span>

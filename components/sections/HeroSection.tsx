@@ -42,11 +42,11 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
       {/* Gradient mesh background */}
       <div className="absolute inset-0 gradient-mesh pointer-events-none" />
 
-      {/* Decorative glow orbs */}
+      {/* Decorative glow orbs — orange de marque */}
       <div
         className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,122,26,0.20) 0%, transparent 70%)",
           filter: "blur(40px)",
           animation: "float 8s ease-in-out infinite",
         }}
@@ -54,7 +54,7 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
       <div
         className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(168,85,247,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,122,26,0.12) 0%, transparent 70%)",
           filter: "blur(60px)",
           animation: "float 10s ease-in-out infinite 2s",
         }}
@@ -67,11 +67,11 @@ export function HeroSection({ config }: { config?: PortfolioConfig | null }) {
         initial="hidden"
         animate="show"
       >
-        <div className="md:grid md:grid-cols-1 gap-8 items-center text-center md:text-left">
+        <div className="md:grid md:grid-cols-1 gap-8 items-center text-center">
           {/* Left: copy and CTAs */}
-          <motion.div variants={itemVariants} className="space-y-6">
-            <h1 className="font-heading font-bold text-3xl md:text-5xl lg:text-5xl leading-[1.05] tracking-tight">
-              Transformez votre <span className="gradient-text">site web</span> <br/> en machine à clients automatique
+          <motion.div variants={itemVariants} className="space-y-6 flex flex-col items-center">
+            <h1 className="font-heading font-extrabold uppercase text-4xl md:text-6xl lg:text-7xl leading-[0.98] tracking-tight">
+              Transformez votre <span className="text-primary">présence en ligne</span> en machine à clients automatique
             </h1>
 
             <p className="text-(--text-secondary) text-base md:text-lg leading-relaxed max-w-xl">

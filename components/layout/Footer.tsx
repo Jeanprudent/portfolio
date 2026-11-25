@@ -6,10 +6,13 @@ import { useTranslation } from "react-i18next"
 import type { PortfolioConfig } from "@/lib/supabase-data"
 import { SERVICES } from "@/data/portfolio-data"
 import { serviceSlug } from "@/lib/slug"
+import { Logo } from "@/components/layout/Logo"
+import { ScrollToTop } from "@/components/ui/ScrollToTop"
 import {
   CONTACT_EMAIL,
   CONTACT_LOCATION,
   CONTACT_WHATSAPP,
+  CONTACT_PHONE,
   CONTACT_PHONE_DISPLAY,
   whatsappLink,
 } from "@/lib/contact-info"
@@ -20,7 +23,7 @@ const FOOTER_LINKS = [
   { label: "Accueil", href: "/#accueil" },
   { label: "Services", href: "/services" },
   { label: "Projets", href: "/projets" },
-  { label: "À propos", href: "/#a-propos" },
+  { label: "À propos", href: "/a-propos" },
   { label: "FAQ", href: "/#faq" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/#contact" },
@@ -58,9 +61,8 @@ export function Footer({ config }: { config?: PortfolioConfig | null }) {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1.2fr_1.2fr] mb-12">
           {/* Marque */}
           <div className="space-y-4">
-            <Link href="/" className="inline-block font-heading font-bold text-2xl">
-              <span className="gradient-text">Jean </span>
-              <span className="text-(--text-primary)">Prudent</span>
+            <Link href="/" aria-label="Jean Prudent, accueil" className="inline-flex">
+              <Logo className="h-14" />
             </Link>
 
             <p className="text-(--text-secondary) text-sm leading-relaxed max-w-xs">
@@ -157,11 +159,11 @@ export function Footer({ config }: { config?: PortfolioConfig | null }) {
                 {email}
               </a>
               <a
-                href={`tel:${whatsapp}`}
+                href={`tel:${CONTACT_PHONE}`}
                 className="flex items-center gap-2 text-(--text-secondary) hover:text-primary text-sm transition-colors duration-200"
               >
                 <Icon icon="line-md:phone-call-loop" width={16} className="text-secondary shrink-0" />
-                {config?.whatsapp ? `${whatsapp}` : CONTACT_PHONE_DISPLAY}
+                {CONTACT_PHONE_DISPLAY}
               </a>
               <a
                 href={whatsappLink(whatsapp)}
@@ -211,20 +213,24 @@ export function Footer({ config }: { config?: PortfolioConfig | null }) {
         </div>
       </div>
 
-      {/* WhatsApp Floating Button */}
-      <a
-        href={whatsappLink(whatsapp, "Bonjour Jean Prudent, je souhaite discuter d'un projet web.")}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Contacter via WhatsApp"
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform duration-200"
-        style={{
-          background: "linear-gradient(135deg, #25D366, #128C7E)",
-          boxShadow: "0 4px 24px rgba(37, 211, 102, 0.4)",
-        }}
-      >
-        <Icon icon="line-md:phone-call-loop" width={26} />
-      </a>
+      {/* Boutons flottants — WhatsApp en haut, « remonter » juste en dessous */}
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-center gap-3">
+        <a
+          href={whatsappLink(whatsapp, "Bonjour Jean Prudent, je souhaite discuter d'un projet web.")}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Contacter via WhatsApp"
+          className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform duration-200"
+          style={{
+            background: "linear-gradient(135deg, #25D366, #128C7E)",
+            boxShadow: "0 4px 24px rgba(37, 211, 102, 0.4)",
+          }}
+        >
+          <Icon icon="line-md:phone-call-loop" width={26} />
+        </a>
+
+        <ScrollToTop />
+      </div>
     </footer>
   )
 }

@@ -2,6 +2,8 @@ import type { Metadata } from "next"
 import { SITE_URL } from "@/lib/site"
 import Script from "next/script"
 import {
+  Sofia_Sans,
+  Sofia_Sans_Extra_Condensed,
   Syne,
   DM_Sans,
   Outfit,
@@ -15,6 +17,20 @@ import { getFontPair } from "@/lib/supabase-data"
 import { ThemeProvider } from "@/components/layout/ThemeProvider"
 import { I18nProvider } from "@/components/providers/I18nProvider"
 import "./globals.css"
+
+// Polices de marque (charte « La une »). Variables → pas de poids à déclarer.
+// Sofia Sans Extra Condensed : titres (display). Sofia Sans : texte courant.
+const sofiaCondensed = Sofia_Sans_Extra_Condensed({
+  variable: "--font-sofia-condensed",
+  subsets: ["latin"],
+  display: "swap",
+})
+
+const sofiaSans = Sofia_Sans({
+  variable: "--font-sofia-sans",
+  subsets: ["latin"],
+  display: "swap",
+})
 
 const syne = Syne({
   variable: "--font-syne",
@@ -40,7 +56,7 @@ const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: 
 const plusJakarta = Plus_Jakarta_Sans({ variable: "--font-plus-jakarta", subsets: ["latin"], display: "swap", preload: false })
 const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"], display: "swap", preload: false })
 
-const FONTS = [syne, dmSans, outfit, inter, spaceGrotesk, plusJakarta, manrope]
+const FONTS = [sofiaCondensed, sofiaSans, syne, dmSans, outfit, inter, spaceGrotesk, plusJakarta, manrope]
 const FONT_VARIABLES = FONTS.map((f) => f.variable).join(" ")
 
 export const metadata: Metadata = {
@@ -97,6 +113,16 @@ export default async function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning className={FONT_VARIABLES} style={fontPairStyle(fontPair)}>
       <head>
+        {/* Thème avant le premier rendu (anti-FOUC). Script inline dans le
+            <head> d'un composant serveur : c'est du HTML statique, donc il
+            s'exécute avant la peinture ET ne déclenche pas l'avertissement
+            React 19 sur les <script> rendus dans un composant client. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var t=localStorage.getItem('jp_theme');document.documentElement.classList.toggle('dark',t==='dark')}catch(e){}",
+          }}
+        />
         {/* Google tag (gtag.js) */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-XLR3RZBL4D"
@@ -112,7 +138,7 @@ export default async function RootLayout({
         </Script>
       </head>
       <body className="antialiased">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="jp_theme">
+        <ThemeProvider>
           <I18nProvider>
             {children}
           </I18nProvider>

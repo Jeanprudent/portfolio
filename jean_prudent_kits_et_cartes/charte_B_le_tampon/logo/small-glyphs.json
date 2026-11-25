@@ -1,0 +1,89 @@
+{
+ "units": "symbol grid 0..100; index = position in data-glyphs (1-based)",
+ "symbol": [
+  {
+   "id": "initiales",
+   "text": "JP",
+   "location": {
+    "wght": 700
+   },
+   "glyphs": [
+    {
+     "index": 1,
+     "char": "J",
+     "x0": 22.15,
+     "x1": 45.79,
+     "cap_top": 33.0,
+     "baseline": 67.0,
+     "stems": [
+      [
+       35.64,
+       42.65
+      ]
+     ],
+     "pen_x": 21.88,
+     "advance": 25.42
+    },
+    {
+     "index": 2,
+     "char": "P",
+     "x0": 49.35,
+     "x1": 77.85,
+     "cap_top": 33.0,
+     "baseline": 67.0,
+     "stems": [
+      [
+       53.01,
+       68.8
+      ]
+     ],
+     "pen_x": 47.31,
+     "advance": 31.28
+    }
+   ]
+  }
+ ],
+ "symbol-small": [
+  {
+   "id": "initiales",
+   "text": "JP",
+   "location": {
+    "wght": 700
+   },
+   "glyphs": [
+    {
+     "index": 1,
+     "char": "J",
+     "x0": 18.87,
+     "x1": 45.29,
+     "cap_top": 31.0,
+     "baseline": 69.0,
+     "stems": [
+      [
+       33.95,
+       41.79
+      ]
+     ],
+     "pen_x": 18.58,
+     "advance": 28.41
+    },
+    {
+     "index": 2,
+     "char": "P",
+     "x0": 49.27,
+     "x1": 81.13,
+     "cap_top": 31.0,
+     "baseline": 69.0,
+     "stems": [
+      [
+       53.36,
+       71.01
+      ]
+     ],
+     "pen_x": 46.99,
+     "advance": 34.96
+    }
+   ]
+  }
+ ]
+}

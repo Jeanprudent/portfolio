@@ -45,7 +45,7 @@ function Editor({ content, onChange }: { content: string; onChange: (html: strin
           <button
             key={action.title} type="button" title={action.title} onClick={() => action.command(editor)}
             className={cn("min-w-[32px] h-8 px-2 rounded-lg text-xs font-mono font-bold transition-all duration-150", action.active(editor) ? "text-white" : "text-white/40 hover:text-white/70")}
-            style={action.active(editor) ? { background: "rgba(124,58,237,0.3)", border: "1px solid rgba(124,58,237,0.4)" } : { background: "rgba(255,255,255,0.04)" }}
+            style={action.active(editor) ? { background: "rgba(255, 122, 26,0.3)", border: "1px solid rgba(255, 122, 26,0.4)" } : { background: "rgba(255,255,255,0.04)" }}
           >
             {action.label}
           </button>
@@ -170,7 +170,7 @@ function PostForm({
           <button
             onClick={() => save(true)} disabled={saving}
             className="flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold text-white disabled:opacity-60 transition-all duration-200"
-            style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+            style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
           >
             {saving ? <Icon icon="line-md:loading-loop" width={16} /> : <Icon icon="line-md:confirm-circle-twotone" width={16} />}
             Publier
@@ -197,7 +197,7 @@ function PostForm({
             value={form.cover_url || ""}
             onChange={(e) => set("cover_url")(e.target.value)}
             placeholder="https://exemple.com/photo.jpg"
-            className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] transition-all duration-200"
+            className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(255, 122, 26,0.5)] transition-all duration-200"
             style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
           />
 
@@ -238,7 +238,7 @@ function PostForm({
         <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Tags</label>
         <div className="flex gap-2 flex-wrap mb-2">
           {form.tags.map((tag) => (
-            <span key={tag} className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium" style={{ background: "rgba(124,58,237,0.2)", color: "#A855F7" }}>
+            <span key={tag} className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium" style={{ background: "rgba(255, 122, 26,0.2)", color: "#ff7a1a" }}>
               {tag}
               <button onClick={() => removeTag(tag)} className="hover:text-white transition-colors"><Icon icon="line-md:close" width={10} /></button>
             </span>
@@ -258,7 +258,7 @@ function PostForm({
       <div>
         <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Résumé</label>
         <textarea rows={2} value={form.excerpt} onChange={(e) => set("excerpt")(e.target.value)} placeholder="Courte description affichée dans la liste du blog…"
-          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] resize-none transition-all duration-200"
+          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(255, 122, 26,0.5)] resize-none transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }} />
       </div>
 
@@ -349,7 +349,7 @@ export default function AdminBlogPage() {
         <button
           onClick={() => setEditing("new")}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white shrink-0 transition-all duration-200 hover:scale-[1.03]"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+          style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
         >
           <Icon icon="line-md:plus-circle-twotone" width={16} />
           Nouvel article
@@ -359,19 +359,19 @@ export default function AdminBlogPage() {
       <div className="space-y-3">
         {loading && (
           <div className="flex items-center justify-center py-12">
-            <Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" />
+            <Icon icon="line-md:loading-loop" width={28} className="text-[#ff7a1a]" />
           </div>
         )}
         {!loading && posts.length === 0 && (
           <div className="rounded-xl p-12 text-center" style={{ background: "rgba(255,255,255,0.04)", border: "1px dashed rgba(255,255,255,0.1)" }}>
             <Icon icon="line-md:pencil-alt-twotone" width={40} className="text-white/20 mx-auto mb-3" />
-            <p className="text-white/40 text-sm">Aucun article — commencez à écrire !</p>
+            <p className="text-white/40 text-sm">Aucun article, commencez à écrire !</p>
           </div>
         )}
         {!loading && posts.map((post) => (
           <div key={post.id} className="flex flex-wrap items-start gap-3 sm:gap-4 p-4 rounded-xl" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}>
-              <Icon icon="line-md:pencil-alt-twotone" width={20} className="text-[#7C3AED]" />
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(255, 122, 26,0.1)", border: "1px solid rgba(255, 122, 26,0.2)" }}>
+              <Icon icon="line-md:pencil-alt-twotone" width={20} className="text-[#ff7a1a]" />
             </div>
 
             <div className="flex-1 min-w-0">

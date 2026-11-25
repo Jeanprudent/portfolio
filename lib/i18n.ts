@@ -76,7 +76,7 @@ const resources = {
         questions: [
           {
             q: "Êtes-vous disponible pour des projets freelance ?",
-            a: "Oui, je suis disponible pour des projets freelance, des collaborations et des missions ponctuelles. N'hésitez pas à me contacter via le formulaire ou WhatsApp pour discuter de votre projet — je réponds généralement sous 24h.",
+            a: "Oui, je suis disponible pour des projets freelance, des collaborations et des missions ponctuelles. N'hésitez pas à me contacter via le formulaire ou WhatsApp pour discuter de votre projet, je réponds généralement sous 24h.",
           },
           {
             q: "Combien de temps faut-il pour créer un site web ?",
@@ -213,7 +213,7 @@ const resources = {
         questions: [
           {
             q: "Are you available for freelance projects?",
-            a: "Yes, I am available for freelance projects, collaborations and one-off missions. Feel free to contact me via the form or WhatsApp to discuss your project — I usually respond within 24 hours.",
+            a: "Yes, I am available for freelance projects, collaborations and one-off missions. Feel free to contact me via the form or WhatsApp to discuss your project, I usually respond within 24 hours.",
           },
           {
             q: "How long does it take to build a website?",

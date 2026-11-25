@@ -1,0 +1,211 @@
+{
+ "units": "wordmark: cap height 100, cap top y=0, baseline y=100, x from the pen origin; index = data-glyph",
+ "text": "JEAN PRUDENT",
+ "glyphs": [
+  {
+   "index": 1,
+   "char": "J",
+   "x0": -2.9,
+   "x1": 27.79,
+   "pen_x": 0.0,
+   "advance": 32.98,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     5.19,
+     27.79
+    ]
+   ]
+  },
+  {
+   "index": 2,
+   "char": "E",
+   "x0": 38.17,
+   "x1": 89.01,
+   "pen_x": 32.98,
+   "advance": 60.92,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     38.17,
+     60.76
+    ]
+   ]
+  },
+  {
+   "index": 3,
+   "char": "A",
+   "x0": 94.16,
+   "x1": 164.4,
+   "pen_x": 93.89,
+   "advance": 70.69,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     101.97,
+     123.51
+    ],
+    [
+     134.83,
+     156.58
+    ]
+   ]
+  },
+  {
+   "index": 4,
+   "char": "N",
+   "x0": 169.77,
+   "x1": 232.82,
+   "pen_x": 164.58,
+   "advance": 73.44,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     169.77,
+     190.77
+    ],
+    [
+     196.22,
+     211.93
+    ],
+    [
+     212.93,
+     232.82
+    ]
+   ]
+  },
+  {
+   "index": 5,
+   "char": " ",
+   "x0": null,
+   "x1": null,
+   "pen_x": 238.02,
+   "advance": 19.24,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": []
+  },
+  {
+   "index": 6,
+   "char": "P",
+   "x0": 262.44,
+   "x1": 318.32,
+   "pen_x": 257.25,
+   "advance": 64.27,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": []
+  },
+  {
+   "index": 7,
+   "char": "R",
+   "x0": 326.72,
+   "x1": 389.39,
+   "pen_x": 321.53,
+   "advance": 67.18,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": []
+  },
+  {
+   "index": 8,
+   "char": "U",
+   "x0": 393.59,
+   "x1": 456.03,
+   "pen_x": 388.7,
+   "advance": 72.06,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     393.59,
+     416.18
+    ],
+    [
+     433.44,
+     456.03
+    ]
+   ]
+  },
+  {
+   "index": 9,
+   "char": "D",
+   "x0": 465.95,
+   "x1": 528.85,
+   "pen_x": 460.76,
+   "advance": 71.6,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     465.95,
+     488.55
+    ],
+    [
+     505.96,
+     528.61
+    ]
+   ]
+  },
+  {
+   "index": 10,
+   "char": "E",
+   "x0": 537.56,
+   "x1": 588.4,
+   "pen_x": 532.37,
+   "advance": 60.31,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     537.56,
+     560.15
+    ]
+   ]
+  },
+  {
+   "index": 11,
+   "char": "N",
+   "x0": 597.86,
+   "x1": 660.92,
+   "pen_x": 592.67,
+   "advance": 73.44,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     597.86,
+     618.87
+    ],
+    [
+     624.31,
+     640.03
+    ],
+    [
+     641.02,
+     660.92
+    ]
+   ]
+  },
+  {
+   "index": 12,
+   "char": "T",
+   "x0": 668.09,
+   "x1": 725.8,
+   "pen_x": 666.11,
+   "advance": 61.68,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     685.65,
+     708.24
+    ]
+   ]
+  }
+ ]
+}

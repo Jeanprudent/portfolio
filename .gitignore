@@ -50,3 +50,6 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Paquet de skills Claude Code vendored, hors application (voir CLAUDE.md)
+naming-suite-main/

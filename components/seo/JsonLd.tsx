@@ -1,5 +1,5 @@
 import { absoluteUrl, SITE_URL } from "@/lib/site"
-import { CONTACT_EMAIL, CONTACT_LOCATION, CONTACT_WHATSAPP } from "@/lib/contact-info"
+import { CONTACT_EMAIL, CONTACT_LOCATION, CONTACT_PHONE } from "@/lib/contact-info"
 import { datePublication } from "@/lib/utils"
 import type { Service, BlogPost } from "@/types/portfolio"
 import type { ServiceContent } from "@/lib/service-content"
@@ -73,7 +73,7 @@ export function ServiceJsonLd({
       name: "Jean Prudent IDOHOU",
       url: SITE_URL,
       email: CONTACT_EMAIL,
-      telephone: `+${CONTACT_WHATSAPP}`,
+      telephone: `+${CONTACT_PHONE}`,
     },
     areaServed: [
       { "@type": "City", name: "Cotonou" },
@@ -165,7 +165,7 @@ export function HomeJsonLd() {
           name: "Jean Prudent IDOHOU",
           url: SITE_URL,
           email: CONTACT_EMAIL,
-          telephone: `+${CONTACT_WHATSAPP}`,
+          telephone: `+${CONTACT_PHONE}`,
           jobTitle: "Développeur web & designer",
           address: {
             "@type": "PostalAddress",
@@ -183,10 +183,10 @@ export function HomeJsonLd() {
         data={{
           "@context": "https://schema.org",
           "@type": "ProfessionalService",
-          name: "Jean Prudent IDOHOU — Développeur web & designer",
+          name: "Jean Prudent IDOHOU, Développeur web & designer",
           url: SITE_URL,
           email: CONTACT_EMAIL,
-          telephone: `+${CONTACT_WHATSAPP}`,
+          telephone: `+${CONTACT_PHONE}`,
           areaServed: [
             { "@type": "City", name: "Cotonou" },
             { "@type": "Country", name: "Bénin" },

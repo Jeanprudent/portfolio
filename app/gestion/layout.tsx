@@ -25,6 +25,7 @@ const NAV_ITEMS = [
   { label: "Contenu", href: "/gestion/content", icon: "line-md:document-list-twotone" },
   { label: "Projets", href: "/gestion/projects", icon: "line-md:briefcase-twotone" },
   { label: "Services", href: "/gestion/services", icon: "line-md:star-twotone" },
+  { label: "Zones", href: "/gestion/zones", icon: "line-md:map-marker-twotone" },
   { label: "Blog", href: "/gestion/blog", icon: "line-md:pencil-alt-twotone" },
   { label: "Design", href: "/gestion/design", icon: "line-md:paint-drop-twotone" },
   { label: "SEO", href: "/gestion/seo", icon: "line-md:search-twotone" },
@@ -133,8 +134,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#05050F" }}>
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,58,237,0.2)" }}>
-            <Icon icon="line-md:loading-loop" width={24} className="text-[#A855F7]" />
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(255, 122, 26,0.2)" }}>
+            <Icon icon="line-md:loading-loop" width={24} className="text-[#ff7a1a]" />
           </div>
           <p className="text-white/40 text-sm">Vérification...</p>
         </div>
@@ -149,7 +150,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 flex flex-col transition-transform duration-300 lg:translate-x-0 lg:static lg:flex",
+          "fixed inset-y-0 left-0 z-50 w-64 flex flex-col transition-transform duration-300 lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:flex",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
         style={{
@@ -161,12 +162,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Logo */}
         <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: "rgba(255,255,255,0.07)" }}>
           <Link href="/" className="font-heading font-bold text-lg">
-            <span style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+            <span style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
               Jean
             </span>
             <span className="text-white">Prudent</span>
           </Link>
-          <span className="px-2 py-0.5 rounded-md text-xs font-semibold" style={{ background: "rgba(124,58,237,0.2)", color: "#A855F7" }}>
+          <span className="px-2 py-0.5 rounded-md text-xs font-semibold" style={{ background: "rgba(255, 122, 26,0.2)", color: "#ff7a1a" }}>
             Admin
           </span>
         </div>
@@ -187,12 +188,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     : "text-white/50 hover:text-white/80 hover:bg-white/5"
                 )}
                 style={active ? {
-                  background: "rgba(124,58,237,0.2)",
-                  border: "1px solid rgba(124,58,237,0.3)",
+                  background: "rgba(255, 122, 26,0.2)",
+                  border: "1px solid rgba(255, 122, 26,0.3)",
                   color: "#fff",
                 } : undefined}
               >
-                <Icon icon={item.icon} width={18} className={active ? "text-[#A855F7]" : ""} />
+                <Icon icon={item.icon} width={18} className={active ? "text-[#ff7a1a]" : ""} />
                 {item.label}
               </Link>
             )
@@ -204,9 +205,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="flex items-center gap-3 mb-3 px-2">
             <div
               className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-              style={{ background: "rgba(124,58,237,0.2)" }}
+              style={{ background: "rgba(255, 122, 26,0.2)" }}
             >
-              <Icon icon="line-md:person-twotone" width={18} className="text-[#A855F7]" />
+              <Icon icon="line-md:person-twotone" width={18} className="text-[#ff7a1a]" />
             </div>
             <div className="min-w-0">
               <p className="text-white text-xs font-medium truncate">Jean Prudent</p>

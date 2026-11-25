@@ -64,8 +64,8 @@ export default function ServiceWhy({ content }: { content: ServiceContent }) {
           <div
             className="rounded-xl border p-6"
             style={{
-              borderColor: "rgba(124,58,237,0.35)",
-              background: "rgba(124,58,237,0.06)",
+              borderColor: "rgba(255, 122, 26,0.35)",
+              background: "rgba(255, 122, 26,0.06)",
             }}
           >
             {solution.title && (

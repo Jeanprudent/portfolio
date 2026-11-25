@@ -27,7 +27,7 @@ function FaqItemComp({
     >
       <div
         className={`glass-card overflow-hidden transition-all duration-300 ${
-          isOpen ? "border-primary/30 shadow-[0_8px_32px_rgba(124,58,237,0.18)]" : ""
+          isOpen ? "border-primary/30 shadow-[0_8px_32px_rgba(255, 122, 26,0.18)]" : ""
         }`}
       >
         <button

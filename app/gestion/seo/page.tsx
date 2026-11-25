@@ -13,7 +13,7 @@ type SeoForm = {
 }
 
 const DEFAULT: SeoForm = {
-  seo_title: "Jean Prudent IDOHOU — Développeur Web & Designer | Cotonou, Bénin",
+  seo_title: "Jean Prudent IDOHOU, Développeur Web & Designer | Cotonou, Bénin",
   seo_description: "Je crée des sites web qui transforment votre présence en ligne en moteur de croissance. Développeur Next.js, expert SEO et intégrateur WordPress basé à Cotonou.",
   google_analytics_id: "G-4SGNEXG03G",
   robots: "index, follow",
@@ -37,13 +37,13 @@ function InputField({
       {textarea ? (
         <textarea
           id={id} rows={3} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] transition-all duration-200 resize-none"
+          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(255, 122, 26,0.5)] transition-all duration-200 resize-none"
           style={{ background: "rgba(255,255,255,0.05)", border: `1px solid ${over ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.1)"}` }}
         />
       ) : (
         <input
           id={id} type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-          className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] transition-all duration-200"
+          className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(255, 122, 26,0.5)] transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.05)", border: `1px solid ${over ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.1)"}` }}
         />
       )}
@@ -111,7 +111,7 @@ export default function AdminSeoPage() {
         <button
           onClick={handleSave} disabled={saving || loading}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white shrink-0 disabled:opacity-60 transition-all duration-200"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+          style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
         >
           {saving ? <Icon icon="line-md:loading-loop" width={16} /> : <Icon icon="line-md:confirm-circle-twotone" width={16} />}
           Sauvegarder
@@ -120,7 +120,7 @@ export default function AdminSeoPage() {
 
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" />
+          <Icon icon="line-md:loading-loop" width={28} className="text-[#ff7a1a]" />
         </div>
       ) : (
         <>
@@ -139,18 +139,18 @@ export default function AdminSeoPage() {
             <div className="flex gap-6 mt-3">
               <div className="flex items-center gap-1.5 text-xs">
                 <div className={`w-2 h-2 rounded-full ${titleLen <= 60 ? "bg-green-400" : "bg-red-400"}`} />
-                <span className="text-white/50">Titre : {titleLen}/60{titleLen > 60 ? " — trop long" : " — OK"}</span>
+                <span className="text-white/50">Titre : {titleLen}/60{titleLen > 60 ? " · trop long" : " · OK"}</span>
               </div>
               <div className="flex items-center gap-1.5 text-xs">
                 <div className={`w-2 h-2 rounded-full ${descLen >= 120 && descLen <= 160 ? "bg-green-400" : descLen < 120 ? "bg-yellow-400" : "bg-red-400"}`} />
-                <span className="text-white/50">Description : {descLen}/160{descLen < 120 ? " — trop court" : descLen > 160 ? " — trop long" : " — OK"}</span>
+                <span className="text-white/50">Description : {descLen}/160{descLen < 120 ? " · trop court" : descLen > 160 ? " · trop long" : " · OK"}</span>
               </div>
             </div>
           </div>
 
           <div className="rounded-xl p-6 space-y-5" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
             <h2 className="text-white font-semibold text-sm">Balises meta</h2>
-            <InputField label="Titre SEO" id="seo_title" value={form.seo_title} onChange={set("seo_title")} maxLength={60} placeholder="Titre | Sous-titre — Site" />
+            <InputField label="Titre SEO" id="seo_title" value={form.seo_title} onChange={set("seo_title")} maxLength={60} placeholder="Titre | Sous-titre · Site" />
             <InputField label="Description meta" id="seo_description" value={form.seo_description} onChange={set("seo_description")} maxLength={160} placeholder="Description concise de votre site…" textarea />
           </div>
 

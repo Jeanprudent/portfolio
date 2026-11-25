@@ -75,7 +75,7 @@ export function IconPicker({
     verification: { texte: "Vérification…", couleur: "text-white/30" },
     valide: { texte: "Icône trouvée", couleur: "text-green-400" },
     introuvable: {
-      texte: "Ce nom n'existe pas — l'icône s'affichera vide",
+      texte: "Ce nom n'existe pas, l'icône s'affichera vide",
       couleur: "text-red-400",
     },
   }[etat]
@@ -93,17 +93,17 @@ export function IconPicker({
         <span
           className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
           style={{
-            background: "rgba(124,58,237,0.12)",
+            background: "rgba(255, 122, 26,0.12)",
             border:
               etat === "introuvable"
                 ? "1px solid rgba(239,68,68,0.5)"
-                : "1px solid rgba(124,58,237,0.25)",
+                : "1px solid rgba(255, 122, 26,0.25)",
           }}
         >
           {nom ? (
-            <Icon icon={nom} width={22} className="text-[#A855F7]" />
+            <Icon icon={nom} width={22} className="text-[#ff7a1a]" />
           ) : (
-            <span className="text-white/20 text-xs">—</span>
+            <span className="text-white/20 text-xs">-</span>
           )}
         </span>
 
@@ -137,7 +137,7 @@ export function IconPicker({
               style={{
                 background:
                   nom === s
-                    ? "rgba(124,58,237,0.3)"
+                    ? "rgba(255, 122, 26,0.3)"
                     : "rgba(255,255,255,0.04)",
               }}
             >

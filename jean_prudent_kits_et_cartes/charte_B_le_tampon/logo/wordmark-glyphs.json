@@ -1,0 +1,189 @@
+{
+ "units": "wordmark: cap height 100, cap top y=0, baseline y=100, x from the pen origin; index = data-glyph",
+ "text": "Jean Prudent",
+ "glyphs": [
+  {
+   "index": 1,
+   "char": "J",
+   "x0": 0.77,
+   "x1": 70.31,
+   "pen_x": 0.0,
+   "advance": 70.15,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     40.46,
+     61.08
+    ]
+   ]
+  },
+  {
+   "index": 2,
+   "char": "e",
+   "x0": 71.85,
+   "x1": 139.85,
+   "pen_x": 68.62,
+   "advance": 74.31,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": []
+  },
+  {
+   "index": 3,
+   "char": "a",
+   "x0": 145.54,
+   "x1": 216.92,
+   "pen_x": 141.38,
+   "advance": 77.85,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": []
+  },
+  {
+   "index": 4,
+   "char": "n",
+   "x0": 221.38,
+   "x1": 307.08,
+   "pen_x": 217.69,
+   "advance": 91.23,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     231.38,
+     251.23
+    ],
+    [
+     278.0,
+     297.85
+    ]
+   ]
+  },
+  {
+   "index": 5,
+   "char": " ",
+   "x0": null,
+   "x1": null,
+   "pen_x": 307.38,
+   "advance": 28.77,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": []
+  },
+  {
+   "index": 6,
+   "char": "P",
+   "x0": 340.62,
+   "x1": 424.46,
+   "pen_x": 334.62,
+   "advance": 92.0,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": []
+  },
+  {
+   "index": 7,
+   "char": "r",
+   "x0": 428.77,
+   "x1": 490.15,
+   "pen_x": 425.08,
+   "advance": 67.85,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     438.77,
+     458.62
+    ]
+   ]
+  },
+  {
+   "index": 8,
+   "char": "u",
+   "x0": 493.54,
+   "x1": 579.23,
+   "pen_x": 491.38,
+   "advance": 90.0,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     502.77,
+     522.62
+    ],
+    [
+     549.38,
+     569.23
+    ]
+   ]
+  },
+  {
+   "index": 9,
+   "char": "d",
+   "x0": 583.23,
+   "x1": 665.38,
+   "pen_x": 579.85,
+   "advance": 87.69,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     583.25,
+     603.85
+    ],
+    [
+     636.3,
+     656.15
+    ]
+   ]
+  },
+  {
+   "index": 10,
+   "char": "e",
+   "x0": 669.23,
+   "x1": 737.23,
+   "pen_x": 666.0,
+   "advance": 74.31,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": []
+  },
+  {
+   "index": 11,
+   "char": "n",
+   "x0": 742.46,
+   "x1": 828.15,
+   "pen_x": 738.77,
+   "advance": 91.23,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     752.46,
+     772.31
+    ],
+    [
+     799.08,
+     818.92
+    ]
+   ]
+  },
+  {
+   "index": 12,
+   "char": "t",
+   "x0": 829.38,
+   "x1": 890.92,
+   "pen_x": 828.46,
+   "advance": 61.23,
+   "cap_top": 0,
+   "baseline": 100,
+   "stems": [
+    [
+     839.23,
+     859.08
+    ]
+   ]
+  }
+ ]
+}

@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next"
-import { getBlogPosts } from "@/lib/supabase-data"
+import { getBlogPosts, getLocalVilles } from "@/lib/supabase-data"
 import { SERVICES } from "@/data/portfolio-data"
 import { serviceSlug } from "@/lib/slug"
 import { absoluteUrl } from "@/lib/site"
+import { allLocalSlugs } from "@/lib/local-seo"
 
 // Régénérer le sitemap à chaque requête pour refléter les articles
 // ajoutés/supprimés depuis le backoffice (mêmes données que /blog).
@@ -24,6 +25,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.9,
+    },
+    {
+      url: absoluteUrl("/a-propos"),
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
     {
       url: absoluteUrl("/projets"),
@@ -57,5 +64,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  return [...staticRoutes, ...serviceRoutes, ...postRoutes]
+  // Pages SEO locales « expertise × ville » (Bénin). Fortes pour le local :
+  // priorité élevée, juste sous les fiches services.
+  const villes = await getLocalVilles()
+  const localRoutes: MetadataRoute.Sitemap = allLocalSlugs(villes).map((slug) => ({
+    url: absoluteUrl(`/${slug}`),
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }))
+
+  return [...staticRoutes, ...serviceRoutes, ...localRoutes, ...postRoutes]
 }

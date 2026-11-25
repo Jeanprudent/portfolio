@@ -1,0 +1,8 @@
+:root {
+  --font-display: "Sofia Sans Extra Condensed", system-ui, sans-serif;
+  --font-display-weight: 900;
+  --font-display-tracking: 0.000em;
+  --font-text: "Sofia Sans", system-ui, sans-serif;
+  --font-text-weight: 400;
+  --font-text-tracking: 0.000em;
+}

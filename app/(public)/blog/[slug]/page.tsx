@@ -102,8 +102,8 @@ export default async function BlogPostPage({
               <span
                 className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
                 style={{
-                  background: "rgba(124,58,237,0.15)",
-                  border: "1px solid rgba(124,58,237,0.3)",
+                  background: "rgba(255, 122, 26,0.15)",
+                  border: "1px solid rgba(255, 122, 26,0.3)",
                 }}
               >
                 <Icon

@@ -67,13 +67,13 @@ export default function AdminLoginPage() {
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4"
-      style={{ background: "#050510" }}
+      style={{ background: "#0f0f0f" }}
     >
       {/* Background glow */}
       <div
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(255, 122, 26,0.15) 0%, transparent 70%)",
           filter: "blur(60px)",
         }}
       />
@@ -98,11 +98,11 @@ export default function AdminLoginPage() {
             <div
               className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
               style={{
-                background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(168,85,247,0.2))",
-                border: "1px solid rgba(124,58,237,0.3)",
+                background: "linear-gradient(135deg, rgba(255, 122, 26,0.2), rgba(255, 122, 26,0.2))",
+                border: "1px solid rgba(255, 122, 26,0.3)",
               }}
             >
-              <Icon icon="ant-design:lock-twotone" width={32} className="text-[#7C3AED]" />
+              <Icon icon="ant-design:lock-twotone" width={32} className="text-[#ff7a1a]" />
             </div>
             <h1 className="font-heading font-bold text-2xl text-white mb-1">
               Administration
@@ -200,8 +200,8 @@ export default function AdminLoginPage() {
               disabled={loading}
               className="w-full h-11 rounded-xl font-semibold text-sm text-white flex items-center justify-center gap-2 transition-all duration-200 mt-2 disabled:opacity-60"
               style={{
-                background: "linear-gradient(135deg, #7C3AED, #A855F7)",
-                boxShadow: "0 4px 16px rgba(124,58,237,0.4)",
+                background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)",
+                boxShadow: "0 4px 16px rgba(255, 122, 26,0.4)",
               }}
             >
               {loading ? (

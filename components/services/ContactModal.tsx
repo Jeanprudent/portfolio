@@ -61,7 +61,7 @@ export default function ContactModal({
 
       <div
         ref={dialogRef}
-        className="relative z-10 w-full max-w-md rounded-2xl border border-(--glass-border) bg-(--bg) p-6 shadow-2xl max-h-[90vh] overflow-y-auto"
+        className="relative z-10 w-full max-w-xl rounded-2xl border border-(--glass-border) bg-(--bg) p-6 shadow-2xl max-h-[90vh] overflow-y-auto"
       >
         <button
           type="button"
@@ -78,10 +78,12 @@ export default function ContactModal({
         <p className="text-sm text-(--text-secondary) mb-5">{projectType}</p>
 
         {/*
-          `compact` : la boîte fait 28rem de large, deux colonnes y
-          écraseraient les champs. `idPrefix` distinct de celui de la page
-          d'accueil, au cas où les deux formulaires se retrouveraient un jour
-          sur la même page — des id dupliqués casseraient les <label for>.
+          `compact` : raccourcit la zone de message pour que le formulaire
+          tienne dans la boîte sans défilement (la boîte, élargie à 36rem,
+          laisse désormais la place aux deux colonnes nom/email et besoin/budget).
+          `idPrefix` distinct de celui de la page d'accueil, au cas où les deux
+          formulaires se retrouveraient un jour sur la même page — des id
+          dupliqués casseraient les <label for>.
         */}
         <ContactForm
           compact

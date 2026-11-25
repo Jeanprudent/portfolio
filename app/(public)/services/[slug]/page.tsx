@@ -98,10 +98,14 @@ export default async function Page({
 
       <ServiceHero service={service} content={content} />
 
-      {/* Encart de contact, en tête de colonne tant que la page est courte. */}
+      {/* L'encart de contact reste collé tant que la colonne de gauche défile.
+          On y place la définition ET l'argumentaire « Pourquoi » : ainsi la
+          hauteur de la colonne porte l'encart jusqu'au CTA de fin de « Pourquoi »,
+          au lieu de s'arrêter à la fin de la définition. */}
       <div className="grid gap-8 md:grid-cols-3">
         <div className="md:col-span-2">
           <ServiceDefinition content={content} />
+          <ServiceWhy content={content} />
         </div>
 
         <aside className="md:sticky md:top-24 md:self-start">
@@ -124,7 +128,6 @@ export default async function Page({
         </aside>
       </div>
 
-      <ServiceWhy content={content} />
       <ServiceIncludes content={content} />
       <ServiceProcess content={content} />
       <ServicePricing service={service} content={content} />

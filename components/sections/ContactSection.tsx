@@ -5,7 +5,15 @@ import { Icon } from "@iconify/react"
 import { useTranslation } from "react-i18next"
 import { ContactForm } from "@/components/contact/ContactForm"
 import type { PortfolioConfig } from "@/lib/supabase-data"
-import { CONTACT_EMAIL, CONTACT_WHATSAPP, CONTACT_LOCATION, whatsappLink } from "@/lib/contact-info"
+import {
+  CONTACT_EMAIL,
+  CONTACT_WHATSAPP,
+  CONTACT_WHATSAPP_DISPLAY,
+  CONTACT_PHONE,
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_LOCATION,
+  whatsappLink,
+} from "@/lib/contact-info"
 
 export function ContactSection({ config }: { config?: PortfolioConfig | null }) {
   const { t } = useTranslation()
@@ -22,14 +30,14 @@ export function ContactSection({ config }: { config?: PortfolioConfig | null }) 
     },
     {
       icon: "line-md:phone-call-loop",
-      label: "Télephone",
-      value: `${whatsapp}`,
-      href: `tel:${whatsapp}`,
+      label: "Téléphone",
+      value: CONTACT_PHONE_DISPLAY,
+      href: `tel:${CONTACT_PHONE}`,
     },
     {
       icon: "prime:whatsapp",
       label: "WhatsApp",
-      value: `${whatsapp}`,
+      value: config?.whatsapp ? `${whatsapp}` : CONTACT_WHATSAPP_DISPLAY,
       href: whatsappLink(whatsapp),
     },
     {
@@ -77,7 +85,7 @@ export function ContactSection({ config }: { config?: PortfolioConfig | null }) 
               <div key={item.label} className="glass-card p-5 flex items-start gap-4">
                 <div
                   className="w-11 h-11 rounded-xl shrink-0 flex items-center justify-center"
-                  style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}
+                  style={{ background: "rgba(255, 122, 26,0.1)", border: "1px solid rgba(255, 122, 26,0.2)" }}
                 >
                   <Icon icon={item.icon} width={22} className="text-primary" />
                 </div>

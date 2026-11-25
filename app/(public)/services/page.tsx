@@ -1,52 +1,57 @@
-import Link from "next/link"
 import type { Metadata } from "next"
 import { SERVICES } from "@/data/portfolio-data"
 import { serviceSlug } from "@/lib/slug"
+import { absoluteUrl, SITE_URL } from "@/lib/site"
+import { getLocalVilles } from "@/lib/supabase-data"
+import { ServicesIndex } from "@/components/services/ServicesIndex"
+
+// Les liens « par ville » reflètent les villes actives de /gestion/zones.
+export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
-  title: "Services — création de site web, SEO et automatisation à Cotonou",
+  title: "Services : sites web, SEO & automatisation à Cotonou",
   description:
     "Création de sites web sur mesure, référencement naturel, maintenance WordPress et automatisation. Prestations pour PME, artisans et entrepreneurs à Cotonou et au Bénin.",
   alternates: { canonical: "/services" },
+  openGraph: {
+    type: "website",
+    title: "Services : sites web, SEO & automatisation à Cotonou | Jean Prudent",
+    description:
+      "Des solutions digitales concrètes pour gagner en visibilité, convertir plus de clients et gagner du temps. PME, TPE et entrepreneurs au Bénin.",
+    url: absoluteUrl("/services"),
+    locale: "fr_FR",
+  },
 }
-import { Icon } from "@iconify/react"
 
-export default function Page() {
+export default async function Page() {
+  const services = SERVICES.filter((s) => s.visible)
+  const villes = await getLocalVilles()
+
+  const itemListLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: services.map((s, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: s.title,
+      url: absoluteUrl(`/services/${serviceSlug(s)}`),
+    })),
+  }
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Services", item: absoluteUrl("/services") },
+    ],
+  }
+
   return (
-    <section className="section-spacing container-max">
-      <div className="text-center mb-12">
-        <span className="section-label inline-flex items-center gap-2">
-          <Icon icon="line-md:star-twotone" width={14} />
-          Mes services
-        </span>
-        <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold mt-4">Services</h1>
-        <p className="text-(--text-secondary) max-w-2xl mx-auto mt-4">Découvrez les services que je propose: cliquez sur un service pour en savoir plus.</p>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-6">
-        {SERVICES.filter((s) => s.visible).map((service) => (
-          <article key={service.id} className="glass-card p-6">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
-                {/* icon fallback */}
-                <Icon icon={service.icon} width={20} />
-              </div>
-
-              <div>
-                <h3 className="font-heading font-semibold text-lg">{service.title}</h3>
-                <p className="text-(--text-secondary) text-sm mt-2">{service.description}</p>
-
-                <div className="mt-4">
-                  <Link href={`/services/${serviceSlug(service)}`} className="text-xs font-semibold inline-flex items-center gap-2">
-                    En savoir plus
-                    <Icon icon="line-md:arrow-right" width={14} />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <ServicesIndex villes={villes} />
+    </>
   )
 }

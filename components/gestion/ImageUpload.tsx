@@ -33,11 +33,11 @@ export function ImageUpload({
   const handleFile = useCallback(
     async (file: File) => {
       if (!file.type.startsWith("image/")) {
-        setError("Fichier invalide — sélectionnez une image")
+        setError("Fichier invalide, sélectionnez une image")
         return
       }
       if (file.size > 5 * 1024 * 1024) {
-        setError("Image trop lourde — 5 Mo maximum")
+        setError("Image trop lourde, 5 Mo maximum")
         return
       }
       setError(null)
@@ -130,9 +130,9 @@ export function ImageUpload({
           <div className="flex flex-col items-center justify-center h-44 gap-3 px-4 text-center">
             <div
               className="w-12 h-12 rounded-xl flex items-center justify-center"
-              style={{ background: "rgba(124,58,237,0.12)", border: "1px solid rgba(124,58,237,0.25)" }}
+              style={{ background: "rgba(255, 122, 26,0.12)", border: "1px solid rgba(255, 122, 26,0.25)" }}
             >
-              <Icon icon="line-md:image-twotone" width={24} className="text-[#A855F7]" />
+              <Icon icon="line-md:image-twotone" width={24} className="text-[#ff7a1a]" />
             </div>
             <div>
               <p className="text-white/60 text-sm font-medium">Glisser-déposer</p>

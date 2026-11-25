@@ -131,7 +131,7 @@ export async function POST(request: Request) {
         // Objet lisible d'un coup d'œil dans la boîte de réception : le
         // besoin qualifie, le budget priorise. Quand la demande vient d'une
         // fiche service, ce service est plus précis que le besoin générique.
-        subject: `${service || besoinTexte} — ${name} (budget : ${budget})`,
+        subject: `${service || besoinTexte} - ${name} (budget : ${budget})`,
         html,
       }),
     })

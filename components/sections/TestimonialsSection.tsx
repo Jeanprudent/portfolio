@@ -70,7 +70,7 @@ export function TestimonialsSection({ testimonials = TESTIMONIALS.filter((t) => 
                 {/* Quote icon */}
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6"
-                  style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}
+                  style={{ background: "rgba(255, 122, 26,0.1)", border: "1px solid rgba(255, 122, 26,0.2)" }}
                 >
                   <Icon icon="line-md:chat-twotone" width={24} className="text-primary" />
                 </div>
@@ -90,8 +90,8 @@ export function TestimonialsSection({ testimonials = TESTIMONIALS.filter((t) => 
                   <div
                     className="w-11 h-11 rounded-full flex items-center justify-center"
                     style={{
-                      background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(168,85,247,0.2))",
-                      border: "1px solid rgba(124,58,237,0.3)",
+                      background: "linear-gradient(135deg, rgba(255, 122, 26,0.2), rgba(255, 122, 26,0.2))",
+                      border: "1px solid rgba(255, 122, 26,0.3)",
                     }}
                   >
                     <Icon icon="line-md:person-twotone" width={22} className="text-primary" />
@@ -101,7 +101,7 @@ export function TestimonialsSection({ testimonials = TESTIMONIALS.filter((t) => 
                       {visible[activeIndex].name}
                     </p>
                     <p className="text-(--text-muted) text-xs">
-                      <T>{visible[activeIndex].role}</T> — {visible[activeIndex].company}
+                      <T>{visible[activeIndex].role}</T>, {visible[activeIndex].company}
                     </p>
                   </div>
                 </div>
@@ -132,7 +132,7 @@ export function TestimonialsSection({ testimonials = TESTIMONIALS.filter((t) => 
                     className="h-2 rounded-full transition-all duration-300"
                     style={{
                       width: i === activeIndex ? "24px" : "8px",
-                      background: i === activeIndex ? "#7C3AED" : "var(--glass-border)",
+                      background: i === activeIndex ? "#ff7a1a" : "var(--glass-border)",
                     }}
                   />
                 </button>
@@ -157,7 +157,7 @@ export function TestimonialsSection({ testimonials = TESTIMONIALS.filter((t) => 
               onClick={() => setActiveIndex(i)}
               className={`glass rounded-xl p-4 text-center transition-all duration-200 border ${
                 i === activeIndex
-                  ? "border-primary/40 bg-[rgba(124,58,237,0.08)]"
+                  ? "border-primary/40 bg-[rgba(255, 122, 26,0.08)]"
                   : "border-(--glass-border) hover:border-primary/20"
               }`}
             >

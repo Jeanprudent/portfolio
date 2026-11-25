@@ -22,11 +22,11 @@ function Field({
       <label htmlFor={id} className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">{label}</label>
       {textarea ? (
         <textarea id={id} rows={rows} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] resize-none transition-all duration-200"
+          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(255, 122, 26,0.5)] resize-none transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }} />
       ) : (
         <input id={id} type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-          className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] transition-all duration-200"
+          className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(255, 122, 26,0.5)] transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }} />
       )}
       {aide && <div className="mt-1.5 text-xs text-white/35">{aide}</div>}
@@ -85,7 +85,7 @@ function HeroTab() {
     else toast.success("Section Hero sauvegardée !")
   }
 
-  if (loading) return <div className="flex items-center justify-center py-12"><Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" /></div>
+  if (loading) return <div className="flex items-center justify-center py-12"><Icon icon="line-md:loading-loop" width={28} className="text-[#ff7a1a]" /></div>
 
   return (
     <div className="space-y-5">
@@ -106,7 +106,7 @@ function HeroTab() {
                 Une <strong className="text-white/60">ligne vide</strong> sépare deux paragraphes.
               </span>
               <span className="block mt-1">
-                Lien interne : <code className="font-mono text-white/50">[texte affiché](/services/mon-service)</code> —
+                Lien interne : <code className="font-mono text-white/50">[texte affiché](/services/mon-service)</code>,
                 seuls les chemins du site sont acceptés.
               </span>
             </>
@@ -123,7 +123,7 @@ function HeroTab() {
           </div>
           <button
             onClick={() => set("disponible")(!form.disponible)}
-            className={cn("relative w-11 h-6 rounded-full transition-colors duration-200", form.disponible ? "bg-[#7C3AED]" : "bg-white/10")}
+            className={cn("relative w-11 h-6 rounded-full transition-colors duration-200", form.disponible ? "bg-[#ff7a1a]" : "bg-white/10")}
           >
             <span className={cn("absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all duration-200", form.disponible ? "left-5.5" : "left-0.5")} />
           </button>
@@ -133,7 +133,7 @@ function HeroTab() {
         <button
           onClick={handleSave} disabled={saving}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white disabled:opacity-60 transition-all duration-200"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+          style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
         >
           {saving ? <Icon icon="line-md:loading-loop" width={16} /> : <Icon icon="line-md:confirm-circle-twotone" width={16} />}
           Sauvegarder
@@ -178,14 +178,14 @@ function StatsTab() {
     else toast.success("Stats sauvegardées !")
   }
 
-  if (loading) return <div className="flex items-center justify-center py-12"><Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" /></div>
+  if (loading) return <div className="flex items-center justify-center py-12"><Icon icon="line-md:loading-loop" width={28} className="text-[#ff7a1a]" /></div>
 
   return (
     <div className="space-y-4">
       {stats.map((stat) => (
         <div key={stat.id} className="rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.3)" }}>
-            <Icon icon={stat.icon} width={20} className="text-[#A855F7]" />
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: "rgba(255, 122, 26,0.15)", border: "1px solid rgba(255, 122, 26,0.3)" }}>
+            <Icon icon={stat.icon} width={20} className="text-[#ff7a1a]" />
           </div>
           <div className="grid grid-cols-3 gap-3 flex-1 w-full">
             <div>
@@ -213,7 +213,7 @@ function StatsTab() {
         <button
           onClick={handleSave} disabled={saving}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white disabled:opacity-60 transition-all duration-200"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+          style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
         >
           {saving ? <Icon icon="line-md:loading-loop" width={16} /> : <Icon icon="line-md:confirm-circle-twotone" width={16} />}
           Sauvegarder
@@ -283,7 +283,7 @@ function TestimonialsTab() {
     setItems((prev) => prev.map((x) => (x.id === id ? { ...x, visible: !x.visible } : x)))
   }
 
-  if (loading) return <div className="flex items-center justify-center py-12"><Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" /></div>
+  if (loading) return <div className="flex items-center justify-center py-12"><Icon icon="line-md:loading-loop" width={28} className="text-[#ff7a1a]" /></div>
 
   if (editing !== null) {
     return (
@@ -325,7 +325,7 @@ function TestimonialsTab() {
           <button
             onClick={handleSave} disabled={saving}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white disabled:opacity-60 transition-all duration-200"
-            style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+            style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
           >
             {saving ? <Icon icon="line-md:loading-loop" width={16} /> : <Icon icon="line-md:confirm-circle-twotone" width={16} />}
             Sauvegarder
@@ -341,7 +341,7 @@ function TestimonialsTab() {
         <button
           onClick={() => setEditing("new")}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.02]"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+          style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
         >
           <Icon icon="line-md:plus-circle-twotone" width={15} />
           Nouveau témoignage
@@ -354,7 +354,7 @@ function TestimonialsTab() {
       )}
       {items.map((t) => (
         <div key={t.id} className="flex items-start gap-4 p-4 rounded-xl" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold text-white shrink-0" style={{ background: "rgba(124,58,237,0.2)" }}>
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold text-white shrink-0" style={{ background: "rgba(255, 122, 26,0.2)" }}>
             {t.name[0]}
           </div>
           <div className="flex-1 min-w-0">
@@ -401,7 +401,7 @@ export default function AdminContentPage() {
           <button
             key={t} onClick={() => setTab(t)}
             className={cn("px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200", tab === t ? "text-white" : "text-white/50 hover:text-white/80")}
-            style={tab === t ? { background: "rgba(124,58,237,0.25)", border: "1px solid rgba(124,58,237,0.3)" } : undefined}
+            style={tab === t ? { background: "rgba(255, 122, 26,0.25)", border: "1px solid rgba(255, 122, 26,0.3)" } : undefined}
           >
             {t}
           </button>

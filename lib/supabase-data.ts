@@ -6,6 +6,7 @@ import { mergeService } from "@/lib/merge-service"
 import { datePublication } from "@/lib/utils"
 import type { Stat, Service, Project, Testimonial, BlogPost } from "@/types/portfolio"
 import { DEFAULT_FONT_PAIR, resolveFontPair, type FontPair } from "@/lib/font-pairs"
+import { VILLES, type Ville } from "@/data/local-seo"
 
 export type PortfolioConfig = {
   id: string
@@ -148,6 +149,50 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   } catch {
     return BLOG_POSTS.filter((p) => p.published)
   }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Villes des pages SEO locales (table local_villes, migration 009).   */
+/*  Repli sur data/local-seo.ts tant que la table est absente ou vide.  */
+/* ------------------------------------------------------------------ */
+
+type LocalVilleRow = {
+  slug: string
+  nom: string
+  prep: string | null
+  region: string | null
+  pays: string | null
+  intro: string | null
+  secteurs: unknown
+  active: boolean | null
+}
+
+function rowToVille(r: LocalVilleRow): Ville {
+  return {
+    slug: r.slug,
+    nom: r.nom,
+    prep: r.prep || "à",
+    region: r.region ?? "",
+    pays: r.pays || "Bénin",
+    intro: r.intro ?? "",
+    secteurs: Array.isArray(r.secteurs) ? (r.secteurs as string[]) : [],
+    active: r.active !== false,
+  }
+}
+
+/** Villes actives : base d'abord, repli sur le fichier. */
+export async function getLocalVilles(): Promise<Ville[]> {
+  try {
+    const { data } = await client()
+      .from("local_villes")
+      .select("*")
+      .eq("active", true)
+      .order("order_index")
+    if (data?.length) return (data as LocalVilleRow[]).map(rowToVille)
+  } catch {
+    /* repli ci-dessous */
+  }
+  return VILLES.filter((v) => v.active)
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {

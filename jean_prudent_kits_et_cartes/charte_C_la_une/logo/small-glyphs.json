@@ -1,0 +1,46 @@
+{
+ "units": "symbol grid 0..100; index = position in data-glyphs (1-based)",
+ "symbol-small": [
+  {
+   "id": "initiales",
+   "text": "JP",
+   "location": {
+    "wght": 900
+   },
+   "glyphs": [
+    {
+     "index": 1,
+     "char": "J",
+     "x0": 15.1,
+     "x1": 37.19,
+     "cap_top": 14.0,
+     "baseline": 86.0,
+     "stems": [
+      [
+       20.93,
+       37.19
+      ]
+     ],
+     "pen_x": 17.19,
+     "advance": 23.74
+    },
+    {
+     "index": 2,
+     "char": "P",
+     "x0": 44.67,
+     "x1": 84.9,
+     "cap_top": 14.0,
+     "baseline": 86.0,
+     "stems": [
+      [
+       44.67,
+       76.41
+      ]
+     ],
+     "pen_x": 40.93,
+     "advance": 46.28
+    }
+   ]
+  }
+ ]
+}

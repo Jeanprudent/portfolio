@@ -64,8 +64,8 @@ export default function NotFound() {
                 <span
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
                   style={{
-                    background: "rgba(124,58,237,0.12)",
-                    border: "1px solid rgba(124,58,237,0.25)",
+                    background: "rgba(255, 122, 26,0.12)",
+                    border: "1px solid rgba(255, 122, 26,0.25)",
                   }}
                 >
                   <Icon icon={s.icon} width={18} aria-hidden className="text-primary" />
@@ -87,8 +87,8 @@ export default function NotFound() {
               <span
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
                 style={{
-                  background: "rgba(124,58,237,0.12)",
-                  border: "1px solid rgba(124,58,237,0.25)",
+                  background: "rgba(255, 122, 26,0.12)",
+                  border: "1px solid rgba(255, 122, 26,0.25)",
                 }}
               >
                 <Icon

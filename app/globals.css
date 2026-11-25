@@ -1,18 +1,26 @@
 @import "tailwindcss";
 
 /* ================================================================
+   IDENTITÉ DE MARQUE — « La une » (charte C)
+   Noir presse #121212 · Orange une #ff7a1a · Blanc #ffffff
+   Tokens issus de jean_prudent_kits_et_cartes/charte_C_la_une/tokens.
+   Site CLAIR par défaut ; thème sombre optionnel via la classe .dark.
+=============================================================== */
+
+/* ================================================================
    TAILWIND V4 THEME TOKENS
-   These generate utility classes: bg-primary, text-secondary, etc.
+   Génèrent les classes utilitaires : bg-primary, text-primary, etc.
+   Ici `primary` = ORANGE de marque (accent graphique, boutons, icônes).
 =============================================================== */
 @theme inline {
-  --color-primary: #7C3AED;
-  --color-primary-hover: #6D28D9;
-  --color-primary-light: #9F67F5;
-  --color-secondary: #9F67F5;
-  --color-secondary-hover: #8B5CF6;
-  --color-accent: #A855F7;
-  --color-bg-dark: #050510;
-  --color-bg-light: #F8F7FF;
+  --color-primary: #ff7a1a;        /* Orange une */
+  --color-primary-hover: #e66b0d;
+  --color-primary-light: #feae84;
+  --color-secondary: #121212;      /* Noir presse */
+  --color-secondary-hover: #2b2b2b;
+  --color-accent: #ff7a1a;
+  --color-bg-dark: #0f0f0f;
+  --color-bg-light: #ffffff;
 
   --font-heading: var(--font-heading-family);
   --font-sans: var(--font-body-family);
@@ -24,50 +32,50 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ================================================================
-   CSS CUSTOM PROPERTIES — Theme-aware semantic tokens
+   CSS CUSTOM PROPERTIES — jetons sémantiques dépendant du thème
 =============================================================== */
 :root {
   /* Typographie — surchargée en ligne sur <html> par app/layout.tsx selon la
-     paire choisie dans /gestion/design. Les valeurs ci-dessous ne servent que
-     de repli (base injoignable, colonne font_pair absente). */
-  --font-heading-family: var(--font-syne), sans-serif;
-  --font-body-family:    var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+     paire choisie dans /gestion/design. Repli = polices de marque. */
+  --font-heading-family: var(--font-sofia-condensed), system-ui, sans-serif;
+  --font-body-family:    var(--font-sofia-sans), system-ui, -apple-system, sans-serif;
 
-  --bg:             #F8F7FF;
-  --bg-secondary:   #EEE9FF;
-  --text-primary:   #0f0023;
-  --text-secondary: rgba(15, 0, 35, 0.65);
-  /* 0.40 donnait 2.75:1 sur --bg, sous le minimum WCAG AA de 4.5:1 : les
-     mentions secondaires, placeholders et libelles etaient les premiers a
-     disparaitre sur un ecran mobile peu lumineux. 0.58 -> 4.95:1. */
-  --text-muted:     rgba(15, 0, 35, 0.58);
-  --glass-bg:       rgba(124, 58, 237, 0.06);
-  --glass-border:   rgba(124, 58, 237, 0.15);
-  --glass-shadow:   0 8px 32px rgba(124, 58, 237, 0.12);
-  --nav-bg:         rgba(248, 247, 255, 0.85);
-  --card-bg:        rgba(255, 255, 255, 0.7);
-  --gradient-from:  #7C3AED;
-  --gradient-to:    #A855F7;
-  --glow-primary:   0 0 40px rgba(124, 58, 237, 0.3);
-  --glow-secondary: 0 0 40px rgba(168, 85, 247, 0.2);
+  --bg:             #ffffff;
+  --bg-secondary:   #fafafa;
+  --text-primary:   #1c1c1c;
+  --text-secondary: #555555; /* 7.0:1 sur blanc */
+  --text-muted:     #6e6e6e; /* 4.9:1 sur blanc — minimum WCAG AA respecté */
+  --glass-bg:       rgba(18, 18, 18, 0.04);
+  --glass-border:   rgba(18, 18, 18, 0.10);
+  --glass-shadow:   0 8px 32px rgba(18, 18, 18, 0.08);
+  --nav-bg:         rgba(255, 255, 255, 0.85);
+  --card-bg:        rgba(255, 255, 255, 0.80);
+  --gradient-from:  #ff7a1a;
+  --gradient-to:    #e66b0d;
+  --glow-primary:   0 0 40px rgba(255, 122, 26, 0.28);
+  --glow-secondary: 0 0 40px rgba(255, 122, 26, 0.18);
+  /* Orange lisible pour le TEXTE sur fond clair (l'orange vif échoue au
+     contraste en petit corps). 4.9:1 sur blanc. */
+  --accent-text:    #9e4706;
 }
 
 .dark {
-  --bg:             #050510;
-  --bg-secondary:   #0a0520;
-  --text-primary:   #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.65);
-  /* Meme correction en theme sombre : 0.35 donnait 3.10:1, 0.52 donne 5.67:1. */
-  --text-muted:     rgba(255, 255, 255, 0.52);
+  --bg:             #0f0f0f;
+  --bg-secondary:   #1c1c1c;
+  --text-primary:   #f3f3f3;
+  --text-secondary: rgba(243, 243, 243, 0.72);
+  --text-muted:     rgba(243, 243, 243, 0.55);
   --glass-bg:       rgba(255, 255, 255, 0.04);
-  --glass-border:   rgba(255, 255, 255, 0.08);
-  --glass-shadow:   0 8px 32px rgba(124, 58, 237, 0.25);
-  --nav-bg:         rgba(5, 5, 16, 0.85);
+  --glass-border:   rgba(255, 255, 255, 0.10);
+  --glass-shadow:   0 8px 32px rgba(0, 0, 0, 0.45);
+  --nav-bg:         rgba(15, 15, 15, 0.85);
   --card-bg:        rgba(255, 255, 255, 0.03);
-  --gradient-from:  #7C3AED;
-  --gradient-to:    #A855F7;
-  --glow-primary:   0 0 60px rgba(124, 58, 237, 0.4);
-  --glow-secondary: 0 0 60px rgba(168, 85, 247, 0.25);
+  --gradient-from:  #ff7a1a;
+  --gradient-to:    #e66b0d;
+  --glow-primary:   0 0 60px rgba(255, 122, 26, 0.40);
+  --glow-secondary: 0 0 60px rgba(255, 122, 26, 0.25);
+  /* Sur fond sombre l'orange vif est parfaitement lisible. */
+  --accent-text:    #ff7a1a;
 }
 
 /* ================================================================
@@ -97,29 +105,34 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Les titres de marque : condensé, lourd, légère chasse resserrée. */
+.font-heading {
+  letter-spacing: -0.01em;
+}
+
 /* ================================================================
    CUSTOM TAILWIND V4 UTILITIES
 =============================================================== */
 @utility glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
 }
 
 @utility glass-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   border-radius: 1.25rem;
-  transition: all 0.35s ease;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 
   &:hover {
-    border-color: rgba(124, 58, 237, 0.35);
-    box-shadow: 0 16px 48px rgba(124, 58, 237, 0.25);
+    border-color: rgba(255, 122, 26, 0.45);
+    box-shadow: 0 16px 48px rgba(18, 18, 18, 0.14);
     transform: translateY(-4px);
   }
 }
@@ -158,24 +171,50 @@ body {
   }
 }
 
+/* CTA principal — orange de marque, texte quasi noir (contraste ~8:1). */
 @utility btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.75rem;
   border-radius: 0.75rem;
-  background: linear-gradient(135deg, #7C3AED, #A855F7);
-  color: white;
-  font-weight: 600;
+  background: #ff7a1a;
+  color: #0f0f0f;
+  font-weight: 700;
   font-size: 0.9375rem;
   letter-spacing: 0.01em;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  box-shadow: 0 4px 16px rgba(255, 122, 26, 0.35);
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(124, 58, 237, 0.5);
-    filter: brightness(1.05);
+    box-shadow: 0 8px 28px rgba(255, 122, 26, 0.5);
+    filter: brightness(1.04);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* CTA secondaire noir — pour poser un contraste fort à côté de l'orange. */
+@utility btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.75rem;
+  background: #121212;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 16px rgba(18, 18, 18, 0.25);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(18, 18, 18, 0.35);
   }
 
   &:active {
@@ -199,10 +238,10 @@ body {
   backdrop-filter: blur(12px);
 
   &:hover {
-    background: rgba(124, 58, 237, 0.1);
-    border-color: rgba(124, 58, 237, 0.4);
+    background: rgba(255, 122, 26, 0.10);
+    border-color: rgba(255, 122, 26, 0.45);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.2);
+    box-shadow: 0 8px 24px rgba(18, 18, 18, 0.12);
   }
 }
 
@@ -224,13 +263,13 @@ body {
   transition: all 0.2s ease;
 
   &:hover {
-    background: rgba(124, 58, 237, 0.08);
-    border-color: rgba(124, 58, 237, 0.45);
+    background: rgba(255, 122, 26, 0.08);
+    border-color: rgba(255, 122, 26, 0.45);
     color: var(--text-primary);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--gradient-from);
+    outline: 2px solid #ff7a1a;
     outline-offset: 2px;
   }
 }
@@ -259,8 +298,8 @@ body {
 
   &:focus-visible {
     outline: none;
-    border-color: rgba(124, 58, 237, 0.6);
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
+    border-color: rgba(255, 122, 26, 0.6);
+    box-shadow: 0 0 0 3px rgba(255, 122, 26, 0.18);
   }
 }
 
@@ -270,11 +309,11 @@ body {
   gap: 0.5rem;
   padding: 0.375rem 1rem;
   border-radius: 999px;
-  background: rgba(124, 58, 237, 0.1);
-  border: 1px solid rgba(124, 58, 237, 0.2);
-  color: #7C3AED;
+  background: rgba(255, 122, 26, 0.12);
+  border: 1px solid rgba(255, 122, 26, 0.30);
+  color: var(--accent-text);
   font-size: 0.8125rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -285,27 +324,32 @@ body {
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb {
-  background: rgba(124, 58, 237, 0.45);
+  background: rgba(255, 122, 26, 0.55);
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover { background: #7C3AED; }
+::-webkit-scrollbar-thumb:hover { background: #ff7a1a; }
 
 /* ================================================================
    SELECTION
 =============================================================== */
 ::selection {
-  background: rgba(124, 58, 237, 0.25);
+  background: rgba(255, 122, 26, 0.28);
   color: var(--text-primary);
 }
 
 /* ================================================================
-   GRADIENT MESH BACKGROUND
+   FOND MESH — chaleur discrète, sans l'effet « dégradé IA »
 =============================================================== */
 .gradient-mesh {
   background:
-    radial-gradient(ellipse at 15% 15%, rgba(124, 58, 237, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 50%, rgba(109, 40, 217, 0.07) 0%, transparent 65%);
+    radial-gradient(ellipse at 15% 12%, rgba(255, 122, 26, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 80%, rgba(18, 18, 18, 0.05) 0%, transparent 55%);
+}
+
+.dark .gradient-mesh {
+  background:
+    radial-gradient(ellipse at 15% 12%, rgba(255, 122, 26, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 80%, rgba(255, 122, 26, 0.06) 0%, transparent 60%);
 }
 
 /* ================================================================
@@ -318,7 +362,7 @@ body {
 
 @keyframes pulse-glow {
   0%, 100% { box-shadow: var(--glow-primary); }
-  50%       { box-shadow: 0 0 80px rgba(124, 58, 237, 0.6); }
+  50%       { box-shadow: 0 0 80px rgba(255, 122, 26, 0.55); }
 }
 
 @keyframes spin-slow {
@@ -344,7 +388,7 @@ body {
   position: relative;
   border-radius: 1rem;
   padding: 1px;
-  background: linear-gradient(135deg, #7C3AED, #A855F7, #6D28D9, #7C3AED);
+  background: linear-gradient(135deg, #ff7a1a, #e66b0d, #121212, #ff7a1a);
   background-size: 300% 300%;
   animation: border-flow 4s ease infinite;
 }
@@ -360,6 +404,13 @@ body {
 .reveal { opacity: 0; transform: translateY(30px); }
 .reveal.visible { opacity: 1; transform: none; transition: all 0.6s ease; }
 
+/* Respect de prefers-reduced-motion : on neutralise les transitions de confort. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; }
+  .animated-border { animation: none; }
+}
+
 /* ================================================================
    PROSE STYLING (for blog)
 =============================================================== */
@@ -369,10 +420,11 @@ body {
 
   h1, h2, h3, h4 {
     font-family: var(--font-heading-family);
-    font-weight: 700;
+    font-weight: 800;
     color: var(--text-primary);
     margin-top: 2rem;
     margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
   }
   h1 { font-size: 2rem; }
   h2 { font-size: 1.5rem; }
@@ -380,11 +432,11 @@ body {
 
   p { line-height: 1.75; margin-bottom: 1.25rem; color: var(--text-secondary); }
 
-  a { color: #7C3AED; text-decoration: underline; text-underline-offset: 3px; }
+  a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
 
   code {
-    background: rgba(124, 58, 237, 0.1);
-    border: 1px solid rgba(124, 58, 237, 0.2);
+    background: rgba(255, 122, 26, 0.12);
+    border: 1px solid rgba(255, 122, 26, 0.25);
     border-radius: 0.25rem;
     padding: 0.15rem 0.4rem;
     font-size: 0.875em;
@@ -403,7 +455,7 @@ body {
   li { margin-bottom: 0.5rem; color: var(--text-secondary); }
 
   blockquote {
-    border-left: 3px solid #7C3AED;
+    border-left: 3px solid #ff7a1a;
     padding-left: 1.25rem;
     margin-left: 0;
     font-style: italic;
@@ -413,10 +465,10 @@ body {
 
 /* ================================================================
    BACK-OFFICE — surcouches sombres
-   Le shell d'administration est peint en dur sur #05050F, quel que soit
+   Le shell d'administration est peint en dur sur #0f0f0f, quel que soit
    le thème choisi pour le site public. Tout ce qui hérite des tokens
    `--text-*` y devient donc illisible dès que le visiteur est en thème
-   clair (`--text-primary` vaut alors #0f0023, quasi noir).
+   clair (`--text-primary` vaut alors #1c1c1c, quasi noir).
 =============================================================== */
 
 /* Éditeur riche : `.prose-jp` colore le texte, les titres et les listes
@@ -427,12 +479,12 @@ body {
   h1, h2, h3, h4 { color: #ffffff; }
   p, li, blockquote { color: rgba(255, 255, 255, 0.82); }
   strong { color: #ffffff; }
-  a { color: #A855F7; }
+  a { color: #ff7a1a; }
 
   code {
-    background: rgba(124, 58, 237, 0.22);
-    border-color: rgba(124, 58, 237, 0.35);
-    color: #D6BCFF;
+    background: rgba(255, 122, 26, 0.22);
+    border-color: rgba(255, 122, 26, 0.35);
+    color: #feae84;
   }
 
   pre {
@@ -446,6 +498,6 @@ body {
    sans couleur explicite elles héritent du blanc du <select> et
    disparaissent sur fond blanc (Windows/Chrome). */
 .admin-shell select option {
-  background: #12121F;
+  background: #1c1c1c;
   color: #ffffff;
 }

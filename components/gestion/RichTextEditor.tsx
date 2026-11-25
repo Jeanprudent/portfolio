@@ -73,8 +73,8 @@ export function RichTextEditor({
             style={
               a.on(editor)
                 ? {
-                    background: "rgba(124,58,237,0.3)",
-                    border: "1px solid rgba(124,58,237,0.4)",
+                    background: "rgba(255, 122, 26,0.3)",
+                    border: "1px solid rgba(255, 122, 26,0.4)",
                   }
                 : { background: "rgba(255,255,255,0.04)" }
             }

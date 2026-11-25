@@ -85,8 +85,8 @@ export function BlogList({ posts }: { posts: BlogPost[] }) {
               style={
                 activeTag === tag
                   ? {
-                      background: "rgba(124,58,237,0.25)",
-                      border: "1px solid rgba(124,58,237,0.4)",
+                      background: "rgba(255, 122, 26,0.25)",
+                      border: "1px solid rgba(255, 122, 26,0.4)",
                     }
                   : {
                       background: "var(--glass-bg)",
@@ -128,7 +128,7 @@ export function BlogList({ posts }: { posts: BlogPost[] }) {
                     className="h-44 flex items-center justify-center shrink-0 overflow-hidden"
                     style={{
                       background:
-                        "linear-gradient(135deg, rgba(124,58,237,0.1), rgba(168,85,247,0.07))",
+                        "linear-gradient(135deg, rgba(255, 122, 26,0.1), rgba(255, 122, 26,0.07))",
                     }}
                   >
                     {post.cover_url ? (
@@ -155,8 +155,8 @@ export function BlogList({ posts }: { posts: BlogPost[] }) {
                           key={tag}
                           className="px-2 py-0.5 rounded text-xs font-medium"
                           style={{
-                            background: "rgba(124,58,237,0.15)",
-                            color: "#A855F7",
+                            background: "rgba(255, 122, 26,0.15)",
+                            color: "#ff7a1a",
                           }}
                         >
                           {tag}

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { useTheme } from "next-themes"
+import { useTheme } from "@/components/layout/ThemeProvider"
 
 interface Particle {
   x: number
@@ -47,10 +47,12 @@ export function ParticlesCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       const isDark = resolvedTheme === "dark"
-      const dotColor = isDark ? "124, 58, 237" : "124, 58, 237"
-      const lineColor = isDark ? "6, 182, 212" : "124, 58, 237"
-      const dotOpacityMult = isDark ? 1 : 0.5
-      const lineOpacityMult = isDark ? 0.35 : 0.2
+      // Palette de marque : orange une sur les points, gris presse sur les
+      // liens en thème clair (discret), orange atténué en thème sombre.
+      const dotColor = "255, 122, 26"
+      const lineColor = isDark ? "255, 122, 26" : "18, 18, 18"
+      const dotOpacityMult = isDark ? 0.9 : 0.45
+      const lineOpacityMult = isDark ? 0.28 : 0.14
 
       const particles = particlesRef.current
 

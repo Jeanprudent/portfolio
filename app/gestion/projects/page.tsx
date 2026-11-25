@@ -33,13 +33,13 @@ function Field({
       {textarea ? (
         <textarea
           id={id} rows={3} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] resize-none transition-all duration-200"
+          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(255, 122, 26,0.5)] resize-none transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
         />
       ) : (
         <input
           id={id} type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-          className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] transition-all duration-200"
+          className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(255, 122, 26,0.5)] transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
         />
       )}
@@ -134,7 +134,7 @@ function ProjectForm({
         />
         <p className="mt-1.5 text-xs text-white/35">
           Affiché en badge vert sur la carte. Laissez vide si vous n&apos;avez pas
-          de chiffre vérifiable — mieux vaut aucun badge qu&apos;un chiffre inventé.
+          de chiffre vérifiable, mieux vaut aucun badge qu&apos;un chiffre inventé.
         </p>
       </div>
 
@@ -155,7 +155,7 @@ function ProjectForm({
         <label className="block text-xs font-medium uppercase tracking-wide text-white/50 mb-1.5">Tags</label>
         <div className="flex gap-2 flex-wrap mb-2">
           {form.tags.map((tag) => (
-            <span key={tag} className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium" style={{ background: "rgba(124,58,237,0.2)", color: "#A855F7" }}>
+            <span key={tag} className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium" style={{ background: "rgba(255, 122, 26,0.2)", color: "#ff7a1a" }}>
               {tag}
               <button onClick={() => removeTag(tag)} className="hover:text-white transition-colors"><Icon icon="line-md:close" width={10} /></button>
             </span>
@@ -182,7 +182,7 @@ function ProjectForm({
         </div>
         <button
           onClick={() => set("featured")(!form.featured)}
-          className={cn("relative w-11 h-6 rounded-full transition-colors duration-200", form.featured ? "bg-[#7C3AED]" : "bg-white/10")}
+          className={cn("relative w-11 h-6 rounded-full transition-colors duration-200", form.featured ? "bg-[#ff7a1a]" : "bg-white/10")}
         >
           <span className={cn("absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all duration-200", form.featured ? "left-5.5" : "left-0.5")} />
         </button>
@@ -193,7 +193,7 @@ function ProjectForm({
         <button
           onClick={handleSave} disabled={saving}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white disabled:opacity-60 transition-all duration-200"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+          style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
         >
           {saving ? <Icon icon="line-md:loading-loop" width={16} /> : <Icon icon="line-md:confirm-circle-twotone" width={16} />}
           Sauvegarder
@@ -257,7 +257,7 @@ export default function AdminProjectsPage() {
           <button
             onClick={() => setEditing("new")}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white shrink-0 transition-all duration-200 hover:scale-[1.03]"
-            style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+            style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
           >
             <Icon icon="line-md:plus-circle-twotone" width={16} />
             Nouveau projet
@@ -278,7 +278,7 @@ export default function AdminProjectsPage() {
         <div className="space-y-3">
           {loading && (
             <div className="flex items-center justify-center py-12">
-              <Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" />
+              <Icon icon="line-md:loading-loop" width={28} className="text-[#ff7a1a]" />
             </div>
           )}
           {!loading && projects.length === 0 && (
@@ -293,8 +293,8 @@ export default function AdminProjectsPage() {
               className="flex flex-wrap items-start gap-3 sm:gap-4 p-4 rounded-xl"
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
             >
-              <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}>
-                <Icon icon="line-md:briefcase-twotone" width={24} className="text-[#7C3AED]" />
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(255, 122, 26,0.1)", border: "1px solid rgba(255, 122, 26,0.2)" }}>
+                <Icon icon="line-md:briefcase-twotone" width={24} className="text-[#ff7a1a]" />
               </div>
 
               <div className="flex-1 min-w-0">
@@ -311,7 +311,7 @@ export default function AdminProjectsPage() {
                 )}
                 <div className="flex flex-wrap gap-1">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="px-1.5 py-0.5 rounded text-xs" style={{ background: "rgba(124,58,237,0.1)", color: "#A855F7" }}>{tag}</span>
+                    <span key={tag} className="px-1.5 py-0.5 rounded text-xs" style={{ background: "rgba(255, 122, 26,0.1)", color: "#ff7a1a" }}>{tag}</span>
                   ))}
                 </div>
               </div>

@@ -44,13 +44,13 @@ function Field({
       {textarea ? (
         <textarea
           id={id} rows={4} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] transition-all duration-200 resize-none"
+          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(255, 122, 26,0.5)] transition-all duration-200 resize-none"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
         />
       ) : (
         <input
           id={id} type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-          className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(124,58,237,0.5)] transition-all duration-200"
+          className="w-full h-11 px-4 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-[rgba(255, 122, 26,0.5)] transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
         />
       )}
@@ -63,7 +63,7 @@ function Section({ title, icon, children }: { title: string; icon: string; child
   return (
     <div className="rounded-xl p-6 space-y-5" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
       <div className="flex items-center gap-2 mb-1">
-        <Icon icon={icon} width={18} className="text-[#A855F7]" />
+        <Icon icon={icon} width={18} className="text-[#ff7a1a]" />
         <h2 className="text-white font-semibold text-sm">{title}</h2>
       </div>
       {children}
@@ -139,7 +139,7 @@ export default function AdminSettingsPage() {
           onClick={handleSave}
           disabled={saving || loading}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white shrink-0 disabled:opacity-60 transition-all duration-200"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}
+          style={{ background: "linear-gradient(135deg, #ff7a1a, #ff7a1a)" }}
         >
           {saving ? <Icon icon="line-md:loading-loop" width={16} /> : <Icon icon="line-md:confirm-circle-twotone" width={16} />}
           Sauvegarder
@@ -148,7 +148,7 @@ export default function AdminSettingsPage() {
 
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <Icon icon="line-md:loading-loop" width={28} className="text-[#A855F7]" />
+          <Icon icon="line-md:loading-loop" width={28} className="text-[#ff7a1a]" />
         </div>
       ) : (
         <>
@@ -186,7 +186,7 @@ export default function AdminSettingsPage() {
             <div className="flex items-center gap-3 p-3 rounded-xl text-sm" style={{ background: "rgba(6,182,212,0.08)", border: "1px solid rgba(6,182,212,0.2)" }}>
               <Icon icon="line-md:security-twotone" width={18} className="text-cyan-400 shrink-0" />
               <span className="text-white/60">
-                Authentification gérée par <span className="text-cyan-400 font-medium">Supabase Auth</span> — double facteur disponible depuis le dashboard Supabase.
+                Authentification gérée par <span className="text-cyan-400 font-medium">Supabase Auth</span>, double facteur disponible depuis le dashboard Supabase.
               </span>
             </div>
           </Section>

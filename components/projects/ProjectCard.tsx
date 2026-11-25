@@ -38,13 +38,13 @@ export function ProjectCard({
             /* Un alt reduit au titre ne dit ni ce qu'on voit, ni qui l'a fait.
                La categorie vient de la fiche du projet : aucun lieu n'est
                ajoute ici, plusieurs references sont a l'etranger. */
-            alt={`Aperçu du site ${project.title} — ${project.category} réalisé par Jean Prudent IDOHOU`}
+            alt={`Aperçu du site ${project.title}, ${project.category} réalisé par Jean Prudent IDOHOU`}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
           <div
             className="w-full h-full flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(168,85,247,0.15))" }}
+            style={{ background: "linear-gradient(135deg, rgba(255, 122, 26,0.15), rgba(255, 122, 26,0.15))" }}
           >
             <Icon icon="line-md:image-twotone" width={48} className="text-(--text-muted)" />
           </div>
@@ -67,9 +67,9 @@ export function ProjectCard({
               key={tag}
               className="px-2.5 py-0.5 rounded-md text-xs font-medium"
               style={{
-                background: "rgba(124,58,237,0.1)",
-                border: "1px solid rgba(124,58,237,0.2)",
-                color: "#7C3AED",
+                background: "rgba(255, 122, 26,0.1)",
+                border: "1px solid rgba(255, 122, 26,0.2)",
+                color: "#ff7a1a",
               }}
             >
               {tag}

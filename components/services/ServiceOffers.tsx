@@ -42,7 +42,7 @@ export default function ServiceOffers({
           <div className="mt-auto flex flex-col gap-2 pt-5">
             <a
               href={mailto(
-                `Demande de devis : ${serviceTitle} — ${offer.name}`,
+                `Demande de devis : ${serviceTitle} - ${offer.name}`,
                 `Je souhaite en savoir plus sur l'offre ${offer.name} pour le service ${serviceTitle}.`,
               )}
               className="btn-primary justify-center text-xs"
