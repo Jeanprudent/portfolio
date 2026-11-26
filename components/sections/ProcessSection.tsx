@@ -34,15 +34,21 @@ export function ProcessSection() {
   return (
     <section id="methode" className="section-spacing border-t border-(--glass-border)">
       <div className="container-max">
-        <motion.div {...reveal} className="max-w-2xl mb-12">
+        <motion.div
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <span className="section-label mb-4 inline-flex">
             <Icon icon="line-md:list-3" width={14} />
             Ma méthode
           </span>
-          <h2 className="font-heading font-extrabold uppercase tracking-tight text-3xl md:text-5xl text-(--text-primary) leading-[1.02]">
-            Comment on avance ensemble
+          <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
+            Comment on <span className="gradient-text">avance ensemble</span>
           </h2>
-          <p className="mt-5 text-(--text-secondary) text-base md:text-lg leading-relaxed">
+          <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
             Une démarche simple et transparente, du premier échange jusqu&apos;à l&apos;autonomie.
           </p>
         </motion.div>

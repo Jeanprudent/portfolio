@@ -197,14 +197,17 @@ export function ServicesIndex({ villes }: { villes: Ville[] }) {
 
       {/* MÉTHODOLOGIE */}
       <section className="container-max py-14 md:py-20 border-t border-(--glass-border)">
-        <motion.div {...reveal} className="max-w-2xl mb-10">
+        <motion.div {...reveal} className="text-center mb-12">
           <span className="section-label mb-4 inline-flex">
             <Icon icon="line-md:list-3" width={14} />
             Méthode
           </span>
-          <h2 className="font-heading font-extrabold uppercase tracking-tight text-3xl md:text-4xl text-(--text-primary) leading-[1.05]">
-            Comment on avance ensemble
+          <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
+            Comment on <span className="gradient-text">avance ensemble</span>
           </h2>
+          <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+            Une démarche simple et transparente, du premier échange jusqu&apos;à l&apos;autonomie.
+          </p>
         </motion.div>
         <div className="grid md:grid-cols-4 gap-6">
           {METHODE.map((s, i) => (
@@ -259,14 +262,17 @@ export function ServicesIndex({ villes }: { villes: Ville[] }) {
 
       {/* FAQ */}
       <section className="container-max py-8 md:py-10">
-        <motion.div {...reveal} className="max-w-2xl mb-8">
+        <motion.div {...reveal} className="text-center mb-10">
           <span className="section-label mb-4 inline-flex">
             <Icon icon="line-md:question-circle" width={14} />
             Questions fréquentes
           </span>
-          <h2 className="font-heading font-extrabold uppercase tracking-tight text-3xl md:text-4xl text-(--text-primary) leading-[1.05]">
-            Vos questions avant de démarrer
+          <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
+            Vos questions <span className="gradient-text">avant de démarrer</span>
           </h2>
+          <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+            Les réponses aux questions qu&apos;on me pose le plus souvent avant de lancer un projet.
+          </p>
         </motion.div>
         <FaqAccordion items={FAQ} />
       </section>

@@ -2,6 +2,7 @@
 
 import { useRef } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion"
 import { Icon } from "@iconify/react"
 import { SERVICES } from "@/data/portfolio-data"
@@ -111,7 +112,7 @@ function StackedServiceCard({
               </span>
             </div>
 
-            <h3 className="font-heading font-extrabold uppercase tracking-tight text-2xl md:text-4xl text-(--text-primary) leading-[1.05] mb-4">
+            <h3 className="font-heading font-extrabold uppercase tracking-tight text-xl md:text-3xl text-(--text-primary) leading-[1.05] mb-4">
               <T>{service.title}</T>
             </h3>
 
@@ -147,7 +148,7 @@ export function ServicesSection({
       <div className="container-max">
         {/* Header */}
         <motion.div
-          className="max-w-2xl mb-6"
+          className="text-center mb-14"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
@@ -157,10 +158,10 @@ export function ServicesSection({
             <Icon icon="line-md:star-twotone" width={14} />
             Mes services
           </span>
-          <h2 className="font-heading font-extrabold uppercase tracking-tight text-4xl md:text-5xl lg:text-6xl text-(--text-primary) mb-4 leading-[1.02]">
-            Ce que je fais <span className="text-primary">pour vous</span>
+          <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
+            Ce que je fais <span className="gradient-text">pour vous</span>
           </h2>
-          <p className="text-(--text-secondary) text-base md:text-lg leading-relaxed">
+          <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
             Des solutions digitales sur mesure pour développer votre activité et maximiser
             votre présence en ligne.
           </p>
@@ -181,16 +182,20 @@ export function ServicesSection({
 
         {/* CTA */}
         <motion.div
-          className="text-center mt-4"
+          className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <a href="#contact" className="btn-primary inline-flex">
+          <a href="#contact" className="btn-primary justify-center">
             <Icon icon="line-md:phone-call-loop" width={18} />
             Discutons de votre projet
           </a>
+          <Link href="/services" className="btn-dark justify-center">
+            <Icon icon="line-md:grid-3-twotone" width={18} />
+            Voir tous les services
+          </Link>
         </motion.div>
       </div>
     </section>

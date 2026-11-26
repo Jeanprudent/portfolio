@@ -130,14 +130,18 @@ export function AProposContent({ config }: { config?: PortfolioConfig | null }) 
 
       {/* VALEURS */}
       <section className="container-max py-14 md:py-20 border-t border-(--glass-border)">
-        <motion.div {...reveal} className="max-w-2xl mb-12">
+        <motion.div {...reveal} className="text-center mb-12">
           <span className="section-label mb-4 inline-flex">
             <Icon icon="line-md:star-twotone" width={14} />
             Ce qui me guide
           </span>
-          <h2 className="font-heading font-extrabold uppercase tracking-tight text-3xl md:text-5xl text-(--text-primary) leading-[1.02]">
-            Mes valeurs de travail
+          <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
+            Mes <span className="gradient-text">valeurs</span> de travail
           </h2>
+          <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+            Quatre principes simples qui cadrent chaque collaboration, du premier échange jusqu&apos;au
+            suivi après livraison.
+          </p>
         </motion.div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {VALEURS.map((v, i) => (
@@ -154,15 +158,15 @@ export function AProposContent({ config }: { config?: PortfolioConfig | null }) 
 
       {/* EXPERTISE */}
       <section className="container-max py-14 md:py-20 border-t border-(--glass-border)">
-        <motion.div {...reveal} className="max-w-2xl mb-12">
+        <motion.div {...reveal} className="text-center mb-12">
           <span className="section-label mb-4 inline-flex">
             <Icon icon="line-md:grid-3-twotone" width={14} />
             Mon expertise
           </span>
-          <h2 className="font-heading font-extrabold uppercase tracking-tight text-3xl md:text-5xl text-(--text-primary) leading-[1.02]">
-            Trois leviers, une cohérence
+          <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
+            Trois leviers, <span className="gradient-text">une cohérence</span>
           </h2>
-          <p className="mt-5 text-(--text-secondary) text-base md:text-lg leading-relaxed">
+          <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
             Réunir ces trois expertises chez une seule personne évite les silos : votre site, votre
             visibilité et vos automatisations avancent ensemble.
           </p>
@@ -188,15 +192,15 @@ export function AProposContent({ config }: { config?: PortfolioConfig | null }) 
 
       {/* MES COMPÉTENCES — stacks maîtrisées */}
       <section className="container-max py-14 md:py-20 border-t border-(--glass-border)">
-        <motion.div {...reveal} className="max-w-2xl mb-12">
+        <motion.div {...reveal} className="text-center mb-12">
           <span className="section-label mb-4 inline-flex">
             <Icon icon="line-md:cog-loop" width={14} />
             Mes compétences
           </span>
-          <h2 className="font-heading font-extrabold uppercase tracking-tight text-3xl md:text-5xl text-(--text-primary) leading-[1.02]">
-            Les stacks que je maîtrise
+          <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
+            Les stacks que je <span className="gradient-text">maîtrise</span>
           </h2>
-          <p className="mt-5 text-(--text-secondary) text-base md:text-lg leading-relaxed">
+          <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
             Du no-code au code sur mesure, en passant par le SEO et l&apos;automatisation : une boîte à
             outils complète pour choisir la bonne solution à chaque projet.
           </p>

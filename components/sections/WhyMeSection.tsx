@@ -41,18 +41,24 @@ export function WhyMeSection() {
   return (
     <section id="pourquoi" className="section-spacing border-t border-(--glass-border)">
       <div className="container-max">
-        <motion.div {...reveal} className="max-w-2xl mb-12">
+        <motion.div
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <span className="section-label mb-4 inline-flex">
             <Icon icon="line-md:star-twotone" width={14} />
             Pourquoi me choisir
           </span>
-          <h2 className="font-heading font-extrabold uppercase tracking-tight text-3xl md:text-5xl text-(--text-primary) leading-[1.02]">
-            Un partenaire digital, <span className="text-primary">pas un simple prestataire</span>
+          <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-(--text-primary) mb-4">
+            Je m&apos;engage sur vos <span className="gradient-text">résultats</span>
           </h2>
-          <p className="mt-5 text-(--text-secondary) text-base md:text-lg leading-relaxed">
-            Je ne vends pas des sites web « à la chaîne ». J&apos;accompagne des PME, TPE et
-            entrepreneurs à transformer leur présence en ligne en moteur de croissance, avec une
-            relation directe et des solutions pensées pour votre réalité.
+          <p className="text-(--text-secondary) text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+            Pas de site « à la chaîne » ni de promesses en l&apos;air. Un interlocuteur unique, des
+            décisions guidées par le concret et un accompagnement qui dure : mon objectif, c&apos;est
+            que votre présence en ligne vous apporte des résultats, pas qu&apos;elle fasse joli.
           </p>
         </motion.div>
 
