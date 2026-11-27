@@ -5,6 +5,25 @@ import type { Service, BlogPost } from "@/types/portfolio"
 import type { ServiceContent } from "@/lib/service-content"
 
 /**
+ * Identifiants et constantes d'entités partagés par les schémas.
+ *
+ * Donner un `@id` stable à la personne, à l'activité et au site permet de les
+ * relier entre eux (graphe d'entités) : Google et les moteurs IA comprennent
+ * qu'il s'agit d'un seul et même acteur, ce qui renforce le signal local/GEO.
+ */
+const PERSON_ID = `${SITE_URL}/#person`
+const BUSINESS_ID = `${SITE_URL}/#business`
+const ORG_LOGO = absoluteUrl("/brand/full-color.png")
+/** Profils publics officiels (réutilisés par Person et ProfessionalService). */
+const SAME_AS = [
+  "https://github.com/Jeanprudent",
+  "https://www.linkedin.com/in/jean-prudent-idohou-4a1409287",
+  "https://www.facebook.com/jean.prudent.2025",
+]
+/** Coordonnées de Cotonou (centre), pour la proximité locale. */
+const GEO_COTONOU = { "@type": "GeoCoordinates", latitude: 6.3654, longitude: 2.4183 }
+
+/**
  * Données structurées Schema.org, en JSON-LD.
  *
  * Le script est inséré dans le corps de la page : Google lit le JSON-LD où
@@ -136,13 +155,18 @@ export function ArticleJsonLd({ post }: { post: BlogPost }) {
         dateModified: post.updated_at || post.created_at,
         author: {
           "@type": "Person",
+          "@id": PERSON_ID,
           name: "Jean Prudent IDOHOU",
           url: SITE_URL,
         },
+        // Google recommande un éditeur Organization doté d'un logo pour les
+        // résultats enrichis Article.
         publisher: {
-          "@type": "Person",
-          name: "Jean Prudent IDOHOU",
+          "@type": "Organization",
+          "@id": BUSINESS_ID,
+          name: "Jean Prudent IDOHOU, Développeur web & designer",
           url: SITE_URL,
+          logo: { "@type": "ImageObject", url: ORG_LOGO },
         },
         mainEntityOfPage: {
           "@type": "WebPage",
@@ -162,31 +186,35 @@ export function HomeJsonLd() {
         data={{
           "@context": "https://schema.org",
           "@type": "Person",
+          "@id": PERSON_ID,
           name: "Jean Prudent IDOHOU",
           url: SITE_URL,
+          image: ORG_LOGO,
           email: CONTACT_EMAIL,
           telephone: `+${CONTACT_PHONE}`,
           jobTitle: "Développeur web & designer",
+          worksFor: { "@id": BUSINESS_ID },
           address: {
             "@type": "PostalAddress",
             addressLocality: "Cotonou",
             addressCountry: "BJ",
           },
-          sameAs: [
-            "https://github.com/Jeanprudent",
-            "https://www.linkedin.com/in/jean-prudent-idohou-4a1409287",
-            "https://www.facebook.com/jean.prudent.2025",
-          ],
+          sameAs: SAME_AS,
         }}
       />
       <Script
         data={{
           "@context": "https://schema.org",
           "@type": "ProfessionalService",
+          "@id": BUSINESS_ID,
           name: "Jean Prudent IDOHOU, Développeur web & designer",
           url: SITE_URL,
+          image: ORG_LOGO,
+          logo: ORG_LOGO,
           email: CONTACT_EMAIL,
           telephone: `+${CONTACT_PHONE}`,
+          priceRange: "$$",
+          founder: { "@id": PERSON_ID },
           areaServed: [
             { "@type": "City", name: "Cotonou" },
             { "@type": "Country", name: "Bénin" },
@@ -196,6 +224,8 @@ export function HomeJsonLd() {
             addressLocality: "Cotonou",
             addressCountry: "BJ",
           },
+          geo: GEO_COTONOU,
+          sameAs: SAME_AS,
           description: CONTACT_LOCATION
             ? `Création de sites web, référencement naturel, maintenance WordPress et automatisation à ${CONTACT_LOCATION}.`
             : undefined,

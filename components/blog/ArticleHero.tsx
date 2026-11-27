@@ -16,7 +16,7 @@ export default function ArticleHero({ post }: { post: BlogPost }) {
         {post.cover_url ? (
           <SafeImage
             src={post.cover_url}
-            alt=""
+            alt={post.title}
             priority
             sizes="(min-width: 1200px) 1136px, 100vw"
             className="object-cover"

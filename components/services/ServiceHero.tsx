@@ -26,7 +26,7 @@ export default function ServiceHero({
         {service.banner ? (
           <Image
             src={service.banner}
-            alt=""
+            alt={`${service.title} — illustration du service`}
             fill
             priority
             sizes="(min-width: 1200px) 1136px, 100vw"
@@ -36,31 +36,32 @@ export default function ServiceHero({
           <div className="absolute inset-0 bg-(--bg-secondary)" />
         )}
 
-        {/* Voile au-dessus de la photo, sinon le titre repose sur l'image brute. */}
+        {/* Voile au-dessus de la photo, sinon le titre repose sur l'image brute.
+            Dégradé symétrique (haut→bas) pour un contenu centré lisible. */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.62) 55%, rgba(0,0,0,0.30) 100%)",
+              "linear-gradient(to bottom, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.72) 100%)",
           }}
         />
 
-        <div className="relative flex flex-col items-start justify-center gap-4 p-6 md:p-10 min-h-[20rem] md:min-h-[24rem]">
+        <div className="relative flex flex-col items-center justify-center text-center gap-4 p-6 md:p-10 min-h-[20rem] md:min-h-[24rem]">
           <span className="inline-flex items-center gap-2 text-sm text-white/80">
             <Icon icon={service.icon} width={18} aria-hidden />
             Service
           </span>
 
-          <h1 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-white text-balance max-w-3xl">
+          <h1 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-white text-balance max-w-3xl mx-auto">
             {service.title}
           </h1>
 
-          <p className="text-white/90 max-w-2xl text-base md:text-lg leading-relaxed">
+          <p className="text-white/90 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             {content.hero.tagline || service.description}
           </p>
 
           {content.hero.badges.length > 0 && (
-            <ul className="flex flex-wrap gap-2">
+            <ul className="flex flex-wrap justify-center gap-2">
               {content.hero.badges.map((badge) => (
                 <li
                   key={badge}
@@ -72,7 +73,7 @@ export default function ServiceHero({
             </ul>
           )}
 
-          <div className="flex flex-wrap items-center gap-3 pt-1">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
             <Link href="/#contact" className="btn-primary">
               <Icon icon="line-md:telegram" width={17} aria-hidden />
               Demander un devis gratuit

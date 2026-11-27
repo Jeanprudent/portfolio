@@ -412,6 +412,21 @@ body {
 }
 
 /* ================================================================
+   ACCENT COLORÉ RÉSERVÉ AUX H1
+   Les mots en dégradé (`gradient-text`) ne sont conservés que sur les
+   titres principaux (h1). Partout ailleurs (h2 à h6), l'accent reprend
+   la couleur normale du titre. Règle centrale : le balisage garde la
+   classe, seul le rendu change (réversible en retirant ce bloc).
+=============================================================== */
+:is(h2, h3, h4, h5, h6) .gradient-text {
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: currentColor !important;
+  color: inherit !important;
+}
+
+/* ================================================================
    PROSE STYLING (for blog)
 =============================================================== */
 .prose-jp {

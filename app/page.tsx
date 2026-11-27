@@ -10,6 +10,7 @@ import { TestimonialsSection } from "@/components/sections/TestimonialsSection"
 import { FaqSection } from "@/components/sections/FaqSection"
 import { ContactSection } from "@/components/sections/ContactSection"
 import { HomeJsonLd } from "@/components/seo/JsonLd"
+import type { Metadata } from "next"
 import {
   getStats,
   getServices,
@@ -17,6 +18,18 @@ import {
   getPortfolioConfig,
   getLocalVilles,
 } from "@/lib/supabase-data"
+
+// Canonical auto-référent sur la page la plus importante du site, et
+// OpenGraph propre (sinon l'accueil hérite du default du layout sans
+// canonical). title/description restent gérés par le template du layout.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    locale: "fr_FR",
+  },
+}
 
 // Toujours relire les données fraîches depuis Supabase (sinon Next.js
 // prérend la page en statique au build et les modifs du backoffice

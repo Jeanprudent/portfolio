@@ -7,6 +7,7 @@ import { Icon } from "@iconify/react"
 import { PROJECT_CATEGORIES } from "@/data/portfolio-data"
 import type { Project } from "@/types/portfolio"
 import { ProjectCard } from "@/components/projects/ProjectCard"
+import PageBanner from "@/components/ui/PageBanner"
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
@@ -31,25 +32,13 @@ export function ProjectsList({ projects }: { projects: Project[] }) {
 
   return (
     <section className="section-spacing container-max">
-      {/* Header */}
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: EASE }}
-      >
-        <span className="section-label mb-4 inline-flex items-center gap-1.5">
-          <Icon icon="line-md:briefcase-twotone" width={14} />
-          Portfolio
-        </span>
-        <h1 className="font-heading font-bold text-4xl md:text-5xl text-(--text-primary) mt-4 mb-4">
-          Projets <span className="gradient-text">réalisés</span>
-        </h1>
-        <p className="text-(--text-secondary) text-lg max-w-xl mx-auto">
-          L&apos;ensemble de mes réalisations: sites web, référencement naturel
-          et automatisation. Filtrez par type de prestation.
-        </p>
-      </motion.div>
+      {/* Header — bannière centrée (style fiche service) */}
+      <PageBanner
+        eyebrow="Portfolio"
+        eyebrowIcon="line-md:briefcase-twotone"
+        title={<>Projets <span className="text-primary">réalisés</span></>}
+        subtitle="L'ensemble de mes réalisations : sites web, référencement naturel et automatisation. Filtrez par type de prestation."
+      />
 
       {/* Filtres */}
       <motion.div

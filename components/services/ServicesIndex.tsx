@@ -8,6 +8,7 @@ import { serviceSlug } from "@/lib/slug"
 import { EXPERTISES } from "@/data/local-seo"
 import { localPath, type Ville } from "@/lib/local-seo"
 import { FaqAccordion } from "@/components/ui/FaqAccordion"
+import PageBanner from "@/components/ui/PageBanner"
 import { CONTACT_PHONE, CONTACT_PHONE_DISPLAY, CONTACT_WHATSAPP, whatsappLink } from "@/lib/contact-info"
 import type { Service } from "@/types/portfolio"
 
@@ -147,45 +148,36 @@ export function ServicesIndex({ villes }: { villes: Ville[] }) {
 
   return (
     <div className="overflow-hidden">
-      {/* HERO */}
-      <section className="relative">
-        <div className="absolute inset-0 gradient-mesh pointer-events-none" aria-hidden />
-        <div className="container-max relative pt-28 md:pt-32 pb-12">
-          <motion.div {...reveal} className="max-w-3xl">
-            <span className="section-label mb-5 inline-flex">
-              <Icon icon="line-md:star-twotone" width={14} />
-              Mes services
-            </span>
-            <h1 className="font-heading font-extrabold uppercase tracking-tight text-4xl md:text-6xl leading-[0.98] text-(--text-primary)">
-              Ce que je peux faire <span className="text-primary">pour votre entreprise</span>
-            </h1>
-            <p className="mt-6 text-(--text-secondary) text-base md:text-lg leading-relaxed">
-              Création de site web, référencement sur Google et automatisation : des solutions
-              digitales concrètes pour gagner en visibilité, convertir plus de clients et gagner du
-              temps, pensées pour les PME, TPE et entrepreneurs au Bénin.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <a href={WA("Bonjour Jean Prudent, j'aimerais discuter d'un projet.")} target="_blank" rel="noopener noreferrer" className="btn-primary justify-center">
-                <Icon icon="prime:whatsapp" width={18} />
-                Démarrer un projet
-              </a>
-              <a href={`tel:${CONTACT_PHONE}`} className="btn-dark justify-center">
-                <Icon icon="line-md:phone-call-loop" width={18} />
-                {CONTACT_PHONE_DISPLAY}
-              </a>
-            </div>
+      {/* HERO — bannière centrée (style fiche service) */}
+      <section className="container-max pt-28 md:pt-32">
+        <PageBanner
+          eyebrow="Mes services"
+          eyebrowIcon="line-md:star-twotone"
+          title={<>Ce que je peux faire <span className="text-primary">pour votre entreprise</span></>}
+          subtitle="Création de site web, référencement sur Google et automatisation : des solutions digitales concrètes pour gagner en visibilité, convertir plus de clients et gagner du temps, pensées pour les PME, TPE et entrepreneurs au Bénin."
+        >
+          <a href={WA("Bonjour Jean Prudent, j'aimerais discuter d'un projet.")} target="_blank" rel="noopener noreferrer" className="btn-primary justify-center">
+            <Icon icon="prime:whatsapp" width={18} />
+            Démarrer un projet
+          </a>
+          <a
+            href={`tel:+${CONTACT_PHONE}`}
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+          >
+            <Icon icon="line-md:phone-call-loop" width={18} />
+            {CONTACT_PHONE_DISPLAY}
+          </a>
+        </PageBanner>
 
-            {/* Barre de réassurance */}
-            <ul className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {TRUST.map((t) => (
-                <li key={t.label} className="flex items-center gap-2.5 text-sm text-(--text-secondary)">
-                  <Icon icon={t.icon} width={18} className="text-primary shrink-0" />
-                  {t.label}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        </div>
+        {/* Barre de réassurance, centrée sous la bannière */}
+        <ul className="mb-4 grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          {TRUST.map((t) => (
+            <li key={t.label} className="flex items-center justify-center gap-2.5 text-sm text-(--text-secondary)">
+              <Icon icon={t.icon} width={18} className="text-primary shrink-0" />
+              {t.label}
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* BLOCS SERVICES */}

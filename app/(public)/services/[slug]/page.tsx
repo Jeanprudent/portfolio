@@ -19,7 +19,7 @@ import { absoluteUrl } from "@/lib/site"
 import { besoinPourService } from "@/lib/contact-options"
 import {
   CONTACT_EMAIL,
-  CONTACT_WHATSAPP,
+  CONTACT_PHONE,
   CONTACT_PHONE_DISPLAY,
 } from "@/lib/contact-info"
 
@@ -44,7 +44,8 @@ export async function generateMetadata({
 
   const path = `/services/${service.slug ?? serviceSlug(service)}`
   const content = parseServiceContent(service.content)
-  const description = content.hero.tagline || service.description
+  // Bornée à ~160 caractères : au-delà, Google tronque la meta description.
+  const description = (content.hero.tagline || service.description).slice(0, 160)
 
   // Le gabarit « %s | Jean Prudent » du layout consomme 15 caractères :
   // au-delà de 45 ici, le titre est tronqué dans les résultats Google.
@@ -118,7 +119,7 @@ export default async function Page({
             <div className="mt-4 text-sm text-(--text-secondary) space-y-1">
               <div>
                 Téléphone :{" "}
-                <a href={`tel:+${CONTACT_WHATSAPP}`}>{CONTACT_PHONE_DISPLAY}</a>
+                <a href={`tel:+${CONTACT_PHONE}`}>{CONTACT_PHONE_DISPLAY}</a>
               </div>
               <div>
                 Email : <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>

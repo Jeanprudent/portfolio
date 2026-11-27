@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react"
 import type { PortfolioConfig } from "@/lib/supabase-data"
 import { EXPERTISES } from "@/data/local-seo"
 import { SKILLS } from "@/data/portfolio-data"
+import PageBanner from "@/components/ui/PageBanner"
 import {
   CONTACT_PHONE,
   CONTACT_PHONE_DISPLAY,
@@ -57,33 +58,25 @@ export function AProposContent({ config }: { config?: PortfolioConfig | null }) 
     // du parcours ; clip borne le debordement horizontal sans cet effet.
     <div className="overflow-x-clip">
       {/* HERO — centré */}
-      <section className="relative">
-        <div className="absolute inset-0 gradient-mesh pointer-events-none" aria-hidden />
-        <div className="container-max relative pt-28 md:pt-32 pb-14">
-          <motion.div {...reveal} className="max-w-3xl mx-auto text-center">
-            <span className="section-label mb-5 inline-flex">
-              <Icon icon="line-md:person-twotone" width={14} />
-              À propos
-            </span>
-            <h1 className="font-heading font-extrabold uppercase tracking-tight text-4xl md:text-6xl leading-[0.98] text-(--text-primary)">
-              Jean Prudent, votre <span className="text-primary">partenaire digital</span> au Bénin
-            </h1>
-            <p className="mt-6 text-(--text-secondary) text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-              Conseil, création de site web, référencement et automatisation : j&apos;accompagne les
-              PME, TPE et entrepreneurs à transformer leur présence en ligne en moteur de croissance.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-              <a href={whatsappLink(CONTACT_WHATSAPP, waMsg)} target="_blank" rel="noopener noreferrer" className="btn-primary justify-center">
-                <Icon icon="prime:whatsapp" width={18} />
-                Discuter sur WhatsApp
-              </a>
-              <Link href="/services" className="btn-dark justify-center">
-                <Icon icon="line-md:star-twotone" width={18} />
-                Voir mes services
-              </Link>
-            </div>
-          </motion.div>
-        </div>
+      <section className="container-max pt-28 md:pt-32">
+        <PageBanner
+          eyebrow="À propos"
+          eyebrowIcon="line-md:person-twotone"
+          title={<>Jean Prudent, votre <span className="text-primary">partenaire digital</span> au Bénin</>}
+          subtitle="Conseil, création de site web, référencement et automatisation : j'accompagne les PME, TPE et entrepreneurs à transformer leur présence en ligne en moteur de croissance."
+        >
+          <a href={whatsappLink(CONTACT_WHATSAPP, waMsg)} target="_blank" rel="noopener noreferrer" className="btn-primary justify-center">
+            <Icon icon="prime:whatsapp" width={18} />
+            Discuter sur WhatsApp
+          </a>
+          <Link
+            href="/services"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+          >
+            <Icon icon="line-md:star-twotone" width={18} />
+            Voir mes services
+          </Link>
+        </PageBanner>
       </section>
 
       {/* MON PARCOURS — photo à gauche, titre + badge à droite au-dessus du contenu */}

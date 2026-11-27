@@ -32,7 +32,7 @@ export default async function Page() {
     url: absoluteUrl("/a-propos"),
     email: CONTACT_EMAIL,
     telephone: `+${CONTACT_PHONE}`,
-    address: { "@type": "PostalAddress", addressLocality: "Cotonou", addressCountry: "Bénin" },
+    address: { "@type": "PostalAddress", addressLocality: "Cotonou", addressCountry: "BJ" },
     knowsAbout: ["Création de site web", "Référencement SEO", "Automatisation", "WordPress", "Next.js"],
   }
 

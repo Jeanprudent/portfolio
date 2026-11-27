@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import SafeImage from "@/components/ui/SafeImage"
 import { Icon } from "@iconify/react"
 import type { Project } from "@/types/portfolio"
 import { T } from "@/components/ui/T"
@@ -32,14 +33,17 @@ export function ProjectCard({
       {/* Visuel */}
       <div className="relative h-48 overflow-hidden">
         {project.image_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          /* next/image : WebP/AVIF, lazy-loading et srcset responsive (le
+             conteneur parent est en hauteur fixe `relative`, donc `fill`
+             n'introduit pas de décalage de mise en page).
+             Un alt reduit au titre ne dit ni ce qu'on voit, ni qui l'a fait.
+             La categorie vient de la fiche du projet : aucun lieu n'est
+             ajoute ici, plusieurs references sont a l'etranger. */
+          <SafeImage
             src={project.image_url}
-            /* Un alt reduit au titre ne dit ni ce qu'on voit, ni qui l'a fait.
-               La categorie vient de la fiche du projet : aucun lieu n'est
-               ajoute ici, plusieurs references sont a l'etranger. */
             alt={`Aperçu du site ${project.title}, ${project.category} réalisé par Jean Prudent IDOHOU`}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
           <div

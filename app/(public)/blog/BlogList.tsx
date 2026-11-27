@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import SafeImage from "@/components/ui/SafeImage"
 import { motion, AnimatePresence } from "framer-motion"
 import { Icon } from "@iconify/react"
 import type { BlogPost } from "@/types/portfolio"
@@ -125,18 +126,18 @@ export function BlogList({ posts }: { posts: BlogPost[] }) {
                 >
                   {/* Cover */}
                   <div
-                    className="h-44 flex items-center justify-center shrink-0 overflow-hidden"
+                    className="relative h-44 flex items-center justify-center shrink-0 overflow-hidden"
                     style={{
                       background:
                         "linear-gradient(135deg, rgba(255, 122, 26,0.1), rgba(255, 122, 26,0.07))",
                     }}
                   >
                     {post.cover_url ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <SafeImage
                         src={post.cover_url}
                         alt={post.title}
-                        className="w-full h-full object-cover"
+                        sizes="(min-width: 768px) 50vw, 100vw"
+                        className="object-cover"
                       />
                     ) : (
                       <Icon

@@ -159,7 +159,7 @@ export function Footer({ config }: { config?: PortfolioConfig | null }) {
                 {email}
               </a>
               <a
-                href={`tel:${CONTACT_PHONE}`}
+                href={`tel:+${CONTACT_PHONE}`}
                 className="flex items-center gap-2 text-(--text-secondary) hover:text-primary text-sm transition-colors duration-200"
               >
                 <Icon icon="line-md:phone-call-loop" width={16} className="text-secondary shrink-0" />

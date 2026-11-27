@@ -65,7 +65,7 @@ export default async function Page({
     name: titre,
     description: e.accroche,
     url: absoluteUrl(path),
-    areaServed: { "@type": "City", name: v.nom, address: { "@type": "PostalAddress", addressCountry: v.pays, addressRegion: v.region } },
+    areaServed: { "@type": "City", name: v.nom, address: { "@type": "PostalAddress", addressCountry: "BJ", addressRegion: v.region } },
     provider: {
       "@type": "Person",
       name: "Jean Prudent IDOHOU",
